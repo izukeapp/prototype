@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Izuke – Runner Profile</title>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@700;800;900&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; background: #d9dadc; font-family: 'Inter', sans-serif; }
+
+  .phone {
+    width: 390px;
+    height: 844px;
+    background: #F5F5F7;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 32px 80px rgba(0,0,0,0.18);
+    border-radius: 48px;
+    overflow: hidden;
+  }
+
+  /* Scroll body */
+  .scroll-body {
+    flex: 1; overflow-y: auto; overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 110px;
+  }
+  .scroll-body::-webkit-scrollbar { display: none; }
+
+  /* Hero */
+  .hero {
+    position: relative;
+    height: 420px;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+  .hero img {
+    width: 100%; height: 100%; object-fit: cover; display: block;
+  }
+  .hero-scrim {
+    position: absolute; inset: 0;
+    background: linear-gradient(to bottom,
+      rgba(15,27,53,0.45) 0%,
+      transparent 30%,
+      transparent 45%,
+      rgba(15,27,53,0.85) 100%);
+  }
+
+  /* Floating nav */
+  .hero-nav {
+    position: absolute; top: 0; left: 0; right: 0;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 14px 20px;
+    z-index: 10;
+  }
+  .glass-btn {
+    width: 42px; height: 42px; border-radius: 50%;
+    background: rgba(255,255,255,0.16);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.18);
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; color: #fff;
+    transition: transform 0.1s;
+  }
+  .glass-btn:active { transform: scale(0.92); }
+
+  /* Hero text */
+  .hero-info {
+    position: absolute; left: 20px; right: 20px; bottom: 38px;
+    z-index: 5;
+  }
+  .verified-pill {
+    display: inline-flex; align-items: center; gap: 5px;
+    background: #FF3B5C; color: #fff;
+    padding: 5px 12px; border-radius: 9999px;
+    margin-bottom: 12px;
+  }
+  .verified-pill .material-symbols-outlined { font-size: 14px !important; }
+  .verified-pill span.lbl {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px; font-weight: 700; letter-spacing: 0.12em;
+  }
+  .hero-name {
+    font-family: 'Hanken Grotesk', sans-serif;
+    font-weight: 900; font-size: 26px; color: #fff; line-height: 1.05;
+    letter-spacing: -0.02em;
+  }
+  /* Location + pace pills (premium profile style) */
+  .hero-pills {
+    display: flex; gap: 10px; margin-top: 14px;
+  }
+  .hero-pill {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 7px 14px; border-radius: 9999px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; font-weight: 700; letter-spacing: 0.10em;
+    text-transform: uppercase; color: #fff;
+  }
+  .hero-pill.glass {
+    background: rgba(255,255,255,0.14);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.14);
+  }
+  .hero-pill.glass .material-symbols-outlined { font-size: 14px !important; opacity: 0.85; }
+  .hero-pill.pace { background: #FF3B5C; }
+
+  /* Content sheet */
+  .sheet {
+    background: #F5F5F7;
+    border-radius: 28px 28px 0 0;
+    margin-top: -24px;
+    position: relative; z-index: 6;
+    padding: 24px 20px 0;
+  }
+
+  /* Stat cards */
+  .stat-row {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+  }
+  .stat-card {
+    background: #fff;
+    border-radius: 16px;
+    padding: 14px 8px;
+    text-align: center;
+    box-shadow: 0 1px 6px rgba(15,27,53,0.06);
+    border: 1px solid rgba(0,0,0,0.04);
+  }
+  .stat-card .num {
+    font-family: 'Hanken Grotesk', sans-serif;
+    font-weight: 800; font-size: 20px; color: #0F1B35; line-height: 1;
+  }
+  .stat-card .lbl {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px; font-weight: 700; letter-spacing: 0.08em;
+    text-transform: uppercase; color: #535e7b; margin-top: 7px;
+  }
+
+  /* Section */
+  .section { margin-top: 28px; }
+  .section-title {
+    font-family: 'Hanken Grotesk', sans-serif;
+    font-weight: 800; font-size: 18px; color: #0F1B35;
+    margin-bottom: 14px;
+  }
+  .about-text {
+    font-size: 15px; color: #535e7b; line-height: 1.6;
+  }
+
+  /* Chips */
+  .chips-wrap { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chip {
+    padding: 8px 16px; border-radius: 9999px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; font-weight: 700;
+    letter-spacing: 0.1em; text-transform: uppercase;
+  }
+  .chip-pink { background: rgba(255,59,92,0.10); color: #FF3B5C; }
+  .chip-gray { background: rgba(83,94,123,0.10); color: #535e7b; }
+
+  /* Compatibility card */
+  .compat-card {
+    background: #fff;
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: 0 1px 6px rgba(15,27,53,0.06);
+    border: 1px solid rgba(0,0,0,0.04);
+  }
+  .compat-head {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 18px;
+  }
+  .compat-head .pct-pill {
+    background: rgba(255,59,92,0.10); color: #FF3B5C;
+    padding: 5px 12px; border-radius: 9999px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; font-weight: 700; letter-spacing: 0.08em;
+  }
+  .compat-row {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 16px;
+  }
+  .compat-row:last-child { margin-bottom: 0; }
+  .compat-row .label { font-size: 14px; color: #535e7b; font-weight: 500; }
+  .dots { display: flex; gap: 6px; }
+  .dot { width: 7px; height: 7px; border-radius: 50%; background: #e2e2e4; }
+  .dot.on { background: #FF3B5C; }
+
+  /* Schedule pills */
+  .sched-row { display: flex; flex-wrap: wrap; gap: 8px; }
+  .sched-pill {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 8px 14px; border-radius: 12px;
+    background: #fff; border: 1px solid #e2e2e4;
+    font-size: 13px; font-weight: 600; color: #0F1B35;
+  }
+  .sched-pill .material-symbols-outlined { font-size: 16px !important; color: #FF3B5C; }
+
+  /* Public journal strip */
+  .journal-strip { display: flex; gap: 12px; overflow-x: auto; padding-bottom: 4px; }
+  .journal-strip::-webkit-scrollbar { display: none; }
+  .jx-card { flex-shrink: 0; cursor: pointer; }
+  .jx-photo {
+    position: relative;
+    width: 140px; height: 180px; border-radius: 16px;
+    overflow: hidden;
+  }
+  .jx-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .jx-scrim {
+    position: absolute; inset: 0;
+    background: linear-gradient(to top,
+      rgba(15,27,53,0.88) 0%, rgba(15,27,53,0.55) 25%, transparent 60%);
+  }
+  .jx-intensity {
+    position: absolute; top: 10px; right: 10px;
+    background: rgba(15,27,53,0.42); backdrop-filter: blur(6px);
+    color: #fff; padding: 4px 10px; border-radius: 9999px;
+    font-family: 'Hanken Grotesk', sans-serif; font-weight: 700; font-size: 11px;
+  }
+  .jx-overlay { position: absolute; left: 12px; right: 12px; bottom: 12px; }
+  .jx-dist {
+    font-family: 'Hanken Grotesk', sans-serif;
+    font-weight: 800; font-size: 22px; color: rgba(255,255,255,0.95); line-height: 1;
+    text-shadow: 0 1px 6px rgba(15,27,53,0.55);
+  }
+  .jx-dist .u { font-size: 12px; font-weight: 700; color: rgba(255,255,255,0.7); margin-left: 2px; }
+  .jx-date {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; font-weight: 700; letter-spacing: 0.06em;
+    color: rgba(255,255,255,0.8); margin-top: 4px; text-transform: uppercase;
+    text-shadow: 0 1px 5px rgba(15,27,53,0.55);
+  }
+
+  /* Sticky footer */
+  .footer {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    padding: 14px 20px 30px;
+    background: linear-gradient(to top, #F5F5F7 70%, transparent);
+    z-index: 20;
+  }
+  .action-btn {
+    width: 100%; height: 54px; border-radius: 9999px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500; font-size: 16px;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    cursor: pointer; border: none;
+    transition: transform 0.15s;
+  }
+  .action-btn:active { transform: scale(0.97); }
+  .btn-connect {
+    background: linear-gradient(135deg, #FF3B5C, #BA0035); color: #fff;
+    box-shadow: 0 8px 20px rgba(255,59,92,0.32);
+  }
+
+  .material-symbols-outlined {
+    font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    vertical-align: middle;
+  }
+  .filled { font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+</style>
+</head>
+
+<body style="display:flex; align-items:center; justify-content:center; min-height:100vh;">
+<div class="phone">
+
+  <!-- Scroll body -->
+  <div class="scroll-body">
+
+    <!-- Hero -->
+    <div class="hero">
+      <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuBMulCzMzQa3vQmlqP_T2gK6Pu4ZfcI4OGq5FVYZnHb55fxdLVHsseg5XDTy353fVYrnDY-gueCO0BSKafyUGaPNJoD36BdQ6TG1mjJBw_n5ZFLqckj_bEzPGfnmmUSNMhL1HDcsFR6xoBQXtZaFxt_Ugf2nFz0RRC3xdoBx1ibFvXWN0jvG7mLCHJ7HYAX6kWgDVwanpxU1xo_rnuQlazbkj5BuvIk9UryAZaPk3YydV3Qjr1c4LiqcqF0GoceIxpAuqXBV2HfPtoi" alt="Marcus">
+      <div class="hero-scrim"></div>
+
+      <!-- Floating nav -->
+      <div class="hero-nav">
+        <button class="glass-btn" onclick="window.location.href='discover.html'">
+          <span class="material-symbols-outlined" style="font-size:22px;">arrow_back</span>
+        </button>
+        <button class="glass-btn">
+          <span class="material-symbols-outlined" style="font-size:22px;">more_horiz</span>
+        </button>
+      </div>
+
+      <!-- Hero info -->
+      <div class="hero-info">
+        <div class="verified-pill">
+          <span class="material-symbols-outlined filled">verified</span>
+          <span class="lbl">VERIFIED</span>
+        </div>
+        <h1 class="hero-name">Marcus Bennett</h1>
+        <div class="hero-pills">
+          <span class="hero-pill glass">
+            <span class="material-symbols-outlined">location_on</span>
+            Williamsburg
+          </span>
+          <span class="hero-pill pace">4:45/km</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Content sheet -->
+    <div class="sheet">
+
+      <!-- Quick stats -->
+      <div class="stat-row">
+        <div class="stat-card"><div class="num">4:45</div><div class="lbl">Pace /km</div></div>
+        <div class="stat-card"><div class="num">10–15k</div><div class="lbl">Distance</div></div>
+        <div class="stat-card"><div class="num">4×</div><div class="lbl">Per week</div></div>
+      </div>
+
+      <!-- About -->
+      <div class="section">
+        <h2 class="section-title">About</h2>
+        <p class="about-text">Marathon runner training for Chicago this fall. I love early morning tempo runs along the waterfront and always end with a good coffee. Looking for consistent partners who keep each other accountable.</p>
+      </div>
+
+      <!-- Compatibility -->
+      <div class="section">
+        <h2 class="section-title">Compatibility</h2>
+        <div class="compat-card">
+          <div class="compat-head">
+            <span style="font-family:'Hanken Grotesk',sans-serif; font-weight:800; font-size:15px; color:#0F1B35;">How you match</span>
+            <span class="pct-pill">92% MATCH</span>
+          </div>
+          <div class="compat-row">
+            <span class="label">Pace Match</span>
+            <div class="dots"><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span></div>
+          </div>
+          <div class="compat-row">
+            <span class="label">Goals Alignment</span>
+            <div class="dots"><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot"></span></div>
+          </div>
+          <div class="compat-row">
+            <span class="label">Schedule</span>
+            <div class="dots"><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot"></span><span class="dot"></span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Run preferences -->
+      <div class="section">
+        <h2 class="section-title">Run Preferences</h2>
+        <div class="chips-wrap">
+          <span class="chip chip-pink">Morning Runs</span>
+          <span class="chip chip-gray">Marathon Training</span>
+          <span class="chip chip-gray">Trail</span>
+          <span class="chip chip-pink">Road Running</span>
+          <span class="chip chip-gray">Post-Run Coffee</span>
+        </div>
+      </div>
+
+      <!-- Availability -->
+      <div class="section">
+        <h2 class="section-title">Usually runs</h2>
+        <div class="sched-row">
+          <span class="sched-pill"><span class="material-symbols-outlined">wb_twilight</span>Early Morning</span>
+          <span class="sched-pill"><span class="material-symbols-outlined">calendar_month</span>Mon · Wed · Sat</span>
+        </div>
+      </div>
+
+      <!-- Public Journal -->
+      <div class="section">
+        <h2 class="section-title">Public Journal</h2>
+        <div class="journal-strip">
+
+          <div class="jx-card">
+            <div class="jx-photo">
+              <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuBMulCzMzQa3vQmlqP_T2gK6Pu4ZfcI4OGq5FVYZnHb55fxdLVHsseg5XDTy353fVYrnDY-gueCO0BSKafyUGaPNJoD36BdQ6TG1mjJBw_n5ZFLqckj_bEzPGfnmmUSNMhL1HDcsFR6xoBQXtZaFxt_Ugf2nFz0RRC3xdoBx1ibFvXWN0jvG7mLCHJ7HYAX6kWgDVwanpxU1xo_rnuQlazbkj5BuvIk9UryAZaPk3YydV3Qjr1c4LiqcqF0GoceIxpAuqXBV2HfPtoi" alt="">
+              <div class="jx-scrim"></div>
+              <span class="jx-intensity">Hard</span>
+              <div class="jx-overlay">
+                <div class="jx-dist">12.0<span class="u">km</span></div>
+                <div class="jx-date">May 31</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="jx-card">
+            <div class="jx-photo">
+              <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuCZ7QH8Gfro8Yha1SHXqxuXm1HlDPhI7qHNI17vw9Astdjh6Te0nNyJRIsZ6r9fg5a-m1w20pEahP-w9K1evl9gc7ZtqXue1aR09-GF1R1Sf7c8a7Ma-A5_NxMF9etzkk-cN6AGCz4WScAzOj4QIE8EexP96EzoHW5l6co3Vfs3kc76Jkg4sjzDf6muwcQeVuBXbaEBrFjmBVkaz5df0XM0K4Wu1SqEwsaHbdu1acAG3_1cV7Ff2-v83BxiwY9ABNQ9DX4m43B9cl_m" alt="">
+              <div class="jx-scrim"></div>
+              <span class="jx-intensity">Moderate</span>
+              <div class="jx-overlay">
+                <div class="jx-dist">8.0<span class="u">km</span></div>
+                <div class="jx-date">May 26</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="jx-card">
+            <div class="jx-photo">
+              <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuDaxEG-il-cdFjQaz7olXrc5Tv5cays9ODk67vuWT9pReMjajPFnZBpk86DLAkvMCbVN2HtdAL6621wtxB4OOIPjgW2K35DAnw7y28U809Y59e0UgkwviliX0WTbTkjqHu_xh0qB0OKpSSvh_4bN_PNm71IOD_AusoKdFkZnjDnktfoSEyLn5G7uWIH491QgjHOOtJGem6VQRLqAPkH4hGjh7VpF1rfm3p14KDFGFoZzHX4sJsE1nzVX1JJN7F4u2vxmhvZ4m-ARb7Y" alt="">
+              <div class="jx-scrim"></div>
+              <span class="jx-intensity">Easy</span>
+              <div class="jx-overlay">
+                <div class="jx-dist">5.0<span class="u">km</span></div>
+                <div class="jx-date">May 22</div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- Sticky footer -->
+  <div class="footer">
+    <button class="action-btn btn-connect" onclick="window.location.href='discover.html'">
+      <span class="material-symbols-outlined filled" style="font-size:20px;">footprint</span>
+      Run with Marcus
+    </button>
+  </div>
+
+</div>
+</body>
+</html>

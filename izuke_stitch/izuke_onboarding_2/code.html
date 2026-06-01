@@ -1,0 +1,221 @@
+<!DOCTYPE html><html class="light" lang="en" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Izuke - Onboarding</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700;800&amp;family=Inter:wght@400;500&amp;family=JetBrains+Mono:wght@700&amp;display=swap" rel="stylesheet">
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-secondary-fixed": "#0f1b35",
+                    "on-secondary": "#ffffff",
+                    "surface": "#f9f9fb",
+                    "on-primary-fixed-variant": "#920028",
+                    "outline-variant": "#e5bdbe",
+                    "surface-container-low": "#f3f3f5",
+                    "on-primary-container": "#fffbff",
+                    "on-surface": "#1a1c1d",
+                    "error-container": "#ffdad6",
+                    "inverse-primary": "#ffb3b6",
+                    "surface-bright": "#f9f9fb",
+                    "velocity-pink": "#FF3B5C",
+                    "on-surface-variant": "#5c3f41",
+                    "on-tertiary-container": "#f6fff6",
+                    "surface-mist": "#F5F5F7",
+                    "primary-fixed": "#ffdada",
+                    "surface-container": "#eeeef0",
+                    "secondary": "#535e7b",
+                    "surface-container-lowest": "#ffffff",
+                    "surface-container-high": "#e8e8ea",
+                    "on-background": "#1a1c1d",
+                    "secondary-container": "#d1dcff",
+                    "primary-container": "#e12149",
+                    "tertiary-container": "#008656",
+                    "primary": "#ba0035",
+                    "on-tertiary-fixed-variant": "#005233",
+                    "surface-tint": "#be0037",
+                    "tertiary-fixed-dim": "#62dda0",
+                    "on-secondary-fixed-variant": "#3b4663",
+                    "on-error-container": "#93000a",
+                    "background": "#f9f9fb",
+                    "pure-white": "#FFFFFF",
+                    "surface-variant": "#e2e2e4",
+                    "on-secondary-container": "#55607e",
+                    "inverse-surface": "#2f3132",
+                    "secondary-fixed-dim": "#bbc6e8",
+                    "tertiary-fixed": "#7ffaba",
+                    "surface-container-highest": "#e2e2e4",
+                    "on-primary-fixed": "#40000c",
+                    "inverse-on-surface": "#f0f0f2",
+                    "on-error": "#ffffff",
+                    "deep-track": "#0F1B35",
+                    "secondary-fixed": "#d9e2ff",
+                    "on-tertiary-fixed": "#002112",
+                    "on-primary": "#ffffff",
+                    "tertiary": "#006a43",
+                    "on-tertiary": "#ffffff",
+                    "error": "#ba1a1a",
+                    "surface-dim": "#d9dadc",
+                    "primary-fixed-dim": "#ffb3b6",
+                    "outline": "#906f70"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "stack-lg": "24px",
+                    "margin-mobile": "20px",
+                    "margin-desktop": "40px",
+                    "gutter": "16px",
+                    "stack-md": "12px",
+                    "base": "8px",
+                    "stack-sm": "4px"
+            },
+            "fontFamily": {
+                    "headline-md": ["Hanken Grotesk"],
+                    "stats-number": ["Hanken Grotesk"],
+                    "body-lg": ["Inter"],
+                    "display-lg": ["Hanken Grotesk"],
+                    "headline-lg-mobile": ["Hanken Grotesk"],
+                    "headline-lg": ["Hanken Grotesk"],
+                    "body-md": ["Inter"],
+                    "label-caps": ["JetBrains Mono"]
+            },
+            "fontSize": {
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "stats-number": ["20px", {"lineHeight": "24px", "fontWeight": "700"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                    "headline-lg-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "700"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "700"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.1em", "fontWeight": "700"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .trust-shimmer {
+            background: linear-gradient(135deg, #FF3B5C 0%, #ba0035 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        .trust-shimmer::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                45deg,
+                rgba(255,255,255,0) 0%,
+                rgba(255,255,255,0.1) 45%,
+                rgba(255,255,255,0.5) 50%,
+                rgba(255,255,255,0.1) 55%,
+                rgba(255,255,255,0) 100%
+            );
+            transform: rotate(45deg);
+            animation: shimmer 4s infinite;
+        }
+        @keyframes shimmer {
+            0% { transform: translateX(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) rotate(45deg); }
+        }
+    </style>
+</head>
+<body class="bg-surface-mist text-on-surface font-body-md min-h-screen flex flex-col">
+<!-- Top Navigation (Onboarding Focus: No Shell) -->
+<header class="h-16 flex items-center justify-end px-margin-mobile">
+<button class="font-label-caps text-label-caps text-secondary hover:text-velocity-pink transition-colors px-4 py-2">
+            Skip
+        </button>
+</header>
+<!-- Main Content Area -->
+<main class="flex-1 flex flex-col items-center justify-center px-margin-mobile text-center">
+<!-- Hero Visual: Verification Focus -->
+<div class="relative mb-12 flex justify-center items-center">
+<!-- Decorative concentric circles for energy -->
+<div class="absolute w-64 h-64 border-2 border-velocity-pink/10 rounded-full animate-pulse"></div>
+<div class="absolute w-80 h-80 border border-velocity-pink/5 rounded-full animate-pulse delay-75"></div>
+<!-- Main Badge Container -->
+<div class="w-48 h-48 bg-velocity-pink flex items-center justify-center shadow-2xl z-10 trust-shimmer rounded-[48px]">
+<span class="material-symbols-outlined text-pure-white !text-8xl" style="font-variation-settings: 'FILL' 1;">
+                    verified_user
+                </span>
+</div>
+<!-- Floating Mini Badges -->
+<div class="absolute top-0 -right-4 bg-pure-white p-3 rounded-2xl shadow-lg z-20 border border-surface-variant">
+<span class="material-symbols-outlined text-tertiary font-bold" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+</div>
+<!-- Copy Section -->
+<div class="max-w-xs md:max-w-md space-y-stack-md">
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile md:font-headline-lg md:text-headline-lg text-deep-track tracking-tight">
+                Run with People<br>You Can Trust.
+            </h1>
+<p class="font-body-md text-body-md text-on-secondary-fixed-variant leading-relaxed">
+                Optional verification adds a trust badge to your profile, so runners feel comfortable saying yes.
+            </p>
+</div>
+</main>
+<!-- Footer Action Area -->
+<footer class="p-margin-mobile space-y-stack-lg max-w-lg mx-auto w-full pb-8">
+<!-- Page Indicator -->
+<div class="flex justify-center gap-2 pb-2">
+<div class="w-2 h-2 rounded-full bg-surface-variant"></div>
+<div class="w-6 h-2 rounded-full bg-velocity-pink"></div>
+<div class="w-2 h-2 rounded-full bg-surface-variant"></div>
+</div>
+<!-- Action Button -->
+<div class="flex flex-col gap-gutter">
+<button class="w-full text-pure-white font-headline-md text-headline-md h-[56px] shadow-md hover:bg-primary transition-all active:scale-[0.98] flex items-center justify-center gap-2 bg-gradient-to-r from-primary to-velocity-pink rounded-3xl">
+                Next
+                <span class="material-symbols-outlined">arrow_forward</span>
+</button>
+<!-- Contextual Trust Elements -->
+<div class="flex items-center justify-center gap-4 py-4 opacity-60">
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined !text-sm">security</span>
+<span class="font-label-caps text-[10px]">SECURE DATA</span>
+</div>
+<div class="w-1 h-1 rounded-full bg-secondary"></div>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined !text-sm">groups</span>
+<span class="font-label-caps text-[10px]">VERIFIED COMMUNITY</span>
+</div>
+</div>
+</div>
+<!-- Bottom Spacer for Home Indicator -->
+<div class="h-4"></div>
+</footer>
+<!-- Interactive Atmosphere Scripts -->
+<script>
+        // Simple touch feedback or subtle parallax could go here
+        document.addEventListener('DOMContentLoaded', () => {
+            const button = document.querySelector('button');
+            button.addEventListener('touchstart', () => {
+                button.style.transform = 'scale(0.96)';
+            });
+            button.addEventListener('touchend', () => {
+                button.style.transform = 'scale(1)';
+            });
+        });
+    </script>
+
+
+</body></html>

@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Izuke | Run Details</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@600;700;800&amp;family=Inter:wght@400;500&amp;family=JetBrains+Mono:wght@700&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@100..900&amp;family=Inter:wght@100..900&amp;family=JetBrains+Mono:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container-highest": "#e2e2e4",
+                        "on-surface": "#1a1c1d",
+                        "tertiary-fixed": "#7ffaba",
+                        "surface-dim": "#d9dadc",
+                        "surface-container-high": "#e8e8ea",
+                        "secondary-fixed-dim": "#bbc6e8",
+                        "secondary-container": "#d1dcff",
+                        "background": "#f9f9fb",
+                        "deep-track": "#0F1B35",
+                        "on-error-container": "#93000a",
+                        "outline": "#906f70",
+                        "primary": "#ba0035",
+                        "primary-container": "#e12149",
+                        "surface-bright": "#f9f9fb",
+                        "surface-container": "#eeeef0",
+                        "tertiary-fixed-dim": "#62dda0",
+                        "tertiary": "#006a43",
+                        "on-secondary-fixed-variant": "#3b4663",
+                        "outline-variant": "#e5bdbe",
+                        "on-primary-container": "#fffbff",
+                        "velocity-pink": "#FF3B5C",
+                        "surface-mist": "#F5F5F7",
+                        "inverse-surface": "#2f3132",
+                        "tertiary-container": "#008656",
+                        "on-primary": "#ffffff",
+                        "pure-white": "#FFFFFF",
+                        "on-tertiary": "#ffffff",
+                        "error-container": "#ffdad6",
+                        "surface-container-lowest": "#ffffff",
+                        "on-surface-variant": "#5c3f41",
+                        "inverse-on-surface": "#f0f0f2",
+                        "surface-variant": "#e2e2e4",
+                        "on-tertiary-fixed-variant": "#005233",
+                        "surface-tint": "#be0037",
+                        "error": "#ba1a1a",
+                        "on-primary-fixed": "#40000c",
+                        "on-secondary-fixed": "#0f1b35",
+                        "surface": "#f9f9fb",
+                        "secondary": "#535e7b",
+                        "on-tertiary-fixed": "#002112",
+                        "surface-container-low": "#f3f3f5",
+                        "secondary-fixed": "#d9e2ff",
+                        "on-primary-fixed-variant": "#920028",
+                        "inverse-primary": "#ffb3b6",
+                        "primary-fixed-dim": "#ffb3b6",
+                        "on-tertiary-container": "#f6fff6",
+                        "on-error": "#ffffff",
+                        "primary-fixed": "#ffdada",
+                        "on-secondary-container": "#55607e",
+                        "on-secondary": "#ffffff",
+                        "on-background": "#1a1c1d"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "stack-md": "12px",
+                        "margin-desktop": "40px",
+                        "gutter": "16px",
+                        "stack-lg": "24px",
+                        "stack-sm": "4px",
+                        "margin-mobile": "20px",
+                        "base": "8px"
+                    },
+                    "fontFamily": {
+                        "label-caps": ["JetBrains Mono"],
+                        "headline-lg-mobile": ["Hanken Grotesk"],
+                        "headline-lg": ["Hanken Grotesk"],
+                        "body-md": ["Inter"],
+                        "headline-md": ["Hanken Grotesk"],
+                        "stats-number": ["Hanken Grotesk"],
+                        "display-lg": ["Hanken Grotesk"],
+                        "body-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.1em", "fontWeight": "700"}],
+                        "headline-lg-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "700"}],
+                        "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "700"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "stats-number": ["20px", {"lineHeight": "24px", "fontWeight": "700"}],
+                        "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            background-color: #F5F5F7; /* surface-mist */
+            color: #1a1c1d;
+        }
+        .hero-gradient {
+            background: linear-gradient(180deg, rgba(15, 27, 53, 0.4) 0%, rgba(15, 27, 53, 0) 40%, rgba(245, 245, 247, 1) 100%);
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(224, 224, 229, 0.5);
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+<!-- Top Navigation Bar -->
+<nav class="flex justify-between items-center w-full px-5 py-4 fixed top-0 z-50 transition-all duration-300" id="top-nav">
+<button class="w-10 h-10 flex items-center justify-center bg-pure-white/20 backdrop-blur-md rounded-full text-pure-white hover:bg-pure-white/40 transition-all" onclick="history.back()">
+<span class="material-symbols-outlined">arrow_back</span>
+</button>
+<div class="flex gap-2">
+<button class="px-4 py-2 bg-pure-white/20 backdrop-blur-md rounded-full text-pure-white font-label-caps text-label-caps hover:bg-pure-white/40 transition-all">
+                EDIT
+            </button>
+<button class="w-10 h-10 flex items-center justify-center bg-pure-white/20 backdrop-blur-md rounded-full text-pure-white hover:bg-pure-white/40 transition-all">
+<span class="material-symbols-outlined">share</span>
+</button>
+</div>
+</nav>
+<!-- Main Content Canvas -->
+<main class="relative pb-24">
+<!-- Cinematic Hero Header -->
+<div class="relative w-full h-[45vh] overflow-hidden">
+<img alt="Run location" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBiffP9UZQfedn7i8ZT27kiDzZcExSJtWopz3XMsejtR0O3ONkO1DMlBesXe0ScgK6eqANk4jKQHA54KSSCcdu0wlYXXrfLI_gpdsnu165IDSSO7Ct0Cy95hwBaITfqUHijLA2k8XO2bDc6xTAEvYbCseKkB7crr9Q_XWwqZ5aKy8rk-FF4IYMTsC-7sQ4-_kCASNNmoyv6zHWzXSNoKidnJzMi8vw7HdwYGkhj6P8YO-AS_YziisBxuTTeWzivhP4XmsDsj-LW0idU"/>
+<div class="absolute inset-0 hero-gradient"></div>
+<!-- Floating Achievement Badge -->
+<div class="absolute bottom-12 left-5 animate-bounce">
+<div class="bg-velocity-pink text-pure-white px-4 py-2 rounded-full flex items-center gap-2 shadow-lg">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">stars</span>
+<span class="font-label-caps text-label-caps">PERSONAL RECORD</span>
+</div>
+</div>
+</div>
+<!-- Run Metadata & Title -->
+<div class="px-5 -mt-8 relative z-10">
+<div class="flex flex-col gap-2 mb-8">
+<p class="font-label-caps text-label-caps text-velocity-pink">MORNING TRAIL SESSION</p>
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile md:font-headline-lg md:text-headline-lg text-deep-track">Redwood Summit Loop</h1>
+<div class="flex items-center gap-2 text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px]">calendar_today</span>
+<span class="font-body-md text-body-md">October 24, 2023 • 7:15 AM</span>
+</div>
+</div>
+<!-- Bento Stats Grid -->
+<div class="grid grid-cols-2 md:grid-cols-3 gap-4 mb-8">
+<!-- Large Stats Card -->
+<div class="col-span-2 md:col-span-1 bg-pure-white rounded-xl p-6 border border-outline-variant flex flex-col justify-between">
+<div>
+<p class="font-label-caps text-label-caps text-on-surface-variant mb-2">DISTANCE</p>
+<h2 class="font-display-lg text-display-lg text-velocity-pink leading-none">12.4</h2>
+<p class="font-headline-md text-headline-md text-deep-track">kilometers</p>
+</div>
+</div>
+<div class="bg-pure-white rounded-xl p-6 border border-outline-variant">
+<p class="font-label-caps text-label-caps text-on-surface-variant mb-2">DURATION</p>
+<div class="flex items-baseline gap-1">
+<span class="font-headline-lg-mobile text-headline-lg-mobile text-deep-track">58:12</span>
+</div>
+</div>
+<div class="bg-pure-white rounded-xl p-6 border border-outline-variant">
+<p class="font-label-caps text-label-caps text-on-surface-variant mb-2">AVG. PACE</p>
+<div class="flex items-baseline gap-1">
+<span class="font-headline-lg-mobile text-headline-lg-mobile text-deep-track">4:42</span>
+<span class="font-label-caps text-label-caps text-on-surface-variant">/KM</span>
+</div>
+</div>
+</div>
+<!-- Layout for Secondary Data -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<div class="md:col-span-2 flex flex-col gap-8">
+<!-- Runner's Note -->
+<section>
+<h3 class="font-label-caps text-label-caps text-on-surface-variant mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">notes</span> RUNNER'S NOTE
+                        </h3>
+<div class="bg-pure-white rounded-xl p-6 border border-outline-variant">
+<p class="font-body-lg text-body-lg text-deep-track italic leading-relaxed">
+                                "Felt incredibly light today. The morning fog in the Redwoods was perfect for keeping the temp down. Smashed the final incline near the 10km mark. Best run of the season so far!"
+                            </p>
+</div>
+</section>
+<!-- Interactive Map Placeholder -->
+<section>
+<h3 class="font-label-caps text-label-caps text-on-surface-variant mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">map</span> ROUTE ANALYSIS
+                        </h3>
+<div class="aspect-video w-full rounded-2xl overflow-hidden border border-outline-variant relative group cursor-crosshair">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="A stylized digital map interface showing a GPS running route overlaying a lush, green topographical forest area. The route is highlighted in a vibrant velocity pink line with elevation markers. The aesthetic is clean, professional, and high-contrast, mimicking a premium sports watch application with soft daylight illumination." data-location="Muir Woods National Monument" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDO-jczdNHg9WmA7eZ11VXMxFXcIoCsURw84teLOzunYcMNQhMQLOTEc6DyfsV7kNISnTyoxxvfqzcYkWgEzfB_uL02KsMu1zBqgWSd06xt8pQChAJneoL6ZuBDyIp1i6XtilZ_8zpZd4ACaB-IP81vx-FsJf7Y5P2SSAnBmsDwmEmbtS2W6TXtk-R9DtnrdwALLUHVFNbKRQhuBR-AGf0mZHQlgMcBNI798tLR1lJiX1r3GOR5kVsW4iG25YMfHcwKf4GU7-5ndNVt"/>
+<div class="absolute inset-0 bg-deep-track/10"></div>
+<div class="absolute bottom-4 left-4 bg-pure-white px-3 py-1.5 rounded-lg shadow-md flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-velocity-pink animate-pulse"></span>
+<span class="font-label-caps text-[10px]">ELEVATION GAIN: +342M</span>
+</div>
+</div>
+</section>
+</div>
+<!-- Performance Effort Panel -->
+<div class="flex flex-col gap-4">
+<h3 class="font-label-caps text-label-caps text-on-surface-variant mb-0 flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">monitoring</span> EFFORT
+                    </h3>
+<div class="bg-deep-track rounded-xl p-6 text-pure-white">
+<p class="font-label-caps text-[10px] text-pure-white/60 mb-4 uppercase">Effort Level</p>
+<div class="flex justify-between items-center mb-2">
+<span class="font-headline-md text-headline-md">Intense</span>
+<span class="font-stats-number text-stats-number text-velocity-pink">9/10</span>
+</div>
+<div class="w-full h-2 bg-pure-white/10 rounded-full overflow-hidden">
+<div class="h-full bg-velocity-pink rounded-full w-[90%]"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Contextual FAB -->
+<div class="fixed bottom-8 right-8 z-50">
+<button class="bg-deep-track text-pure-white w-14 h-14 rounded-full flex items-center justify-center shadow-xl hover:scale-105 active:scale-95 transition-all">
+<span class="material-symbols-outlined">history_edu</span>
+</button>
+</div>
+<script>
+        // Sticky Header Interaction
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('top-nav');
+            if (window.scrollY > 100) {
+                nav.classList.add('bg-pure-white', 'shadow-md');
+                nav.classList.remove('py-4');
+                nav.classList.add('py-2');
+                const buttons = nav.querySelectorAll('button');
+                buttons.forEach(btn => {
+                    btn.classList.remove('bg-pure-white/20', 'text-pure-white');
+                    btn.classList.add('bg-surface-container', 'text-deep-track');
+                });
+            } else {
+                nav.classList.remove('bg-pure-white', 'shadow-md');
+                nav.classList.add('py-4');
+                nav.classList.remove('py-2');
+                const buttons = nav.querySelectorAll('button');
+                buttons.forEach(btn => {
+                    btn.classList.add('bg-pure-white/20', 'text-pure-white');
+                    btn.classList.remove('bg-surface-container', 'text-deep-track');
+                });
+            }
+        });
+    </script>
+</body></html>

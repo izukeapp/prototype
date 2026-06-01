@@ -1,0 +1,268 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Izuke | Alex Chen Profile</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface": "#f9f9fb",
+                        "outline-variant": "#e5bdbe",
+                        "on-tertiary-container": "#f6fff6",
+                        "surface-bright": "#f9f9fb",
+                        "primary": "#ba0035",
+                        "surface-variant": "#e2e2e4",
+                        "on-background": "#1a1c1d",
+                        "secondary-container": "#d1dcff",
+                        "surface-container-low": "#f3f3f5",
+                        "primary-container": "#e12149",
+                        "on-surface": "#1a1c1d",
+                        "secondary": "#535e7b",
+                        "on-secondary": "#ffffff",
+                        "outline": "#906f70",
+                        "deep-track": "#0F1B35",
+                        "tertiary-fixed-dim": "#62dda0",
+                        "surface-dim": "#d9dadc",
+                        "surface-container-highest": "#e2e2e4",
+                        "on-primary-container": "#fffbff",
+                        "tertiary-fixed": "#7ffaba",
+                        "velocity-pink": "#FF3B5C",
+                        "error": "#ba1a1a",
+                        "on-secondary-fixed-variant": "#3b4663",
+                        "surface-mist": "#F5F5F7",
+                        "on-tertiary-fixed": "#002112",
+                        "surface-container": "#eeeef0",
+                        "secondary-fixed-dim": "#bbc6e8",
+                        "pure-white": "#FFFFFF",
+                        "surface-container-high": "#e8e8ea",
+                        "tertiary": "#006a43",
+                        "on-primary": "#ffffff",
+                        "on-secondary-fixed": "#0f1b35",
+                        "on-tertiary-fixed-variant": "#005233",
+                        "secondary-fixed": "#d9e2ff",
+                        "on-primary-fixed": "#40000c",
+                        "on-secondary-container": "#55607e",
+                        "on-surface-variant": "#5c3f41",
+                        "primary-fixed-dim": "#ffb3b6",
+                        "background": "#f9f9fb",
+                        "on-tertiary": "#ffffff",
+                        "error-container": "#ffdad6",
+                        "on-primary-fixed-variant": "#920028",
+                        "primary-fixed": "#ffdada",
+                        "inverse-primary": "#ffb3b6",
+                        "tertiary-container": "#008656",
+                        "surface-tint": "#be0037",
+                        "inverse-surface": "#2f3132",
+                        "on-error": "#ffffff",
+                        "on-error-container": "#93000a"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "1rem",
+                        "2xl": "1.5rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-desktop": "40px",
+                        "gutter": "16px",
+                        "stack-sm": "6px",
+                        "margin-mobile": "24px",
+                        "base": "8px",
+                        "stack-md": "16px",
+                        "stack-lg": "32px"
+                    },
+                    "fontFamily": {
+                        "body-lg": ["Inter"],
+                        "stats-number": ["Hanken Grotesk"],
+                        "headline-lg": ["Hanken Grotesk"],
+                        "headline-md": ["Hanken Grotesk"],
+                        "display-lg": ["Hanken Grotesk"],
+                        "headline-lg-mobile": ["Hanken Grotesk"],
+                        "body-md": ["Inter"],
+                        "label-caps": ["JetBrains Mono"]
+                    },
+                    "fontSize": {
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "stats-number": ["22px", { "lineHeight": "28px", "fontWeight": "700" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "fontWeight": "700" }],
+                        "headline-md": ["22px", { "lineHeight": "28px", "fontWeight": "700", "letterSpacing": "-0.01em" }],
+                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "800" }],
+                        "headline-lg-mobile": ["30px", { "lineHeight": "38px", "fontWeight": "800", "letterSpacing": "-0.02em" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "label-caps": ["11px", { "lineHeight": "16px", "letterSpacing": "0.12em", "fontWeight": "700" }]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .profile-gradient {
+            background: linear-gradient(180deg, #4A4488 0%, #161435 100%);
+        }
+        .glass-nav {
+            background: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .shadow-premium {
+            box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05), 0 2px 10px -2px rgba(0, 0, 0, 0.03);
+        }
+        .shadow-button {
+            box-shadow: 0 8px 24px -6px rgba(186, 0, 53, 0.4);
+        }
+        body {
+            min-height: max(884px, 100dvh);
+        }
+    </style>
+</head>
+<body class="bg-surface-mist font-body-md text-on-surface antialiased">
+<!-- Header / Hero Section -->
+<header class="relative w-full h-[420px] overflow-hidden profile-gradient">
+<!-- Navigation Icons -->
+<div class="absolute top-0 left-0 w-full flex justify-between items-center p-6 z-30">
+<button aria-label="Go Back" class="w-11 h-11 flex items-center justify-center glass-nav text-pure-white rounded-full active:scale-90 transition-all duration-200">
+<span class="material-symbols-outlined text-[20px]">arrow_back_ios_new</span>
+</button>
+<button aria-label="More Options" class="w-11 h-11 flex items-center justify-center glass-nav text-pure-white rounded-full active:scale-90 transition-all duration-200">
+<span class="material-symbols-outlined text-[24px]">more_horiz</span>
+</button>
+</div>
+<!-- Profile Content Container -->
+<div class="absolute inset-0 flex flex-col justify-end p-margin-mobile pb-16 z-20">
+<!-- Background Monogram Decoration -->
+<div class="absolute top-[45%] left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-10 pointer-events-none">
+<span class="font-display-lg text-[280px] text-pure-white select-none">A</span>
+</div>
+<div class="relative z-20">
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile text-pure-white mb-stack-md">Alex Chen</h1>
+<div class="flex gap-2.5">
+<span class="inline-flex items-center px-3.5 py-1.5 glass-nav text-pure-white rounded-full gap-1.5">
+<span class="material-symbols-outlined text-[14px] opacity-80">location_on</span>
+<span class="font-label-caps text-label-caps uppercase">Riverside Park</span>
+</span>
+<span class="inline-flex items-center px-3.5 py-1.5 bg-velocity-pink text-pure-white rounded-full font-label-caps text-label-caps tracking-widest">
+                    8:30/MI
+                </span>
+</div>
+</div>
+</div>
+<!-- Dynamic Runner Mask (Atmospheric) -->
+<img class="absolute inset-0 w-full h-full object-cover mix-blend-overlay opacity-50 pointer-events-none scale-105" data-alt="A focused male runner in athletic gear silhouetted against a moody urban sunset with deep purple and indigo lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCWVN_dHbrjMWLd-cpbI0HDTpyHIUoJ6KQ5DGrZ4FGCtt9rJJjGdOwwscRj4aSmashPBfgrx21hEGPyylnTMsv3MljMFJEzfE46yw0ntkUWUZppqttqjpL74bCS3_7XMcEqTP0RG_KyS7G9Wr5bH65VGdB6ueWQkWubslmsuIXsJH0hxdq2XuD6j6pz2xN2tikhLSnyi34jab6Tv55ASKcNZrRVTgpTGQjZpScZZZvZsCDyITDtDxZLc7lH8Jm4VRIEfIjAgS4gCrpX">
+</header>
+<!-- Content Area -->
+<main class="relative -mt-10 bg-surface-mist rounded-t-[32px] px-margin-mobile pt-stack-lg pb-40 min-h-screen z-20">
+<!-- About Section -->
+<section class="mb-stack-lg">
+<h2 class="font-headline-md text-headline-md mb-stack-sm text-on-surface tracking-tight">About</h2>
+<p class="font-body-md text-body-md text-secondary leading-relaxed opacity-90">
+            Training for my first marathon. Love early morning road runs before the city wakes up.
+        </p>
+</section>
+<!-- Run Preferences -->
+<section class="mb-stack-lg">
+<h2 class="font-headline-md text-headline-md mb-stack-md text-on-surface tracking-tight">Run Preferences</h2>
+<div class="flex flex-wrap gap-2.5">
+<span class="px-5 py-2.5 border border-outline-variant/60 bg-pure-white text-primary rounded-xl font-label-caps text-label-caps tracking-widest shadow-sm">ROAD</span>
+<span class="px-5 py-2.5 border border-outline-variant/60 bg-pure-white text-primary rounded-xl font-label-caps text-label-caps tracking-widest shadow-sm">TRAIL</span>
+<span class="px-5 py-2.5 border border-outline-variant/60 bg-pure-white text-primary rounded-xl font-label-caps text-label-caps tracking-widest shadow-sm">EARLY MORNING</span>
+<span class="px-5 py-2.5 border border-outline-variant/60 bg-pure-white text-primary rounded-xl font-label-caps text-label-caps tracking-widest shadow-sm">MORNING</span>
+</div>
+</section>
+<!-- Compatibility Section -->
+<section class="mb-stack-lg">
+<div class="flex items-center justify-between mb-stack-md">
+<h2 class="font-headline-md text-headline-md text-on-surface tracking-tight">Compatibility</h2>
+<div class="bg-velocity-pink/10 px-3.5 py-1.5 rounded-full">
+<span class="text-velocity-pink font-label-caps text-[10px] tracking-widest font-extrabold">85% MATCH</span>
+</div>
+</div>
+<div class="bg-pure-white rounded-2xl p-stack-lg border border-surface-variant/50 shadow-premium space-y-stack-lg">
+<!-- Pace Match -->
+<div class="flex items-center justify-between">
+<span class="font-body-md text-secondary font-medium">Pace Match</span>
+<div class="flex gap-2">
+<div class="w-1.5 h-1.5 rounded-full bg-velocity-pink"></div>
+<div class="w-1.5 h-1.5 rounded-full bg-velocity-pink"></div>
+<div class="w-1.5 h-1.5 rounded-full bg-velocity-pink"></div>
+<div class="w-1.5 h-1.5 rounded-full bg-velocity-pink"></div>
+<div class="w-1.5 h-1.5 rounded-full bg-surface-variant"></div>
+</div>
+</div>
+<!-- Goals Alignment -->
+<div class="flex items-center justify-between">
+<span class="font-body-md text-secondary font-medium">Goals Alignment</span>
+<div class="flex gap-2">
+<div class="w-1.5 h-1.5 rounded-full bg-velocity-pink"></div>
+<div class="w-1.5 h-1.5 rounded-full bg-velocity-pink"></div>
+<div class="w-1.5 h-1.5 rounded-full bg-velocity-pink"></div>
+<div class="w-1.5 h-1.5 rounded-full bg-velocity-pink"></div>
+<div class="w-1.5 h-1.5 rounded-full bg-surface-variant"></div>
+</div>
+</div>
+<!-- Schedule -->
+<div class="flex items-center justify-between">
+<span class="font-body-md text-secondary font-medium">Schedule</span>
+<div class="flex gap-2">
+<div class="w-1.5 h-1.5 rounded-full bg-velocity-pink"></div>
+<div class="w-1.5 h-1.5 rounded-full bg-velocity-pink"></div>
+<div class="w-1.5 h-1.5 rounded-full bg-velocity-pink"></div>
+<div class="w-1.5 h-1.5 rounded-full bg-surface-variant"></div>
+<div class="w-1.5 h-1.5 rounded-full bg-surface-variant"></div>
+</div>
+</div>
+</div>
+</section>
+<!-- Stats Grid -->
+<section class="grid grid-cols-2 gap-5 mb-stack-lg">
+<div class="bg-pure-white p-6 rounded-2xl border border-surface-variant/50 shadow-premium">
+<span class="font-label-caps text-label-caps text-secondary/70 uppercase block mb-2">Total Miles</span>
+<span class="font-stats-number text-stats-number text-on-surface">1,240</span>
+</div>
+<div class="bg-pure-white p-6 rounded-2xl border border-surface-variant/50 shadow-premium">
+<span class="font-label-caps text-label-caps text-secondary/70 uppercase block mb-2">Run Streak</span>
+<span class="font-stats-number text-stats-number text-on-surface">12 Days</span>
+</div>
+</section>
+</main>
+<!-- Bottom Sticky Action -->
+<footer class="fixed bottom-0 left-0 w-full p-6 pb-8 bg-surface-mist/80 backdrop-blur-xl border-t border-surface-variant/30 z-50">
+<button class="w-full h-14 bg-gradient-to-r from-primary to-velocity-pink text-pure-white rounded-2xl font-headline-md text-[18px] flex items-center justify-center gap-3 shadow-button active:scale-95 transition-all duration-300 hover:brightness-105">
+<span class="material-symbols-outlined text-[26px]" style="font-variation-settings: &quot;FILL&quot; 1;">bolt</span>
+<span class="">Run With Alex</span>
+</button>
+</footer>
+<script>
+    // Atmospheric parallax on scroll
+    window.addEventListener('scroll', () => {
+        const scrolled = window.pageYOffset;
+        const heroImg = document.querySelector('header img');
+        const heroText = document.querySelector('header .relative.z-20');
+        const heroBgA = document.querySelector('header .select-none');
+        
+        if (heroImg) heroImg.style.transform = `translateY(${scrolled * 0.2}px) scale(${1.05 + scrolled * 0.0002})`;
+        if (heroText) heroText.style.opacity = Math.max(0, 1 - (scrolled / 350));
+        if (heroBgA) heroBgA.style.transform = `translateY(${scrolled * 0.1}px)`;
+    });
+
+    // Touch Feedback
+    document.querySelectorAll('button').forEach(btn => {
+        btn.addEventListener('touchstart', function() {
+            this.classList.add('scale-95');
+        });
+        btn.addEventListener('touchend', function() {
+            this.classList.remove('scale-95');
+        });
+    });
+</script>
+
+
+</body></html>

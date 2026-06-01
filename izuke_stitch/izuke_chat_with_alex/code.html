@@ -1,0 +1,260 @@
+<!DOCTYPE html><html class="light" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport">
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700;800&amp;family=Inter:wght@400;500&amp;family=JetBrains+Mono:wght@700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-tint": "#be0037",
+                    "on-primary-fixed-variant": "#920028",
+                    "error": "#ba1a1a",
+                    "outline": "#906f70",
+                    "inverse-on-surface": "#f0f0f2",
+                    "on-error-container": "#93000a",
+                    "surface-variant": "#e2e2e4",
+                    "inverse-primary": "#ffb3b6",
+                    "surface-dim": "#d9dadc",
+                    "on-secondary-container": "#55607e",
+                    "surface-container": "#eeeef0",
+                    "on-error": "#ffffff",
+                    "primary-fixed": "#ffdada",
+                    "secondary": "#535e7b",
+                    "on-secondary": "#ffffff",
+                    "on-primary-fixed": "#40000c",
+                    "secondary-fixed-dim": "#bbc6e8",
+                    "on-tertiary-fixed-variant": "#005233",
+                    "error-container": "#ffdad6",
+                    "tertiary-fixed-dim": "#62dda0",
+                    "surface-mist": "#F5F5F7",
+                    "background": "#f9f9fb",
+                    "primary": "#ba0035",
+                    "surface-container-lowest": "#ffffff",
+                    "on-background": "#1a1c1d",
+                    "surface-bright": "#f9f9fb",
+                    "on-surface-variant": "#5c3f41",
+                    "tertiary-fixed": "#7ffaba",
+                    "surface": "#f9f9fb",
+                    "velocity-pink": "#FF3B5C",
+                    "deep-track": "#0F1B35",
+                    "on-secondary-fixed": "#0f1b35",
+                    "primary-fixed-dim": "#ffb3b6",
+                    "on-tertiary-fixed": "#002112",
+                    "surface-container-low": "#f3f3f5",
+                    "tertiary": "#006a43",
+                    "pure-white": "#FFFFFF",
+                    "outline-variant": "#e5bdbe",
+                    "secondary-fixed": "#d9e2ff",
+                    "on-tertiary-container": "#f6fff6",
+                    "on-surface": "#1a1c1d",
+                    "surface-container-high": "#e8e8ea",
+                    "secondary-container": "#d1dcff",
+                    "on-primary-container": "#fffbff",
+                    "inverse-surface": "#2f3132",
+                    "on-tertiary": "#ffffff",
+                    "tertiary-container": "#008656",
+                    "primary-container": "#e12149",
+                    "on-primary": "#ffffff",
+                    "surface-container-highest": "#e2e2e4",
+                    "on-secondary-fixed-variant": "#3b4663"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "3xl": "1.5rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "stack-lg": "24px",
+                    "margin-desktop": "40px",
+                    "gutter": "16px",
+                    "base": "8px",
+                    "margin-mobile": "20px",
+                    "stack-sm": "4px",
+                    "stack-md": "12px"
+            },
+            "fontFamily": {
+                    "label-caps": ["JetBrains Mono"],
+                    "stats-number": ["Hanken Grotesk"],
+                    "headline-md": ["Hanken Grotesk"],
+                    "display-lg": ["Hanken Grotesk"],
+                    "headline-lg": ["Hanken Grotesk"],
+                    "headline-lg-mobile": ["Hanken Grotesk"],
+                    "body-lg": ["Inter"],
+                    "body-md": ["Inter"]
+            },
+            "fontSize": {
+                    "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.1em", "fontWeight": "700"}],
+                    "stats-number": ["20px", {"lineHeight": "24px", "fontWeight": "700"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "700"}],
+                    "headline-lg-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "700"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .chat-gradient {
+            background: linear-gradient(135deg, #FF3B5C 0%, #BA0035 100%);
+        }
+        .message-shadow {
+            box-shadow: 0 2px 8px rgba(15, 27, 53, 0.05);
+        }
+        ::-webkit-scrollbar {
+            width: 4px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #e2e2e4;
+            border-radius: 10px;
+        }
+        .safe-bottom-padding {
+            padding-bottom: calc(env(safe-area-inset-bottom) + 80px);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md antialiased overflow-hidden h-screen flex flex-col">
+<!-- TopAppBar -->
+<header class="bg-surface dark:bg-inverse-surface border-b border-outline-variant dark:border-outline flex justify-between items-center w-full px-margin-mobile h-16 shrink-0 z-40">
+<div class="flex items-center gap-4">
+<button class="hover:opacity-80 transition-opacity active:scale-95 duration-150 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary dark:text-primary-fixed">arrow_back</span>
+</button>
+<div class="flex items-center gap-3">
+<div class="relative">
+<img alt="Alex" class="w-10 h-10 rounded-full object-cover border-2 border-velocity-pink" data-alt="A professional studio headshot of a young male athlete with a friendly expression. The lighting is crisp and modern, featuring high-contrast rim lighting that emphasizes his athletic build. The background is a clean, minimalist off-white, maintaining the premium Corporate Modern aesthetic. His eyes are bright and focused, reflecting a disciplined and energetic personality." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCEyQBIA41rDW_0O2G34jGbr1WstpW83JTsS7fbJL5fgdUbFXW_D0LeNEjo2OUtAnF_0yl0Z2ZP8d9ot-VLOC10zbgTWcrxArxocJkk-6z8HTEqMIUc1AVpez1Furl38NNpm2K4nG1TRYQRJyVXHbMO7ICNSLp4q34z1jH_pNqhEHEtHJAI8oAOP9Gfl0o1OQLlO44q-DXswZ_xjU5aaGk6ZgzzNLJ-FUNIrRw43mh7D4xxJDj29zfl1Ayom8PWf-FGmvMQOgm468sf">
+<span class="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-surface rounded-full"></span>
+</div>
+<div class="flex flex-col">
+<span class="font-headline-lg-mobile text-body-md font-bold text-on-surface">Alex</span>
+<span class="font-label-caps text-[10px] text-green-600 uppercase tracking-widest">Active Now</span>
+</div>
+</div>
+</div>
+<div class="flex items-center">
+<button class="hover:opacity-80 transition-opacity active:scale-95 duration-150">
+<span class="material-symbols-outlined text-primary dark:text-primary-fixed">settings</span>
+</button>
+</div>
+</header>
+<!-- Chat Canvas -->
+<main class="flex-1 overflow-y-auto px-margin-mobile py-6 space-y-6 safe-bottom-padding">
+<!-- Date Header -->
+<div class="flex justify-center">
+<span class="font-label-caps text-on-surface-variant bg-surface-container px-3 py-1 rounded-full text-[10px]">Today</span>
+</div>
+<!-- Alex Message -->
+<div class="flex flex-col items-start space-y-2 max-w-[85%]">
+<div class="bg-surface-container text-on-surface p-4 rounded-3xl rounded-tl-sm message-shadow">
+<p class="font-body-md">Hey! Great run today. That final sprint was intense. Ready for the weekend trail?</p>
+</div>
+<span class="text-[10px] font-label-caps text-on-surface-variant ml-2">09:41 AM</span>
+</div>
+<!-- User Message -->
+<div class="flex flex-col items-end space-y-2 ml-auto max-w-[85%]">
+<div class="chat-gradient text-pure-white p-4 rounded-3xl rounded-tr-sm shadow-md">
+<p class="font-body-md">Thanks Alex! My legs are definitely feeling it. I'm definitely down for the trail run. What's the plan?</p>
+</div>
+<span class="text-[10px] font-label-caps text-on-surface-variant mr-2">09:43 AM</span>
+</div>
+<!-- Suggestion Card (Bento Style) -->
+<div class="mx-auto w-full max-w-sm">
+<div class="bg-pure-white border border-outline-variant rounded-3xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+<div class="h-32 relative">
+<img class="w-full h-full object-cover" data-alt="A panoramic view of a winding mountain trail at sunrise. The golden hour light casts long shadows and highlights the rugged textures of the path. The atmosphere is quiet and energetic, capturing the 'runner's high' vibe. The colors are dominated by warm golds and deep blues, perfectly aligning with the high-contrast athletic brand identity." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAYr-QiN4j_HB5U_HRFWvS74uWbmELoz1wDvDt8oiI-U8HZPosgmGx-qkcna-6ZyeoX5-zx1I8nLDyFB2GGPMEQDT0NMxFvmP1s1hb4I-O70NaxGA29qU0G44eGqhGCww5vxr-FgzTUNbXq9LjRgu-cSqcV6aN96VJdCPQ30wVyy5h7gveYs7hT6q5jt20J6wecVnOo5wH9-ZuvnE06O-SDVbMku-U2_V63Fw5jQLN9B7fznh6ibQmMRSf6qlH6XnT7y4b3BZ_LztmJ">
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+<div class="absolute bottom-3 left-4">
+<span class="font-label-caps text-[10px] bg-velocity-pink text-pure-white px-2 py-0.5 rounded-full mb-1 inline-block">RECOMMENDED</span>
+<h3 class="text-pure-white font-headline-md text-body-lg leading-tight">Canyon Peak Loop</h3>
+</div>
+</div>
+<div class="p-5 flex flex-col space-y-4">
+<div class="flex justify-between items-center">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-velocity-pink text-lg">calendar_today</span>
+<span class="font-stats-number text-body-md">Sat, Oct 14</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-velocity-pink text-lg">schedule</span>
+<span class="font-stats-number text-body-md">07:30 AM</span>
+</div>
+</div>
+<div class="flex items-center justify-between pt-2 border-t border-surface-container">
+<div class="flex -space-x-2">
+<img alt="Alex" class="w-8 h-8 rounded-full border-2 border-pure-white object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAsgogiEf2z7coAkxberbsmVtRkw3Ptneap4L0kTuytH-IoMn6VU4bGgmPnU2zt5vv80PRwpD_ocjUY0qcyUa3N_JeRBgmlWTAn19St2BIpMaEZSmUOvj9FY8fH8p20aSUgjjZibxn1G45fN0Ey08axgkvgSxIbsJaotRBLz0jklRpaLvg1pP6z8eRc8h0HOap8OpGoz_IRuH5jStoAkyZlFmLz7eig1XHDAiTIcMNnxr39-IND9izv8_HHBrG1bE19gqoAEqkSJYxT">
+<div class="w-8 h-8 rounded-full border-2 border-pure-white bg-surface-container flex items-center justify-center text-[10px] font-bold text-on-surface-variant">+3</div>
+</div>
+<button class="bg-velocity-pink text-pure-white px-6 py-2 rounded-xl font-label-caps hover:opacity-90 active:scale-95 transition-all text-xs">JOIN RUN</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Alex Message -->
+<div class="flex flex-col items-start space-y-2 max-w-[85%]">
+<div class="bg-surface-container text-on-surface p-4 rounded-3xl rounded-tl-sm message-shadow">
+<p class="font-body-md">I was thinking about this one. It's about 12km with some decent elevation. Perfect for momentum training!</p>
+</div>
+<span class="text-[10px] font-label-caps text-on-surface-variant ml-2">09:45 AM</span>
+</div>
+</main>
+<!-- Message Input Dock -->
+<div class="fixed bottom-[72px] left-0 w-full px-margin-mobile py-4 bg-background/80 backdrop-blur-md z-30">
+<div class="flex items-center gap-3 bg-pure-white border border-outline-variant rounded-3xl px-4 py-2 shadow-sm focus-within:border-deep-track transition-colors">
+<button class="flex items-center justify-center w-10 h-10 rounded-full hover:bg-surface-container transition-colors active:scale-90">
+<span class="material-symbols-outlined text-on-surface-variant">add</span>
+</button>
+<input class="flex-1 bg-transparent border-none focus:ring-0 text-on-surface font-body-md placeholder:text-on-surface-variant/50" placeholder="Type a message..." type="text">
+<button class="flex items-center justify-center w-10 h-10 bg-velocity-pink rounded-full text-pure-white hover:opacity-90 active:scale-90 transition-all shadow-md">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">send</span>
+</button>
+</div>
+</div>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 py-3 pb-safe bg-deep-track dark:bg-black shadow-lg shrink-0 h-[72px]">
+<a class="flex items-center justify-center text-on-secondary-fixed-variant p-3 hover:text-velocity-pink transition-colors" href="#">
+<span class="material-symbols-outlined">directions_run</span>
+</a>
+<a class="flex items-center justify-center bg-velocity-pink text-pure-white rounded-xl p-3 scale-90 duration-200" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">bolt</span>
+</a>
+<a class="flex items-center justify-center text-on-secondary-fixed-variant p-3 hover:text-velocity-pink transition-colors" href="#">
+<span class="material-symbols-outlined">map</span>
+</a>
+<a class="flex items-center justify-center text-on-secondary-fixed-variant p-3 hover:text-velocity-pink transition-colors" href="#">
+<span class="material-symbols-outlined">person</span>
+</a>
+</nav>
+<script>
+        // Micro-interactions for message sending
+        const input = document.querySelector('input');
+        const sendBtn = document.querySelector('button .material-symbols-outlined[style*="FILL"]');
+
+        input.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter' && input.value.trim() !== '') {
+                sendMessage();
+            }
+        });
+
+        function sendMessage() {
+            // Logically would append to DOM in a real app
+            input.value = '';
+            // Visual feedback
+            sendBtn.parentElement.classList.add('scale-110');
+            setTimeout(() => sendBtn.parentElement.classList.remove('scale-110'), 150);
+        }
+
+        // Handle focus states for the navigation bar avoidance
+        input.addEventListener('focus', () => {
+            // Some mobile browsers might need help with viewport height logic here
+        });
+    </script>
+</body></html>

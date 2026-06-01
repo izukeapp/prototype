@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Izuke – It's a Match!</title>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@600;700;800;900&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; background: #d9dadc; font-family: 'Inter', sans-serif; }
+
+  .phone {
+    width: 390px;
+    height: 844px;
+    background: #F5F5F7;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: 0 32px 80px rgba(0,0,0,0.18);
+    border-radius: 48px;
+  }
+
+  /* Soft glow blobs */
+  .blob {
+    position: absolute; width: 320px; height: 320px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255,59,92,0.18), transparent 70%);
+    filter: blur(40px);
+    pointer-events: none; z-index: 0;
+  }
+  .blob.tl { top: -120px; left: -120px; }
+  .blob.br { bottom: -120px; right: -120px; }
+
+  /* Confetti */
+  #confetti { position: absolute; inset: 0; z-index: 1; pointer-events: none; overflow: hidden; }
+  .confetti-particle { position: absolute; width: 8px; height: 8px; opacity: 0.7; }
+
+  /* Content */
+  .content {
+    position: relative; z-index: 5;
+    flex: 1; width: 100%;
+    display: flex; flex-direction: column; align-items: center;
+    padding: 24px 28px 36px;
+    overflow-y: auto;
+  }
+  .content::-webkit-scrollbar { display: none; }
+
+  .wordmark {
+    font-family: 'Hanken Grotesk', sans-serif;
+    font-weight: 900; font-size: 22px; letter-spacing: -0.02em;
+    color: #FF3B5C;
+    margin-top: 12px; margin-bottom: 40px;
+  }
+
+  /* Avatars */
+  .avatars {
+    position: relative;
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 36px;
+  }
+  .avatars .glow {
+    position: absolute; inset: -30px;
+    background: rgba(255,59,92,0.20);
+    filter: blur(40px); border-radius: 50%;
+    z-index: -1;
+  }
+  .av {
+    width: 128px; height: 128px; border-radius: 50%;
+    border: 4px solid #fff;
+    box-shadow: 0 12px 30px rgba(15,27,53,0.18);
+    overflow: hidden; background: #e8e8ea;
+  }
+  .av img { width: 100%; height: 100%; object-fit: cover; }
+  .av.left { margin-right: -24px; animation: float 4s ease-in-out infinite; }
+  .av.right { animation: float 4s ease-in-out infinite; animation-delay: 0.5s; z-index: 2; }
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-14px); }
+  }
+  /* bolt badge between avatars */
+  .bolt-badge {
+    position: absolute; left: 50%; top: 50%;
+    transform: translate(-50%, -50%);
+    width: 44px; height: 44px; border-radius: 50%;
+    background: linear-gradient(135deg, #FF3B5C, #BA0035);
+    display: flex; align-items: center; justify-content: center;
+    border: 3px solid #F5F5F7;
+    box-shadow: 0 6px 16px rgba(255,59,92,0.4);
+    z-index: 3;
+  }
+  .bolt-badge .material-symbols-outlined { font-size: 24px !important; color: #fff; }
+
+  /* Headline */
+  .headline {
+    font-family: 'Hanken Grotesk', sans-serif;
+    font-weight: 900; font-size: 38px; letter-spacing: -0.02em;
+    color: #0F1B35; line-height: 1; text-align: center;
+    margin-bottom: 12px;
+  }
+  .subhead {
+    font-size: 16px; color: #535e7b; text-align: center;
+    line-height: 1.5; max-width: 260px;
+    margin-bottom: 32px;
+  }
+  .subhead b { color: #0F1B35; font-weight: 700; }
+
+  /* Pace match card */
+  .pace-card {
+    display: flex; align-items: center; gap: 14px;
+    background: #fff;
+    border: 1px solid #e8e8ea;
+    border-radius: 18px;
+    padding: 14px 18px;
+    box-shadow: 0 1px 6px rgba(0,0,0,0.05);
+    margin-bottom: auto;
+  }
+  .pace-ring { position: relative; width: 48px; height: 48px; flex-shrink: 0; }
+  .pace-ring svg { transform: rotate(-90deg); }
+  .pace-ring .pct {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; font-weight: 700; color: #0F1B35;
+  }
+  .pace-info .lbl {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; font-weight: 700; letter-spacing: 0.08em;
+    text-transform: uppercase; color: #FF3B5C;
+    display: block; margin-bottom: 2px;
+  }
+  .pace-info .val { font-size: 15px; color: #0F1B35; font-weight: 600; }
+
+  /* Buttons */
+  .actions { width: 100%; display: flex; flex-direction: column; gap: 12px; margin-top: 32px; }
+  .btn {
+    width: 100%; height: 56px; border-radius: 9999px; cursor: pointer;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500; font-size: 16px;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    transition: transform 0.15s;
+  }
+  .btn:active { transform: scale(0.97); }
+  .btn-message {
+    border: none; color: rgba(255,255,255,0.92);
+    background: linear-gradient(135deg, #FF3B5C, #BA0035);
+    box-shadow: 0 8px 24px rgba(255,59,92,0.30);
+  }
+  .btn-message .material-symbols-outlined { font-size: 20px !important; }
+  .btn-keep {
+    background: transparent; color: #535e7b;
+    border: 1.5px solid #6b7280;
+  }
+
+  .material-symbols-outlined {
+    font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    vertical-align: middle;
+  }
+  .filled { font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+</style>
+</head>
+
+<body style="display:flex; align-items:center; justify-content:center; min-height:100vh;">
+<div class="phone">
+
+  <div class="blob tl"></div>
+  <div class="blob br"></div>
+  <div id="confetti"></div>
+
+  <!-- Status bar -->
+  <div style="height:48px; display:flex; align-items:center; padding:0 24px; width:100%; flex-shrink:0; position:relative; z-index:5;">
+    <span style="font-family:'Hanken Grotesk',sans-serif; font-weight:700; font-size:15px; color:#0F1B35;">9:41</span>
+  </div>
+
+  <div class="content">
+
+    <div class="wordmark">IZUKE</div>
+
+    <!-- Avatars -->
+    <div class="avatars">
+      <div class="glow"></div>
+      <div class="av left">
+        <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuBMulCzMzQa3vQmlqP_T2gK6Pu4ZfcI4OGq5FVYZnHb55fxdLVHsseg5XDTy353fVYrnDY-gueCO0BSKafyUGaPNJoD36BdQ6TG1mjJBw_n5ZFLqckj_bEzPGfnmmUSNMhL1HDcsFR6xoBQXtZaFxt_Ugf2nFz0RRC3xdoBx1ibFvXWN0jvG7mLCHJ7HYAX6kWgDVwanpxU1xo_rnuQlazbkj5BuvIk9UryAZaPk3YydV3Qjr1c4LiqcqF0GoceIxpAuqXBV2HfPtoi" alt="You">
+      </div>
+      <div class="av right">
+        <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuCCviv5V5eQ7OGQvlxC088PJjdqnPqgKybiZ3m4WTTHOe8hdmk01jT-PCUHkI3yZScTd93XJwemEhgZZs6POB3DeqBzstxgHnrKas6G__7kSXa1J2qsYOzupRYMc4_OVrG3eK6XjmldlLsuwd5ezX40-gLrti-o1EabsaglKYmoGCY-p15pOy40hPZRyZcYfdZVlREI-NyFvzSQI-EzBAULtIkZD0lxuWl3bcn9KPUX-8HqHaBcks7YZTUxGp_crOSYtpwYnnBaUD-q" alt="Alex">
+      </div>
+      <div class="bolt-badge">
+        <span class="material-symbols-outlined filled">bolt</span>
+      </div>
+    </div>
+
+    <!-- Headline -->
+    <h1 class="headline">Ready to Run?</h1>
+    <p class="subhead">You and <b>Alex</b> both want to hit the pavement.</p>
+
+    <!-- Pace match card -->
+    <div class="pace-card">
+      <div class="pace-ring">
+        <svg width="48" height="48">
+          <circle cx="24" cy="24" r="20" fill="transparent" stroke="#e2e2e4" stroke-width="4"/>
+          <circle cx="24" cy="24" r="20" fill="transparent" stroke="#FF3B5C" stroke-width="4"
+                  stroke-linecap="round" stroke-dasharray="125.6" stroke-dashoffset="25.1"/>
+        </svg>
+        <span class="pct">80%</span>
+      </div>
+      <div class="pace-info">
+        <span class="lbl">Pace Match</span>
+        <span class="val">5'20"/km average</span>
+      </div>
+    </div>
+
+    <!-- Actions -->
+    <div class="actions">
+      <button class="btn btn-message" onclick="window.location.href='chat.html'">
+        <span class="material-symbols-outlined filled">send</span>
+        Send a Message
+      </button>
+      <button class="btn btn-keep" onclick="window.location.href='discover.html'">
+        Keep Discovering
+      </button>
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+  /* Confetti burst */
+  const container = document.getElementById('confetti');
+  const colors = ['#FF3B5C', '#0F1B35', '#006a43', '#FFDADA'];
+
+  function burst() {
+    for (let i = 0; i < 36; i++) {
+      const p = document.createElement('div');
+      p.className = 'confetti-particle';
+      p.style.left = Math.random() * 100 + '%';
+      p.style.top = (Math.random() * 30) + '%';
+      p.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+      p.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+      container.appendChild(p);
+      const dur = 2600 + Math.random() * 2400;
+      p.animate([
+        { transform: 'translate(0,0) rotate(0deg)', opacity: 0.8 },
+        { transform: `translate(${Math.random()*160-80}px, ${Math.random()*420+260}px) rotate(${Math.random()*720}deg)`, opacity: 0 }
+      ], { duration: dur, easing: 'cubic-bezier(0,0,0.2,1)', fill: 'forwards' });
+      setTimeout(() => p.remove(), dur);
+    }
+  }
+  window.addEventListener('load', () => { burst(); setInterval(burst, 3500); });
+</script>
+</body>
+</html>

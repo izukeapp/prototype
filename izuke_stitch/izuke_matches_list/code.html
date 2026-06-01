@@ -1,0 +1,350 @@
+<!DOCTYPE html><html class="light" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>IZUKE - Matches</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@700&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@100..900&amp;family=Inter:wght@100..900&amp;family=JetBrains+Mono:wght@100..900&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "primary-fixed-dim": "#ffb3b6",
+                    "deep-track": "#0F1B35",
+                    "tertiary-fixed": "#7ffaba",
+                    "on-tertiary-fixed-variant": "#005233",
+                    "secondary-fixed-dim": "#bbc6e8",
+                    "on-secondary": "#ffffff",
+                    "surface-mist": "#F5F5F7",
+                    "on-tertiary-container": "#f6fff6",
+                    "tertiary-container": "#008656",
+                    "inverse-primary": "#ffb3b6",
+                    "surface-container-low": "#f3f3f5",
+                    "surface-dim": "#d9dadc",
+                    "surface-container-high": "#e8e8ea",
+                    "tertiary-fixed-dim": "#62dda0",
+                    "error-container": "#ffdad6",
+                    "surface-container": "#eeeef0",
+                    "inverse-surface": "#2f3132",
+                    "on-tertiary-fixed": "#002112",
+                    "surface-container-highest": "#e2e2e4",
+                    "on-background": "#1a1c1d",
+                    "outline": "#906f70",
+                    "on-secondary-fixed-variant": "#3b4663",
+                    "on-primary-fixed-variant": "#920028",
+                    "on-primary-fixed": "#40000c",
+                    "surface-variant": "#e2e2e4",
+                    "on-surface-variant": "#5c3f41",
+                    "secondary": "#535e7b",
+                    "surface": "#f9f9fb",
+                    "outline-variant": "#e5bdbe",
+                    "error": "#ba1a1a",
+                    "on-error-container": "#93000a",
+                    "secondary-container": "#d1dcff",
+                    "on-error": "#ffffff",
+                    "pure-white": "#FFFFFF",
+                    "inverse-on-surface": "#f0f0f2",
+                    "primary-fixed": "#ffdada",
+                    "tertiary": "#006a43",
+                    "surface-tint": "#be0037",
+                    "on-secondary-fixed": "#0f1b35",
+                    "surface-container-lowest": "#ffffff",
+                    "background": "#f9f9fb",
+                    "on-secondary-container": "#55607e",
+                    "on-primary-container": "#fffbff",
+                    "on-primary": "#ffffff",
+                    "primary": "#ba0035",
+                    "surface-bright": "#f9f9fb",
+                    "velocity-pink": "#FF3B5C",
+                    "secondary-fixed": "#d9e2ff",
+                    "on-surface": "#1a1c1d",
+                    "primary-container": "#e12149",
+                    "on-tertiary": "#ffffff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "2xl": "1rem",
+                    "3xl": "1.5rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "base": "8px",
+                    "stack-sm": "4px",
+                    "gutter": "16px",
+                    "stack-md": "12px",
+                    "margin-desktop": "40px",
+                    "stack-lg": "24px",
+                    "margin-mobile": "20px"
+            },
+            "fontFamily": {
+                    "headline-md": ["Hanken Grotesk"],
+                    "display-lg": ["Hanken Grotesk"],
+                    "body-md": ["Inter"],
+                    "body-lg": ["Inter"],
+                    "headline-lg-mobile": ["Hanken Grotesk"],
+                    "label-caps": ["JetBrains Mono"],
+                    "headline-lg": ["Hanken Grotesk"],
+                    "stats-number": ["Hanken Grotesk"]
+            },
+            "fontSize": {
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "headline-lg-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "700"}],
+                    "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.1em", "fontWeight": "700"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "700"}],
+                    "stats-number": ["20px", {"lineHeight": "24px", "fontWeight": "700"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body { -webkit-tap-highlight-color: transparent; }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        .glass-effect { backdrop-filter: blur(12px); background: rgba(255, 255, 255, 0.8); }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+    </style>
+</head>
+<body class="bg-surface-mist text-on-surface font-body-md min-h-screen pb-32">
+<!-- TopAppBar -->
+<header class="bg-surface-mist dark:bg-deep-track w-full top-0 sticky z-50 flex items-center justify-between px-margin-mobile h-16 w-full">
+<div class="flex items-center gap-4">
+<button class="transition-transform duration-200 active:scale-95 text-on-surface-variant hover:opacity-80">
+<span class="material-symbols-outlined">arrow_back</span>
+</button>
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile font-bold tracking-tighter text-velocity-pink">Matches</h1>
+</div>
+<button class="transition-transform duration-200 active:scale-95 text-on-surface-variant hover:opacity-80">
+<span class="material-symbols-outlined">search</span>
+</button>
+</header>
+<main class="max-w-md mx-auto px-margin-mobile pt-stack-lg space-y-stack-lg">
+<!-- Search & Filter -->
+<div class="flex gap-stack-md items-center">
+<div class="relative flex-1 group">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline">search</span>
+<input class="w-full h-12 pl-12 pr-4 bg-pure-white border-2 border-transparent focus:border-deep-track rounded-3xl font-body-md text-on-surface placeholder:text-outline transition-all duration-300 outline-none shadow-sm" placeholder="Search runners..." type="text">
+</div>
+<button class="w-12 h-12 flex items-center justify-center bg-deep-track text-pure-white rounded-3xl active:scale-95 transition-transform shadow-md">
+<span class="material-symbols-outlined">tune</span>
+</button>
+</div>
+<!-- Pending Matches Section -->
+<section class="space-y-stack-md">
+<div class="flex items-center justify-between">
+<h2 class="font-label-caps text-label-caps text-on-surface-variant">PENDING REQUESTS (3)</h2>
+<button class="text-velocity-pink font-label-caps text-xs">VIEW ALL</button>
+</div>
+<div class="flex gap-4 overflow-x-auto no-scrollbar pb-2 snap-x">
+<!-- Request Card 1 -->
+<div class="snap-start flex-shrink-0 w-44 bg-pure-white rounded-3xl p-3 border border-surface-container-high shadow-sm hover:shadow-md transition-shadow">
+<div class="relative w-full aspect-square rounded-2xl overflow-hidden mb-3">
+<img class="w-full h-full object-cover" data-alt="A portrait of an athletic runner with sweat on her face, wearing a sleek pink headband and high-performance running gear. The scene is shot in high-key daylight with a clean, white modern studio background, emphasizing a high-contrast athletic vibe. The lighting is crisp and professional, reflecting the energetic and disciplined brand personality of a fitness app." src="https://lh3.googleusercontent.com/aida-public/AB6AXuApP1VUA0H1X0FZETGl3SSgNozmWlsli7D534yLg6gLd_MV1uxmf9sQlfM_7uUV1D0hhHY-WtjjIkLGW6uQZu8y9VLVlC9wL_Vc3VVJGgMJ6-Znd0o-bRgs_hierchP7cuCdVG5O8PemLL9MuSajmrpePjfr_gIv4o0mvtaPFR70DKSg-FNkBCLLpjtzY5eQ6r0X8_-gFlzbqi5rC3z25LqEG0v9TjXfZkUix8-ukjCtQUOdXtS-qyxLvszZCAGS4W48hwn96OFZrBC">
+</div>
+<p class="font-headline-md text-base text-center truncate mb-3">Elena Vance</p>
+<div class="flex gap-2">
+<button class="flex-1 bg-velocity-pink text-pure-white p-2 rounded-xl transition-transform active:scale-90 flex items-center justify-center">
+<span class="material-symbols-outlined text-sm">check</span>
+</button>
+<button class="flex-1 border border-outline text-on-surface-variant p-2 rounded-xl transition-transform active:scale-90 flex items-center justify-center">
+<span class="material-symbols-outlined text-sm">close</span>
+</button>
+</div>
+</div>
+<!-- Request Card 2 -->
+<div class="snap-start flex-shrink-0 w-44 bg-pure-white rounded-3xl p-3 border border-surface-container-high shadow-sm">
+<div class="relative w-full aspect-square rounded-2xl overflow-hidden mb-3">
+<img class="w-full h-full object-cover" data-alt="A fit male runner in mid-stride, captured against a minimalist gray architectural background. He is wearing high-end charcoal gray sportswear with a subtle pop of vibrant pink on his sneakers. The lighting is dramatic and directional, highlighting muscle definition and reflecting an energetic, forward-moving corporate modern aesthetic with clean lines and high contrast." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAGwX3W0l3MvvPl9_fK02RhT9ic4j2gu1aWPG-KPfQAT0MP91dcCitljJDFIwCCKVWOHpLqHmb7hs83YlYbIb6ZOXzhD3XgsENTJnq-kEQmCVnrXbXf-atTlzoiQEnQRShNFlrYSMfioSPJnQ71qoN38SD3k5qO6Eo40lowIGScQqWGYtEmjExMkXmj4jkCVkX2m1w295L9DWQ1LB9GDb4XLCzv24q6AbBGnNCUCd4J3WZX0oRLwyEe-e0m5gasEyzJQW3166ZirVsL">
+</div>
+<p class="font-headline-md text-base text-center truncate mb-3">Marcus Thorne</p>
+<div class="flex gap-2">
+<button class="flex-1 bg-velocity-pink text-pure-white p-2 rounded-xl transition-transform active:scale-90 flex items-center justify-center">
+<span class="material-symbols-outlined text-sm">check</span>
+</button>
+<button class="flex-1 border border-outline text-on-surface-variant p-2 rounded-xl transition-transform active:scale-90 flex items-center justify-center">
+<span class="material-symbols-outlined text-sm">close</span>
+</button>
+</div>
+</div>
+<!-- Request Card 3 -->
+<div class="snap-start flex-shrink-0 w-44 bg-pure-white rounded-3xl p-3 border border-surface-container-high shadow-sm">
+<div class="relative w-full aspect-square rounded-2xl overflow-hidden mb-3">
+<img class="w-full h-full object-cover" data-alt="A close-up portrait of a female trail runner with a focused expression, set against a blurred morning mist environment. She wears a technical running jacket in deep navy with bright pink accents. The high-contrast, professional design features a bright, modern palette and energetic vibe, emphasizing momentum and reliability in a high-end sports interface." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAVJrSSVoXKa0MayDrWAg2kx0gRjUmSmAeOQKa2__WgMuoxtQIKwyzfkjsBljfibv7-Tq4JKd3L_vmJ4HBMzGwoKDyzJcRSNfb3hqpUhNIlXr5ir_4T0bz2VXHAPu0I_P172KFTQpgYyN5kx99Bhk7EK-6oe4wXL8Q_Vj9siC2tvKuAHFIODFIOtqQlxsuN2U-E-vdRmFWY9mY1ZY5W6yBr5dwwzRY-AeQ5uWFm-M3YfQB3k29nuspLxGQY_YUfW2RGunAHYF-6wxgt">
+</div>
+<p class="font-headline-md text-base text-center truncate mb-3">Sonia Kim</p>
+<div class="flex gap-2">
+<button class="flex-1 bg-velocity-pink text-pure-white p-2 rounded-xl transition-transform active:scale-90 flex items-center justify-center">
+<span class="material-symbols-outlined text-sm">check</span>
+</button>
+<button class="flex-1 border border-outline text-on-surface-variant p-2 rounded-xl transition-transform active:scale-90 flex items-center justify-center">
+<span class="material-symbols-outlined text-sm">close</span>
+</button>
+</div>
+</div>
+</div>
+</section>
+<!-- Active Matches List -->
+<section class="space-y-stack-md">
+<h2 class="font-label-caps text-label-caps text-on-surface-variant">ACTIVE RUNNERS (12)</h2>
+<div class="space-y-3">
+<!-- Match Row 1 -->
+<div class="bg-pure-white p-4 rounded-3xl border border-surface-container-high flex items-center gap-4 transition-transform active:scale-[0.98] hover:shadow-sm">
+<div class="relative w-14 h-14 rounded-full overflow-hidden border-2 border-velocity-pink flex-shrink-0">
+<img class="w-full h-full object-cover" data-alt="A premium headshot of a female athlete in a sleek, modern gym environment with cool-toned lighting. She is wearing high-end sports apparel in a sophisticated palette of deep navy and vibrant pink accents. The lighting is crisp and highlights a healthy, energetic glow, aligning with the high-performance social connection brand of the app." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCIdau1X4chzxqREB26xkRy9cuWnaabXSMEnBDtDlPztTeia6MUsNA5pzSz-TwHKsjJlFNlfiyBP_xYTLhjXCyfi2tHgbRi6EhaxQNZafrtEsRcKNrtO_WLn8YnZyZNlrpD6AX3VNaN6mKk9eTGEX9Dm2KKMWTKjnPejCaIPLZQ0zHO25Y7cyqK3yd9h7waeCD8p24PI7Pz-hFwMtOcnp-xZFavogEshTD9d-SepeH_ZyDrPqkDeu2mULESQyCyXvKhGMMr14s7O4T6">
+<div class="absolute bottom-0 right-0 w-3.5 h-3.5 bg-green-500 border-2 border-pure-white rounded-full"></div>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-start">
+<h3 class="font-headline-md text-lg truncate">Jasmine Hart</h3>
+<span class="font-label-caps text-[10px] text-green-500 bg-green-50 px-2 py-0.5 rounded-full">ONLINE</span>
+</div>
+<div class="flex items-center gap-4 mt-1">
+<div class="flex items-center gap-1 text-on-surface-variant">
+<span class="material-symbols-outlined text-sm">speed</span>
+<span class="font-label-caps text-xs">5:20/KM</span>
+</div>
+<div class="flex items-center gap-1 text-on-surface-variant">
+<span class="material-symbols-outlined text-sm">route</span>
+<span class="font-label-caps text-xs">8.2KM</span>
+</div>
+</div>
+</div>
+<button class="text-velocity-pink p-2">
+<span class="material-symbols-outlined">chat_bubble</span>
+</button>
+</div>
+<!-- Match Row 2 -->
+<div class="bg-pure-white p-4 rounded-3xl border border-surface-container-high flex items-center gap-4 transition-transform active:scale-[0.98]">
+<div class="relative w-14 h-14 rounded-full overflow-hidden border-2 border-surface-container-high flex-shrink-0">
+<img class="w-full h-full object-cover" data-alt="A clean, minimalist portrait of a male runner wearing technical athletic gear in a high-contrast white and dark navy palette. The lighting is soft yet bright, emphasizing a professional and disciplined aesthetic. The overall mood is high-performance and modern, consistent with a premium SaaS interface for social fitness connection." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAMrFiicIlORWvP2VU1nSQGc1K6hgX3_qh3pcovYMsV3LfAqZ00EJoP3BWZhzmaWMT_sI_9wUJ6GmeyTAKXoJ_LGEllO-Hf1c2_qrJCYpA49D0Bd3d4KHo3l9ALMfazm7ctIyTHOz2M4EfLJLO_a630ZAajArcTJblj5DBLwdfJw6RtctQJC9__5URjAnQ_Cz6fMzpAT_8Gya1qonwArq5CCG9AnWVAlQ4BIeY6DsiDZ5hlLUQplP7L7rA0J0ah0D1FybXZ0VCAX14t">
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-start">
+<h3 class="font-headline-md text-lg truncate">David Chen</h3>
+<span class="font-label-caps text-[10px] text-outline">2h AGO</span>
+</div>
+<div class="flex items-center gap-4 mt-1">
+<div class="flex items-center gap-1 text-on-surface-variant">
+<span class="material-symbols-outlined text-sm">speed</span>
+<span class="font-label-caps text-xs">4:45/KM</span>
+</div>
+<div class="flex items-center gap-1 text-on-surface-variant text-velocity-pink">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">stars</span>
+<span class="font-label-caps text-xs">98% MATCH</span>
+</div>
+</div>
+</div>
+<button class="text-velocity-pink p-2">
+<span class="material-symbols-outlined">chat_bubble</span>
+</button>
+</div>
+<!-- Match Row 3 -->
+<div class="bg-pure-white p-4 rounded-3xl border border-surface-container-high flex items-center gap-4 transition-transform active:scale-[0.98]">
+<div class="relative w-14 h-14 rounded-full overflow-hidden border-2 border-surface-container-high flex-shrink-0">
+<img class="w-full h-full object-cover" data-alt="A vibrant and energetic portrait of a female marathon runner, featuring high-contrast lighting that emphasizes momentum and strength. She is set against a brightly lit, modern architectural background with clean lines. Her sportswear is a mix of high-performance black fabrics and bold velocity pink accents, reflecting the athletic and technologically advanced brand personality." src="https://lh3.googleusercontent.com/aida-public/AB6AXuApbnLJDVzKiKJvm31JvNVUerFDFaawITa1d9aaMi4bm71LM_UbTi-Pu0Wzl1abKCXsROjOGftJQje_toCLZiDCRnDS1tOInXm2QbJrtVatj7xXVPq5h5sHRRO6e9fZhiWC62QKF5AjKsfFTMX0MBEp48oSkn8T18f-nyttlvNYj01SrKw2V7yNibvpHU9v0vr_GOrcVa2ZEsUvNgzFxs1wK9QFbRbt-xnAU-gxekXEBgN04u8HsD1gKo6DLPtjlG4vT53wP8knZOur">
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-start">
+<h3 class="font-headline-md text-lg truncate">Aria Brooks</h3>
+<span class="font-label-caps text-[10px] text-outline">YESTERDAY</span>
+</div>
+<div class="flex items-center gap-4 mt-1">
+<div class="flex items-center gap-1 text-on-surface-variant">
+<span class="material-symbols-outlined text-sm">speed</span>
+<span class="font-label-caps text-xs">5:10/KM</span>
+</div>
+<div class="flex items-center gap-1 text-on-surface-variant">
+<span class="material-symbols-outlined text-sm">history</span>
+<span class="font-label-caps text-xs">12 RUNS</span>
+</div>
+</div>
+</div>
+<button class="text-velocity-pink p-2">
+<span class="material-symbols-outlined">chat_bubble</span>
+</button>
+</div>
+<!-- Match Row 4 -->
+<div class="bg-pure-white p-4 rounded-3xl border border-surface-container-high flex items-center gap-4 transition-transform active:scale-[0.98]">
+<div class="relative w-14 h-14 rounded-full overflow-hidden border-2 border-surface-container-high flex-shrink-0">
+<img class="w-full h-full object-cover" data-alt="A portrait of a male urban runner at dusk, illuminated by glowing streetlights that create a high-contrast athletic edge. He is wearing high-visibility black and velocity pink apparel. The image captures the 'runner's high' with a focused, forward-moving expression, set against a sleek, modern city street with clean architectural lines." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBWXncEGIkBnS34PoYZR3g3oTXmcoT84PK8d0Pb0AIQFTaVejYbXHOsLpFEEPmkir3GudcGs8hFEyWLIxGMiwIsLDJl6AHdIZTSS75dqcuMubWc0Uf2aZDIGqgascbLMgMfZ3fMuWk_JDQmUY1WI9I-bcxpAPlk9orKIrPYqJnl2ARnPLNbX8tiNl8yPtTwlARVRP14wwnyUHv-7r4SnH2WaAS_8FVYiK8kv6FGtJsHTrNDvYDF5JbGRMvGfweAOgyhf-KYB_-Jw51T">
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-start">
+<h3 class="font-headline-md text-lg truncate">Liam Foster</h3>
+<span class="font-label-caps text-[10px] text-outline">3d AGO</span>
+</div>
+<div class="flex items-center gap-4 mt-1">
+<div class="flex items-center gap-1 text-on-surface-variant">
+<span class="material-symbols-outlined text-sm">speed</span>
+<span class="font-label-caps text-xs">5:45/KM</span>
+</div>
+<div class="flex items-center gap-1 text-on-surface-variant">
+<span class="material-symbols-outlined text-sm">place</span>
+<span class="font-label-caps text-xs">2.4KM AWAY</span>
+</div>
+</div>
+</div>
+<button class="text-velocity-pink p-2">
+<span class="material-symbols-outlined">chat_bubble</span>
+</button>
+</div>
+</div>
+</section>
+<!-- Bento Highlight (CTA) -->
+<section class="bg-deep-track rounded-3xl p-6 text-pure-white relative overflow-hidden group">
+<div class="relative z-10 flex flex-col items-start gap-4">
+<div class="bg-velocity-pink/20 px-3 py-1 rounded-full border border-velocity-pink/30">
+<span class="font-label-caps text-[10px] text-velocity-pink">AI SMART MATCH</span>
+</div>
+<h3 class="font-headline-lg-mobile text-2xl leading-tight">Find more runners at your pace.</h3>
+<p class="text-pure-white/70 font-body-md text-sm">Our algorithm analyzes your last 10 runs to find the perfect momentum partners.</p>
+<button class="bg-velocity-pink text-pure-white font-label-caps text-xs px-6 py-3 rounded-xl transition-all duration-300 hover:scale-105 active:scale-95 shadow-lg shadow-velocity-pink/20">
+                    BOOST DISCOVERY
+                </button>
+</div>
+<!-- Decorative Element -->
+<div class="absolute -right-12 -bottom-12 w-48 h-48 bg-velocity-pink opacity-10 rounded-full blur-3xl group-hover:scale-125 transition-transform duration-700"></div>
+<div class="absolute -left-12 -top-12 w-48 h-48 bg-primary-fixed-dim opacity-5 rounded-full blur-3xl group-hover:scale-125 transition-transform duration-700"></div>
+</section>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full flex justify-around items-center px-4 py-3 bg-deep-track z-50">
+<button class="flex flex-col items-center justify-center text-pure-white p-2 opacity-60 transition-all duration-300 active:scale-90 hover:bg-on-secondary-fixed-variant rounded-xl">
+<span class="material-symbols-outlined">downhill_skiing</span>
+</button>
+<button class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-xl p-2 transition-all duration-300 active:scale-90 shadow-lg shadow-primary-container/20">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">military_tech</span>
+</button>
+<button class="flex flex-col items-center justify-center text-pure-white p-2 opacity-60 transition-all duration-300 active:scale-90 hover:bg-on-secondary-fixed-variant rounded-xl">
+<span class="material-symbols-outlined">directions_run</span>
+</button>
+<button class="flex flex-col items-center justify-center text-pure-white p-2 opacity-60 transition-all duration-300 active:scale-90 hover:bg-on-secondary-fixed-variant rounded-xl">
+<span class="material-symbols-outlined">person</span>
+</button>
+</nav>
+<script>
+        // Micro-interactions and simple state handling
+        document.querySelectorAll('button').forEach(btn => {
+            btn.addEventListener('click', function() {
+                // Subtle feedback if needed
+            });
+        });
+
+        // Search highlight effect
+        const searchInput = document.querySelector('input[type="text"]');
+        searchInput.addEventListener('focus', () => {
+            searchInput.parentElement.classList.add('scale-[1.02]');
+        });
+        searchInput.addEventListener('blur', () => {
+            searchInput.parentElement.classList.remove('scale-[1.02]');
+        });
+    </script>
+</body></html>

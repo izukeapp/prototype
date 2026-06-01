@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GoWith — Run Clubs</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary: #FF3B5C;
+  --secondary: #0F1B35;
+  --surface: #F5F5F5;
+  --surface-2: #E8E8E8;
+  --white: #FFFFFF;
+  --text: #1A1A1A;
+  --text-2: #555555;
+  --text-3: #999999;
+  --success: #22C55E;
+  --danger: #EF4444;
+  --radius-card: 20px;
+  --radius-sheet: 24px;
+  --radius-btn: 12px;
+  --tab-height: 83px;
+  --nav-height: 56px;
+  --status-height: 44px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: #0d0d1a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+.phone {
+  width: 390px;
+  height: 844px;
+  background: var(--surface);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 32px 80px rgba(0,0,0,0.4);
+  border-radius: 48px;
+}
+
+.screen-content {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+}
+.screen-content::-webkit-scrollbar { display: none; }
+
+/* Status Bar */
+.status-bar {
+  height: var(--status-height);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 28px;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 10;
+}
+.status-bar .time { font-weight: 700; font-size: 15px; }
+.status-bar .icons { display: flex; align-items: center; gap: 5px; font-size: 12px; }
+
+/* Nav Bar */
+.nav-bar {
+  height: var(--nav-height);
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  background: white;
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+  flex-shrink: 0;
+  z-index: 10;
+  position: relative;
+  gap: 8px;
+}
+.nav-title {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  font-weight: 700;
+  font-size: 17px;
+  white-space: nowrap;
+}
+.nav-back {
+  width: 34px; height: 34px;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 50%;
+  background: var(--surface);
+  cursor: pointer;
+  color: var(--text);
+  font-size: 14px;
+  flex-shrink: 0;
+}
+
+/* Buttons */
+.btn {
+  padding: 15px 24px;
+  border-radius: var(--radius-btn);
+  font-family: 'Inter', sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+  text-align: center;
+  width: 100%;
+  transition: opacity 0.15s, transform 0.1s;
+}
+.btn:active { transform: scale(0.98); opacity: 0.9; }
+.btn-primary { background: linear-gradient(135deg, #FF3B5C, #BA0035); color: white; }
+
+/* Inputs */
+.input-field {
+  width: 100%; padding: 13px 16px;
+  border-radius: var(--radius-btn);
+  border: 1.5px solid rgba(0,0,0,0.1);
+  background: var(--surface);
+  font-family: 'Inter', sans-serif;
+  font-size: 15px; color: var(--text);
+  outline: none;
+  transition: border-color 0.15s, background 0.15s;
+}
+.input-field:focus { border-color: var(--primary); background: white; }
+
+/* RUN CLUBS */
+#run-clubs-discovery { background: var(--surface); }
+.clubs-card {
+  background: white; border-radius: 20px; overflow: hidden;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.07);
+  margin: 0 16px 14px; position: relative;
+}
+.clubs-locked {
+  position: absolute; inset: 0;
+  background: rgba(255,255,255,0.82); backdrop-filter: blur(5px);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 4px; border-radius: 20px;
+}
+</style>
+</head>
+<body>
+
+<div class="phone">
+  <div class="screen-content" id="run-clubs-discovery">
+    <div class="status-bar"><span class="time">9:41</span><div class="icons"><i class="fas fa-signal"></i><i class="fas fa-wifi"></i><i class="fas fa-battery-full"></i></div></div>
+    <div class="nav-bar"><div class="nav-back" onclick="window.location.href='profile.html'"><i class="fas fa-chevron-left"></i></div><span class="nav-title">Run Clubs</span></div>
+    <div class="screen-content">
+      <!-- Header banner -->
+      <div style="margin:16px;background:linear-gradient(135deg,var(--secondary),#1E3A6E);border-radius:20px;padding:24px 20px;text-align:center;position:relative;overflow:hidden;">
+        <div style="position:absolute;top:-20px;right:-20px;width:120px;height:120px;background:rgba(255,255,255,0.04);border-radius:50%;"></div>
+        <div style="position:absolute;bottom:-30px;left:-30px;width:140px;height:140px;background:rgba(255,59,92,0.08);border-radius:50%;"></div>
+        <div style="position:relative;z-index:1;">
+          <div style="width:56px;height:56px;background:rgba(255,59,92,0.2);border-radius:16px;display:flex;align-items:center;justify-content:center;margin:0 auto 14px;">
+            <i class="fas fa-people-group" style="font-size:26px;color:var(--primary);"></i>
+          </div>
+          <div style="display:inline-flex;align-items:center;gap:6px;background:rgba(255,59,92,0.2);border-radius:20px;padding:4px 12px;margin-bottom:10px;">
+            <div style="width:6px;height:6px;background:var(--primary);border-radius:50%;"></div>
+            <span style="font-size:12px;font-weight:700;color:var(--primary);">COMING SOON — PHASE 2</span>
+          </div>
+          <h2 style="font-size:22px;font-weight:900;color:white;margin-bottom:8px;">Run Clubs</h2>
+          <p style="color:rgba(255,255,255,0.6);font-size:14px;line-height:1.6;">Join local running clubs, find group runs, and train with your community.</p>
+        </div>
+      </div>
+      <!-- Locked club cards -->
+      <div style="padding:0 16px 8px;"><span style="font-size:12px;font-weight:700;color:var(--text-3);text-transform:uppercase;letter-spacing:0.6px;">Clubs Near You</span></div>
+      <div class="clubs-card">
+        <div style="height:110px;background:linear-gradient(135deg,#FF6B6B,#FF91A4);"></div>
+        <div style="padding:12px 14px 14px;"><div style="font-weight:800;font-size:14px;color:var(--text-3);">████ ██████ Runners</div><div style="font-size:12px;color:var(--text-3);margin-top:5px;"><i class="fas fa-users"></i> ████ members · <i class="fas fa-route"></i> ████</div></div>
+        <div class="clubs-locked"><i class="fas fa-lock" style="font-size:20px;color:var(--text-3);"></i><span style="font-size:13px;font-weight:700;color:var(--text-3);">Coming Soon</span></div>
+      </div>
+      <div class="clubs-card">
+        <div style="height:110px;background:linear-gradient(135deg,#4ECDC4,#44A08D);"></div>
+        <div style="padding:12px 14px 14px;"><div style="font-weight:800;font-size:14px;color:var(--text-3);">███████ Trail Club</div><div style="font-size:12px;color:var(--text-3);margin-top:5px;"><i class="fas fa-users"></i> ████ members · <i class="fas fa-route"></i> ████</div></div>
+        <div class="clubs-locked"><i class="fas fa-lock" style="font-size:20px;color:var(--text-3);"></i><span style="font-size:13px;font-weight:700;color:var(--text-3);">Coming Soon</span></div>
+      </div>
+      <div class="clubs-card">
+        <div style="height:110px;background:linear-gradient(135deg,#667eea,#764ba2);"></div>
+        <div style="padding:12px 14px 14px;"><div style="font-weight:800;font-size:14px;color:var(--text-3);">████ Marathon Crew</div><div style="font-size:12px;color:var(--text-3);margin-top:5px;"><i class="fas fa-users"></i> ████ members · <i class="fas fa-route"></i> ████</div></div>
+        <div class="clubs-locked"><i class="fas fa-lock" style="font-size:20px;color:var(--text-3);"></i><span style="font-size:13px;font-weight:700;color:var(--text-3);">Coming Soon</span></div>
+      </div>
+      <!-- Waitlist CTA -->
+      <div style="margin:8px 16px 32px;background:white;border-radius:20px;padding:20px;box-shadow:0 2px 16px rgba(0,0,0,0.07);">
+        <h3 style="font-size:16px;font-weight:900;margin-bottom:6px;">Get early access</h3>
+        <p style="font-size:13px;color:var(--text-2);line-height:1.6;margin-bottom:16px;">Join the waitlist and be the first to know when Run Clubs launches in your area.</p>
+        <div style="display:flex;gap:8px;">
+          <input class="input-field" type="email" placeholder="your@email.com" style="flex:1;padding:12px 14px;font-size:14px;">
+          <button class="btn btn-primary" style="width:auto;padding:12px 18px;white-space:nowrap;font-size:14px;">Notify Me</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

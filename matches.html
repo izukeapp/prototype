@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Izuke – Matches</title>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@600;700;800;900&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; background: #d9dadc; font-family: 'Inter', sans-serif; }
+
+  .phone {
+    width: 390px;
+    height: 844px;
+    background: #F5F5F7;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 32px 80px rgba(0,0,0,0.18);
+    border-radius: 48px;
+  }
+
+  /* Header */
+  .header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 4px 20px 12px;
+    background: #F5F5F7;
+    flex-shrink: 0;
+  }
+  .header-left { display: flex; align-items: center; gap: 14px; }
+  .icon-btn {
+    background: none; border: none; cursor: pointer;
+    color: #535e7b; display: flex; align-items: center;
+    transition: transform 0.1s;
+  }
+  .icon-btn:active { transform: scale(0.92); }
+  .header h1 {
+    font-family: 'Hanken Grotesk', sans-serif;
+    font-weight: 800; font-size: 28px; color: #FF3B5C;
+    letter-spacing: -0.03em;
+  }
+
+  /* Scroll body */
+  .scroll-body {
+    flex: 1; overflow-y: auto; overflow-x: hidden;
+    padding: 8px 20px 110px;
+    -webkit-overflow-scrolling: touch;
+  }
+  .scroll-body::-webkit-scrollbar { display: none; }
+
+  /* Search + filter */
+  .search-bar { display: flex; gap: 12px; align-items: center; margin-bottom: 24px; }
+  .search-wrap { position: relative; flex: 1; }
+  .search-wrap .material-symbols-outlined {
+    position: absolute; left: 16px; top: 50%; transform: translateY(-50%);
+    color: #906f70; font-size: 22px !important; pointer-events: none;
+  }
+  .search-wrap input {
+    width: 100%; height: 48px;
+    padding: 0 16px 0 46px;
+    background: #fff;
+    border: 2px solid transparent;
+    border-radius: 9999px;
+    font-family: 'Inter', sans-serif; font-size: 15px; color: #0F1B35;
+    outline: none;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+    transition: border-color 0.2s;
+  }
+  .search-wrap input::placeholder { color: #906f70; }
+  .search-wrap input:focus { border-color: #0F1B35; }
+  .filter-btn {
+    width: 48px; height: 48px; flex-shrink: 0;
+    background: #0F1B35; color: #fff;
+    border: none; border-radius: 9999px; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 4px 10px rgba(15,27,53,0.18);
+    transition: transform 0.1s;
+  }
+  .filter-btn:active { transform: scale(0.94); }
+
+  /* Section header */
+  .sec-head {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 14px;
+  }
+  .sec-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px; font-weight: 700;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    color: #535e7b;
+  }
+  .view-all {
+    background: none; border: none; cursor: pointer;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; font-weight: 700; color: #FF3B5C;
+    letter-spacing: 0.06em;
+  }
+
+  /* Pending request cards */
+  .req-row { display: flex; gap: 16px; overflow-x: auto; padding-bottom: 8px; }
+  .req-row::-webkit-scrollbar { display: none; }
+  .req-card {
+    flex-shrink: 0; width: 168px;
+    background: #fff;
+    border-radius: 24px;
+    padding: 12px;
+    border: 1px solid #e8e8ea;
+    box-shadow: 0 1px 6px rgba(0,0,0,0.04);
+  }
+  .req-card .photo {
+    width: 100%; aspect-ratio: 1/1;
+    border-radius: 16px; overflow: hidden; margin-bottom: 12px;
+  }
+  .req-card .photo img { width: 100%; height: 100%; object-fit: cover; }
+  .req-card .name {
+    font-family: 'Hanken Grotesk', sans-serif;
+    font-weight: 700; font-size: 16px; color: #0F1B35;
+    text-align: center; margin-bottom: 12px;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .req-actions { display: flex; gap: 8px; }
+  .req-btn {
+    flex: 1; height: 38px; border-radius: 12px; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: transform 0.1s;
+  }
+  .req-btn:active { transform: scale(0.92); }
+  .req-btn.accept { background: #FF3B5C; color: #fff; border: none; }
+  .req-btn.decline { background: #fff; color: #535e7b; border: 1px solid #cdbfc0; }
+  .req-btn .material-symbols-outlined { font-size: 20px !important; }
+
+  /* Active runners list */
+  .runners-list { display: flex; flex-direction: column; gap: 12px; }
+  .runner-card {
+    display: flex; align-items: center; gap: 14px;
+    background: #fff;
+    padding: 14px;
+    border-radius: 24px;
+    border: 1px solid #e8e8ea;
+    cursor: pointer;
+    transition: transform 0.12s;
+  }
+  .runner-card:active { transform: scale(0.98); }
+  .runner-av {
+    position: relative; width: 56px; height: 56px; flex-shrink: 0;
+    border-radius: 50%; overflow: hidden;
+    border: 2px solid #e8e8ea;
+  }
+  .runner-av.live { border-color: #FF3B5C; }
+  .runner-av img { width: 100%; height: 100%; object-fit: cover; }
+  .online-dot {
+    position: absolute; bottom: 0; right: 0;
+    width: 14px; height: 14px; border-radius: 50%;
+    background: #22C55E; border: 2px solid #fff;
+  }
+  .runner-body { flex: 1; min-width: 0; }
+  .runner-top {
+    display: flex; align-items: flex-start; justify-content: space-between;
+  }
+  .runner-name {
+    font-family: 'Hanken Grotesk', sans-serif;
+    font-weight: 700; font-size: 17px; color: #0F1B35;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .badge-online {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; font-weight: 700; color: #22C55E;
+    background: rgba(34,197,94,0.10);
+    padding: 2px 8px; border-radius: 9999px;
+    flex-shrink: 0;
+  }
+  .badge-time {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; font-weight: 700; color: #906f70;
+    flex-shrink: 0;
+  }
+  .runner-stats { display: flex; gap: 16px; margin-top: 5px; }
+  .runner-stat {
+    display: flex; align-items: center; gap: 4px;
+    color: #535e7b;
+  }
+  .runner-stat.match { color: #FF3B5C; }
+  .runner-stat .material-symbols-outlined { font-size: 16px !important; }
+  .runner-stat span {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; font-weight: 700;
+  }
+  .chat-btn {
+    background: none; border: none; cursor: pointer;
+    color: #FF3B5C; flex-shrink: 0;
+    display: flex; align-items: center; padding: 4px;
+  }
+
+  /* AI Smart Match CTA */
+  .cta-card {
+    position: relative; overflow: hidden;
+    background: #0F1B35;
+    border-radius: 24px;
+    padding: 24px;
+    margin-top: 24px;
+    color: #fff;
+  }
+  .cta-glow {
+    position: absolute; right: -40px; bottom: -40px;
+    width: 180px; height: 180px;
+    background: #FF3B5C; opacity: 0.12;
+    border-radius: 50%; filter: blur(40px);
+  }
+  .cta-card .inner { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: flex-start; gap: 14px; }
+  .cta-tag {
+    background: rgba(255,59,92,0.18);
+    border: 1px solid rgba(255,59,92,0.30);
+    padding: 5px 12px; border-radius: 9999px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; font-weight: 700; letter-spacing: 0.06em;
+    color: #FF3B5C;
+  }
+  .cta-card h3 {
+    font-family: 'Hanken Grotesk', sans-serif;
+    font-weight: 700; font-size: 18px; line-height: 1.25;
+    color: rgba(255,255,255,0.88);
+  }
+  .cta-card p { font-size: 14px; color: rgba(255,255,255,0.70); line-height: 1.5; }
+  .cta-btn {
+    background: #FF3B5C; color: #fff; border: none; cursor: pointer;
+    padding: 12px 24px; border-radius: 12px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; font-weight: 700; letter-spacing: 0.06em;
+    box-shadow: 0 8px 20px rgba(255,59,92,0.25);
+    transition: transform 0.1s;
+  }
+  .cta-btn:active { transform: scale(0.96); }
+
+  /* Bottom nav */
+  .bottom-nav {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 82px;
+    background: #0F1B35;
+    display: flex; align-items: center;
+    padding-bottom: 14px;
+    z-index: 50;
+    border-bottom-left-radius: 48px;
+    border-bottom-right-radius: 48px;
+  }
+  .nav-tab {
+    flex: 1;
+    display: flex; flex-direction: column; align-items: center; gap: 3px;
+    color: rgba(255,255,255,0.35);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px; font-weight: 700;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    cursor: pointer; text-decoration: none;
+    transition: color 0.15s;
+  }
+  .nav-tab.active { color: #FF3B5C; }
+  .nav-tab .material-symbols-outlined { font-size: 22px; }
+
+  .material-symbols-outlined {
+    font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+  }
+  .filled { font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+</style>
+</head>
+
+<body style="display:flex; align-items:center; justify-content:center; min-height:100vh;">
+<div class="phone">
+
+  <!-- Status bar -->
+  <div style="height:48px; display:flex; align-items:center; padding:0 24px; flex-shrink:0;">
+    <span style="font-family:'Hanken Grotesk',sans-serif; font-weight:700; font-size:15px; color:#0F1B35;">9:41</span>
+  </div>
+
+  <!-- Header -->
+  <div class="header">
+    <div class="header-left">
+      <button class="icon-btn" onclick="window.location.href='discover.html'">
+        <span class="material-symbols-outlined" style="font-size:26px;">arrow_back</span>
+      </button>
+      <h1>Matches</h1>
+    </div>
+    <button class="icon-btn">
+      <span class="material-symbols-outlined" style="font-size:26px;">search</span>
+    </button>
+  </div>
+
+  <!-- Scroll body -->
+  <div class="scroll-body">
+
+    <!-- Search + filter -->
+    <div class="search-bar">
+      <div class="search-wrap">
+        <span class="material-symbols-outlined">search</span>
+        <input type="text" placeholder="Search runners...">
+      </div>
+      <button class="filter-btn">
+        <span class="material-symbols-outlined" style="font-size:22px;">tune</span>
+      </button>
+    </div>
+
+    <!-- Pending Requests -->
+    <section>
+      <div class="sec-head">
+        <span class="sec-title">Pending Requests (3)</span>
+        <button class="view-all" onclick="window.location.href='pending_requests.html'">VIEW ALL</button>
+      </div>
+      <div class="req-row">
+
+        <div class="req-card">
+          <div class="photo"><img src="https://lh3.googleusercontent.com/aida-public/AB6AXuApP1VUA0H1X0FZETGl3SSgNozmWlsli7D534yLg6gLd_MV1uxmf9sQlfM_7uUV1D0hhHY-WtjjIkLGW6uQZu8y9VLVlC9wL_Vc3VVJGgMJ6-Znd0o-bRgs_hierchP7cuCdVG5O8PemLL9MuSajmrpePjfr_gIv4o0mvtaPFR70DKSg-FNkBCLLpjtzY5eQ6r0X8_-gFlzbqi5rC3z25LqEG0v9TjXfZkUix8-ukjCtQUOdXtS-qyxLvszZCAGS4W48hwn96OFZrBC" alt="Elena Vance"></div>
+          <p class="name">Elena Vance</p>
+          <div class="req-actions">
+            <button class="req-btn accept" onclick="window.location.href='its_a_match.html'"><span class="material-symbols-outlined">check</span></button>
+            <button class="req-btn decline"><span class="material-symbols-outlined">close</span></button>
+          </div>
+        </div>
+
+        <div class="req-card">
+          <div class="photo"><img src="https://lh3.googleusercontent.com/aida-public/AB6AXuAGwX3W0l3MvvPl9_fK02RhT9ic4j2gu1aWPG-KPfQAT0MP91dcCitljJDFIwCCKVWOHpLqHmb7hs83YlYbIb6ZOXzhD3XgsENTJnq-kEQmCVnrXbXf-atTlzoiQEnQRShNFlrYSMfioSPJnQ71qoN38SD3k5qO6Eo40lowIGScQqWGYtEmjExMkXmj4jkCVkX2m1w295L9DWQ1LB9GDb4XLCzv24q6AbBGnNCUCd4J3WZX0oRLwyEe-e0m5gasEyzJQW3166ZirVsL" alt="Marcus Thorne"></div>
+          <p class="name">Marcus Thorne</p>
+          <div class="req-actions">
+            <button class="req-btn accept" onclick="window.location.href='its_a_match.html'"><span class="material-symbols-outlined">check</span></button>
+            <button class="req-btn decline"><span class="material-symbols-outlined">close</span></button>
+          </div>
+        </div>
+
+        <div class="req-card">
+          <div class="photo"><img src="https://lh3.googleusercontent.com/aida-public/AB6AXuAVJrSSVoXKa0MayDrWAg2kx0gRjUmSmAeOQKa2__WgMuoxtQIKwyzfkjsBljfibv7-Tq4JKd3L_vmJ4HBMzGwoKDyzJcRSNfb3hqpUhNIlXr5ir_4T0bz2VXHAPu0I_P172KFTQpgYyN5kx99Bhk7EK-6oe4wXL8Q_Vj9siC2tvKuAHFIODFIOtqQlxsuN2U-E-vdRmFWY9mY1ZY5W6yBr5dwwzRY-AeQ5uWFm-M3YfQB3k29nuspLxGQY_YUfW2RGunAHYF-6wxgt" alt="Sonia Kim"></div>
+          <p class="name">Sonia Kim</p>
+          <div class="req-actions">
+            <button class="req-btn accept" onclick="window.location.href='its_a_match.html'"><span class="material-symbols-outlined">check</span></button>
+            <button class="req-btn decline"><span class="material-symbols-outlined">close</span></button>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Active Runners -->
+    <section style="margin-top:24px;">
+      <div class="sec-head">
+        <span class="sec-title">Active Runners (12)</span>
+      </div>
+      <div class="runners-list">
+
+        <!-- Jasmine - online -->
+        <div class="runner-card" onclick="window.location.href='chat.html'">
+          <div class="runner-av live">
+            <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuCIdau1X4chzxqREB26xkRy9cuWnaabXSMEnBDtDlPztTeia6MUsNA5pzSz-TwHKsjJlFNlfiyBP_xYTLhjXCyfi2tHgbRi6EhaxQNZafrtEsRcKNrtO_WLn8YnZyZNlrpD6AX3VNaN6mKk9eTGEX9Dm2KKMWTKjnPejCaIPLZQ0zHO25Y7cyqK3yd9h7waeCD8p24PI7Pz-hFwMtOcnp-xZFavogEshTD9d-SepeH_ZyDrPqkDeu2mULESQyCyXvKhGMMr14s7O4T6" alt="Jasmine Hart">
+            <span class="online-dot"></span>
+          </div>
+          <div class="runner-body">
+            <div class="runner-top">
+              <span class="runner-name">Jasmine Hart</span>
+              <span class="badge-online">ONLINE</span>
+            </div>
+            <div class="runner-stats">
+              <span class="runner-stat"><span class="material-symbols-outlined">speed</span><span>5:20/KM</span></span>
+              <span class="runner-stat"><span>8.2KM</span></span>
+            </div>
+          </div>
+          <button class="chat-btn"><span class="material-symbols-outlined">chat_bubble</span></button>
+        </div>
+
+        <!-- David - 98% match -->
+        <div class="runner-card" onclick="window.location.href='chat.html'">
+          <div class="runner-av">
+            <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuAMrFiicIlORWvP2VU1nSQGc1K6hgX3_qh3pcovYMsV3LfAqZ00EJoP3BWZhzmaWMT_sI_9wUJ6GmeyTAKXoJ_LGEllO-Hf1c2_qrJCYpA49D0Bd3d4KHo3l9ALMfazm7ctIyTHOz2M4EfLJLO_a630ZAajArcTJblj5DBLwdfJw6RtctQJC9__5URjAnQ_Cz6fMzpAT_8Gya1qonwArq5CCG9AnWVAlQ4BIeY6DsiDZ5hlLUQplP7L7rA0J0ah0D1FybXZ0VCAX14t" alt="David Chen">
+          </div>
+          <div class="runner-body">
+            <div class="runner-top">
+              <span class="runner-name">David Chen</span>
+              <span class="badge-time">2h AGO</span>
+            </div>
+            <div class="runner-stats">
+              <span class="runner-stat"><span class="material-symbols-outlined">speed</span><span>4:45/KM</span></span>
+              <span class="runner-stat match"><span>98% MATCH</span></span>
+            </div>
+          </div>
+          <button class="chat-btn"><span class="material-symbols-outlined">chat_bubble</span></button>
+        </div>
+
+        <!-- Aria - 12 runs -->
+        <div class="runner-card" onclick="window.location.href='chat.html'">
+          <div class="runner-av">
+            <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuApbnLJDVzKiKJvm31JvNVUerFDFaawITa1d9aaMi4bm71LM_UbTi-Pu0Wzl1abKCXsROjOGftJQje_toCLZiDCRnDS1tOInXm2QbJrtVatj7xXVPq5h5sHRRO6e9fZhiWC62QKF5AjKsfFTMX0MBEp48oSkn8T18f-nyttlvNYj01SrKw2V7yNibvpHU9v0vr_GOrcVa2ZEsUvNgzFxs1wK9QFbRbt-xnAU-gxekXEBgN04u8HsD1gKo6DLPtjlG4vT53wP8knZOur" alt="Aria Brooks">
+          </div>
+          <div class="runner-body">
+            <div class="runner-top">
+              <span class="runner-name">Aria Brooks</span>
+              <span class="badge-time">YESTERDAY</span>
+            </div>
+            <div class="runner-stats">
+              <span class="runner-stat"><span class="material-symbols-outlined">speed</span><span>5:10/KM</span></span>
+              <span class="runner-stat"><span>12 RUNS</span></span>
+            </div>
+          </div>
+          <button class="chat-btn"><span class="material-symbols-outlined">chat_bubble</span></button>
+        </div>
+
+        <!-- Liam - distance -->
+        <div class="runner-card" onclick="window.location.href='chat.html'">
+          <div class="runner-av">
+            <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuBWXncEGIkBnS34PoYZR3g3oTXmcoT84PK8d0Pb0AIQFTaVejYbXHOsLpFEEPmkir3GudcGs8hFEyWLIxGMiwIsLDJl6AHdIZTSS75dqcuMubWc0Uf2aZDIGqgascbLMgMfZ3fMuWk_JDQmUY1WI9I-bcxpAPlk9orKIrPYqJnl2ARnPLNbX8tiNl8yPtTwlARVRP14wwnyUHv-7r4SnH2WaAS_8FVYiK8kv6FGtJsHTrNDvYDF5JbGRMvGfweAOgyhf-KYB_-Jw51T" alt="Liam Foster">
+          </div>
+          <div class="runner-body">
+            <div class="runner-top">
+              <span class="runner-name">Liam Foster</span>
+              <span class="badge-time">3d AGO</span>
+            </div>
+            <div class="runner-stats">
+              <span class="runner-stat"><span class="material-symbols-outlined">speed</span><span>5:45/KM</span></span>
+              <span class="runner-stat"><span>2.4KM AWAY</span></span>
+            </div>
+          </div>
+          <button class="chat-btn"><span class="material-symbols-outlined">chat_bubble</span></button>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Group Runs teaser -->
+    <div class="cta-card">
+      <div class="cta-glow"></div>
+      <div class="inner">
+        <span class="cta-tag">COMING SOON</span>
+        <h3>Group Runs are on the way.</h3>
+        <p>Soon you'll be able to plan a run, set a route and time, and invite your matches to join. Want to be first to try it?</p>
+        <button class="cta-btn">NOTIFY ME</button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Bottom nav -->
+  <nav class="bottom-nav">
+    <a class="nav-tab" href="discover.html">
+      <span class="material-symbols-outlined">explore</span>
+      Discover
+    </a>
+    <a class="nav-tab active" href="matches.html">
+      <span class="material-symbols-outlined filled">chat_bubble</span>
+      Matches
+    </a>
+    <a class="nav-tab" href="activity.html">
+      <span class="material-symbols-outlined">notifications</span>
+      Activity
+    </a>
+    <a class="nav-tab" href="profile.html">
+      <span class="material-symbols-outlined">person</span>
+      Profile
+    </a>
+  </nav>
+
+</div>
+</body>
+</html>

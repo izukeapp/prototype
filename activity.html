@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GoWith — Activity</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary: #FF3B5C;
+  --secondary: #0F1B35;
+  --surface: #F5F5F5;
+  --surface-2: #E8E8E8;
+  --white: #FFFFFF;
+  --text: #1A1A1A;
+  --text-2: #555555;
+  --text-3: #999999;
+  --success: #22C55E;
+  --danger: #EF4444;
+  --radius-card: 20px;
+  --radius-sheet: 24px;
+  --radius-btn: 12px;
+  --tab-height: 83px;
+  --nav-height: 56px;
+  --status-height: 44px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: #0d0d1a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+.phone {
+  width: 390px;
+  height: 844px;
+  background: var(--surface);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 32px 80px rgba(0,0,0,0.4);
+  border-radius: 48px;
+}
+
+.screen-content {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  background: white;
+}
+.screen-content::-webkit-scrollbar { display: none; }
+
+/* Status Bar */
+.status-bar {
+  height: var(--status-height);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 28px;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 10;
+}
+.status-bar .time { font-weight: 700; font-size: 15px; }
+.status-bar .icons { display: flex; align-items: center; gap: 5px; font-size: 12px; }
+
+/* Nav Bar */
+.nav-bar {
+  height: var(--nav-height);
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  background: white;
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+  flex-shrink: 0;
+  z-index: 10;
+  position: relative;
+  gap: 8px;
+}
+.nav-title {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  font-weight: 700;
+  font-size: 17px;
+  white-space: nowrap;
+}
+
+/* Tab Bar */
+.tab-bar {
+  height: var(--tab-height);
+  background: white;
+  border-top: 1px solid rgba(0,0,0,0.08);
+  display: flex;
+  align-items: flex-start;
+  padding-top: 10px;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 10;
+}
+.tab {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  cursor: pointer;
+  color: var(--text-3);
+  font-size: 10px;
+  font-weight: 600;
+  transition: color 0.15s;
+}
+.tab i { font-size: 22px; }
+.tab.active { color: var(--primary); }
+
+/* Chip */
+.chip {
+  display: inline-flex; align-items: center;
+  padding: 8px 14px; border-radius: 20px;
+  font-size: 13px; font-weight: 600;
+  border: 1.5px solid rgba(0,0,0,0.1);
+  cursor: pointer; background: white; color: var(--text);
+  transition: all 0.15s; user-select: none;
+}
+.chip.active { background: var(--primary); color: white; border-color: var(--primary); }
+
+/* Avatar placeholder */
+.avatar-placeholder {
+  border-radius: 50%; display: flex; align-items: center;
+  justify-content: center; font-weight: 800; color: white; flex-shrink: 0;
+}
+
+/* Notifications */
+.notif-chips { display: flex; gap: 8px; padding: 10px 16px; overflow-x: auto; border-bottom: 1px solid rgba(0,0,0,0.06); flex-shrink: 0; background: white; }
+.notif-chips::-webkit-scrollbar { display: none; }
+.notif-row { display: flex; align-items: flex-start; gap: 12px; padding: 14px 16px; border-bottom: 1px solid rgba(0,0,0,0.04); cursor: pointer; }
+.notif-icon { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; }
+.notif-group-title { font-size: 12px; font-weight: 700; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.6px; padding: 12px 16px 4px; }
+</style>
+</head>
+<body>
+
+<div class="phone">
+  <div class="status-bar"><span class="time">9:41</span><div class="icons"><i class="fas fa-signal"></i><i class="fas fa-wifi"></i><i class="fas fa-battery-full"></i></div></div>
+  <div class="nav-bar"><span class="nav-title">Activity</span></div>
+  <div class="notif-chips">
+    <div class="chip active" style="padding:6px 14px;font-size:13px;">All</div>
+    <div class="chip" style="padding:6px 14px;font-size:13px;">Matches</div>
+    <div class="chip" style="padding:6px 14px;font-size:13px;">Messages</div>
+    <div class="chip" style="padding:6px 14px;font-size:13px;">Runs</div>
+  </div>
+  <div class="screen-content">
+    <div class="notif-group-title">Today</div>
+    <div class="notif-row" onclick="window.location.href='its_a_match.html'">
+      <div class="notif-icon" style="background:rgba(255,59,92,0.1);color:var(--primary);"><i class="fas fa-person-running"></i></div>
+      <div style="flex:1;"><div style="font-size:14px;line-height:1.45;"><span style="font-weight:800;">Sarah M.</span> wants to run with you — It's a Match! 🎉</div><div style="font-size:12px;color:var(--text-3);margin-top:3px;">2 minutes ago</div></div>
+      <div class="avatar-placeholder" style="width:36px;height:36px;font-size:12px;background:linear-gradient(135deg,#FF6B6B,#FF91A4);">S</div>
+    </div>
+    <div class="notif-row" onclick="window.location.href='chat.html'">
+      <div class="notif-icon" style="background:rgba(59,130,246,0.1);color:#3B82F6;"><i class="fas fa-comment-dots"></i></div>
+      <div style="flex:1;"><div style="font-size:14px;line-height:1.45;"><span style="font-weight:800;">Emma L.</span> sent you a message</div><div style="font-size:12px;color:var(--text-3);margin-top:3px;">1 hour ago</div></div>
+      <div class="avatar-placeholder" style="width:36px;height:36px;font-size:12px;background:linear-gradient(135deg,#4ECDC4,#44A08D);">E</div>
+    </div>
+    <div class="notif-group-title" style="border-top:8px solid var(--surface);">This Week</div>
+    <div class="notif-row" onclick="window.location.href='discover.html'">
+      <div class="notif-icon" style="background:rgba(34,197,94,0.1);color:var(--success);"><i class="fas fa-person-running"></i></div>
+      <div style="flex:1;"><div style="font-size:14px;line-height:1.45;"><span style="font-weight:800;">3 new runners</span> near you match your pace</div><div style="font-size:12px;color:var(--text-3);margin-top:3px;">Yesterday</div></div>
+    </div>
+  </div>
+  <div class="tab-bar">
+    <div class="tab" onclick="window.location.href='discover.html'"><i class="fas fa-compass"></i><span>Discover</span></div>
+    <div class="tab" onclick="window.location.href='matches.html'"><i class="fas fa-comment-dots"></i><span>Matches</span></div>
+    <div class="tab active" onclick="window.location.href='activity.html'"><i class="fas fa-bell"></i><span>Activity</span></div>
+    <div class="tab" onclick="window.location.href='profile.html'"><i class="fas fa-user"></i><span>Profile</span></div>
+  </div>
+</div>
+
+</body>
+</html>

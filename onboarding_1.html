@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Izuke – Onboarding 1</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@700;800;900&family=Inter:wght@400;500&family=JetBrains+Mono:wght@700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+<style>
+  html, body { height: 100%; margin: 0; background: #d9dadc; }
+
+  .phone {
+    width: 390px;
+    min-height: 844px;
+    background: #f9f9fb;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 32px 80px rgba(0,0,0,0.18);
+    border-radius: 48px;
+  }
+
+  /* Slide-in entrance (simulates carousel swipe from right) */
+  .slide-content {
+    opacity: 0;
+    transform: translateX(32px);
+    animation: slide-in 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+    animation-delay: 0.05s;
+  }
+  @keyframes slide-in {
+    to { opacity: 1; transform: translateX(0); }
+  }
+
+  /* Hero image zoom-in */
+  .hero-img {
+    transform: scale(1.06);
+    animation: img-settle 0.7s ease-out forwards;
+    animation-delay: 0.1s;
+  }
+  @keyframes img-settle {
+    to { transform: scale(1); }
+  }
+
+  /* Text stagger */
+  .text-enter {
+    opacity: 0;
+    transform: translateY(14px);
+    animation: text-up 0.5s ease-out forwards;
+  }
+  @keyframes text-up {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .material-symbols-outlined {
+    font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+  }
+
+  .dot-active {
+    width: 24px; height: 8px;
+    background: #FF3B5C;
+    border-radius: 9999px;
+  }
+  .dot-inactive {
+    width: 8px; height: 8px;
+    background: #e2e2e4;
+    border-radius: 9999px;
+  }
+
+  .cta-btn {
+    width: 100%; height: 56px;
+    border: none; cursor: pointer;
+    border-radius: 9999px;
+    background: linear-gradient(135deg, #FF3B5C 0%, #BA0035 100%);
+    color: #fff;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 16px;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    box-shadow: 0 8px 24px rgba(255,59,92,0.30);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  .cta-btn:active { transform: scale(0.97); }
+</style>
+</head>
+
+<body class="flex items-center justify-center min-h-screen">
+<div class="phone">
+
+  <!-- Header -->
+  <header class="flex justify-end px-6 pt-14 pb-2">
+    <a href="auth.html"
+       style="font-family:'Inter',sans-serif; font-size:15px; font-weight:500; color:#535e7b; text-decoration:none;">
+      SKIP
+    </a>
+  </header>
+
+  <!-- Main -->
+  <main class="flex-1 flex flex-col items-center justify-start px-6 pt-6 pb-4 slide-content">
+
+    <!-- Hero image -->
+    <div style="width:100%; max-width:320px; aspect-ratio:1/1; border-radius:36px; overflow:hidden; position:relative; box-shadow:0 12px 40px rgba(15,27,53,0.12); background:#e8e8ea; margin-bottom:32px;">
+      <img class="hero-img"
+           src="https://lh3.googleusercontent.com/aida-public/AB6AXuA0pWGO15h-42jL_Wdj389ZjIJdnkLWWrNM5Y2RrMyjah7k-d2ET8qrGXOm177LNBdZ1jKjpKni7jOFrbPmESluIBtYJ1SDyaQOSuQfa38cE54wltjctZXJgvHbQnJd90mLEVO64yxtuMvJ92yUCFwDva6z58NqVlfI77e8fNDzdgCxoGMrq8aC0JYjTpoUiwX4XMQrd8bTuubipEYeVqeAZNLGGsR2KEhaLPjbfR6IylxfghVTg7ljLQDY7CbI_aR0vrsFlg3j39EW"
+           alt="Two runners on a waterfront"
+           style="width:100%; height:100%; object-fit:cover; display:block;">
+      <!-- Pink icon badge bottom-left -->
+      <div style="position:absolute; bottom:16px; left:16px; width:52px; height:52px; border-radius:16px; background:linear-gradient(135deg,#FF3B5C,#BA0035); display:flex; align-items:center; justify-content:center; box-shadow:0 4px 16px rgba(255,59,92,0.4);">
+        <span class="material-symbols-outlined" style="font-size:28px; color:#fff;">directions_run</span>
+      </div>
+    </div>
+
+    <!-- Text -->
+    <div style="text-align:center; max-width:300px;">
+      <h1 class="text-enter"
+          style="font-family:'Hanken Grotesk',sans-serif; font-weight:800; font-size:30px; line-height:1.15; letter-spacing:-0.02em; color:#0F1B35; margin:0 0 12px; animation-delay:0.2s;">
+        Run Better.<br>Together.
+      </h1>
+      <p class="text-enter"
+         style="font-family:'Inter',sans-serif; font-size:16px; line-height:1.6; color:#535e7b; margin:0; animation-delay:0.3s;">
+        Match with runners who share your goals, pace and schedule.
+      </p>
+    </div>
+
+  </main>
+
+  <!-- Footer -->
+  <footer style="padding:0 24px 44px; display:flex; flex-direction:column; align-items:center; gap:20px;">
+    <!-- Page dots -->
+    <div style="display:flex; align-items:center; gap:6px;">
+      <div class="dot-active"></div>
+      <div class="dot-inactive"></div>
+      <div class="dot-inactive"></div>
+    </div>
+    <!-- Button -->
+    <button class="cta-btn" onclick="window.location.href='onboarding_2.html'">
+      Next
+      <span class="material-symbols-outlined" style="font-size:20px;">arrow_forward</span>
+    </button>
+  </footer>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GoWith — Settings</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary: #FF3B5C;
+  --secondary: #0F1B35;
+  --surface: #F5F5F5;
+  --surface-2: #E8E8E8;
+  --white: #FFFFFF;
+  --text: #1A1A1A;
+  --text-2: #555555;
+  --text-3: #999999;
+  --success: #22C55E;
+  --danger: #EF4444;
+  --radius-card: 20px;
+  --radius-sheet: 24px;
+  --radius-btn: 12px;
+  --tab-height: 83px;
+  --nav-height: 56px;
+  --status-height: 44px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: #0d0d1a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+.phone {
+  width: 390px;
+  height: 844px;
+  background: var(--surface);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 32px 80px rgba(0,0,0,0.4);
+  border-radius: 48px;
+}
+
+.screen-content {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+}
+.screen-content::-webkit-scrollbar { display: none; }
+
+/* Status Bar */
+.status-bar {
+  height: var(--status-height);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 28px;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 10;
+}
+.status-bar .time { font-weight: 700; font-size: 15px; }
+.status-bar .icons { display: flex; align-items: center; gap: 5px; font-size: 12px; }
+
+/* Nav Bar */
+.nav-bar {
+  height: var(--nav-height);
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  background: white;
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+  flex-shrink: 0;
+  z-index: 10;
+  position: relative;
+  gap: 8px;
+}
+.nav-title {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  font-weight: 700;
+  font-size: 17px;
+  white-space: nowrap;
+}
+.nav-back {
+  width: 34px; height: 34px;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 50%;
+  background: var(--surface);
+  cursor: pointer;
+  color: var(--text);
+  font-size: 14px;
+  flex-shrink: 0;
+}
+
+/* Buttons */
+.btn {
+  padding: 15px 24px;
+  border-radius: var(--radius-btn);
+  font-family: 'Inter', sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+  text-align: center;
+  width: 100%;
+  transition: opacity 0.15s, transform 0.1s;
+}
+.btn:active { transform: scale(0.98); opacity: 0.9; }
+.btn-outline { background: transparent; color: var(--primary); border: 2px solid var(--primary); }
+
+/* Toggle */
+.toggle {
+  width: 44px; height: 26px; border-radius: 13px;
+  background: var(--success); position: relative;
+  cursor: pointer; margin-left: auto; flex-shrink: 0;
+  transition: background 0.2s;
+}
+.toggle::after {
+  content: '';
+  width: 22px; height: 22px; border-radius: 50%;
+  background: white; position: absolute;
+  top: 2px; right: 2px;
+  transition: right 0.2s, left 0.2s;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.25);
+}
+.toggle.off { background: var(--surface-2); }
+.toggle.off::after { right: auto; left: 2px; }
+
+/* Settings */
+.settings-group-title { font-size: 12px; font-weight: 700; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.8px; padding: 16px 20px 6px; }
+.settings-row { display: flex; align-items: center; padding: 13px 20px; background: white; border-bottom: 1px solid rgba(0,0,0,0.05); cursor: pointer; }
+.settings-icon { width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 14px; margin-right: 14px; flex-shrink: 0; color: white; }
+</style>
+</head>
+<body>
+
+<div class="phone">
+  <div class="screen-content" id="settings">
+    <div class="status-bar"><span class="time">9:41</span><div class="icons"><i class="fas fa-signal"></i><i class="fas fa-wifi"></i><i class="fas fa-battery-full"></i></div></div>
+    <div class="nav-bar"><div class="nav-back" onclick="window.location.href='profile.html'"><i class="fas fa-chevron-left"></i></div><span class="nav-title">Settings</span></div>
+    <div class="screen-content">
+      <div class="settings-group-title">Account</div>
+      <div style="background:white;">
+        <div class="settings-row"><div class="settings-icon" style="background:#3B82F6;"><i class="fas fa-user"></i></div><div style="flex:1;font-weight:600;font-size:15px;">Account Info</div><i class="fas fa-chevron-right" style="color:var(--text-3);font-size:13px;"></i></div>
+        <div class="settings-row" onclick="window.location.href='verification.html'"><div class="settings-icon" style="background:#8B5CF6;"><i class="fas fa-shield-halved"></i></div><div style="flex:1;"><div style="font-weight:600;font-size:15px;">Verification</div><div style="font-size:12px;color:var(--text-3);margin-top:1px;">Not verified</div></div><i class="fas fa-chevron-right" style="color:var(--text-3);font-size:13px;"></i></div>
+      </div>
+      <div class="settings-group-title">Discovery</div>
+      <div style="background:white;">
+        <div class="settings-row"><div class="settings-icon" style="background:var(--primary);"><i class="fas fa-compass"></i></div><div style="flex:1;font-weight:600;font-size:15px;">Pause Discovery</div><div class="toggle off"></div></div>
+        <div class="settings-row"><div class="settings-icon" style="background:var(--secondary);"><i class="fas fa-eye"></i></div><div style="flex:1;font-weight:600;font-size:15px;">Who Can See Me</div><i class="fas fa-chevron-right" style="color:var(--text-3);font-size:13px;"></i></div>
+      </div>
+      <div class="settings-group-title">Notifications</div>
+      <div style="background:white;">
+        <div class="settings-row"><div class="settings-icon" style="background:var(--primary);"><i class="fas fa-person-running"></i></div><div style="flex:1;font-weight:600;font-size:15px;">New Matches</div><div class="toggle"></div></div>
+        <div class="settings-row"><div class="settings-icon" style="background:#3B82F6;"><i class="fas fa-comment-dots"></i></div><div style="flex:1;font-weight:600;font-size:15px;">Messages</div><div class="toggle"></div></div>
+        <div class="settings-row"><div class="settings-icon" style="background:var(--success);"><i class="fas fa-person-running"></i></div><div style="flex:1;font-weight:600;font-size:15px;">Runners Near You</div><div class="toggle"></div></div>
+      </div>
+      <div class="settings-group-title">Phase 2</div>
+      <div style="background:white;">
+        <div class="settings-row" onclick="window.location.href='run_clubs.html'"><div class="settings-icon" style="background:var(--primary);"><i class="fas fa-people-group"></i></div><div style="flex:1;"><div style="font-weight:600;font-size:15px;">Run Clubs</div><div style="font-size:12px;color:var(--text-3);margin-top:1px;">Coming soon</div></div><div style="background:rgba(255,59,92,0.1);color:var(--primary);padding:3px 10px;border-radius:20px;font-size:11px;font-weight:800;">SOON</div></div>
+      </div>
+      <div class="settings-group-title">About</div>
+      <div style="background:white;">
+        <div class="settings-row"><div class="settings-icon" style="background:#6B7280;"><i class="fas fa-file-lines"></i></div><div style="flex:1;font-weight:600;font-size:15px;">Terms of Service</div><i class="fas fa-chevron-right" style="color:var(--text-3);font-size:13px;"></i></div>
+        <div class="settings-row"><div class="settings-icon" style="background:#6B7280;"><i class="fas fa-lock"></i></div><div style="flex:1;font-weight:600;font-size:15px;">Privacy Policy</div><i class="fas fa-chevron-right" style="color:var(--text-3);font-size:13px;"></i></div>
+      </div>
+      <div style="padding:24px 20px 32px;display:flex;flex-direction:column;gap:10px;">
+        <button class="btn btn-outline" style="color:var(--danger);border-color:var(--danger);" onclick="window.location.href='auth.html'">Log Out</button>
+        <button class="btn" style="background:transparent;color:var(--text-3);font-size:14px;">Delete Account</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

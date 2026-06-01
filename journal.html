@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Izuke – Running Journal</title>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@600;700;800;900&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; background: #d9dadc; font-family: 'Inter', sans-serif; }
+
+  .phone {
+    width: 390px;
+    height: 844px;
+    background: #F5F5F7;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 32px 80px rgba(0,0,0,0.18);
+    border-radius: 48px;
+  }
+
+  /* Nav bar */
+  .nav-bar {
+    height: 56px;
+    display: flex; align-items: center;
+    padding: 0 16px;
+    background: #F5F5F7;
+    flex-shrink: 0;
+    position: relative;
+  }
+  .nav-back {
+    width: 40px; height: 40px;
+    background: none; border: none; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    color: #1a1c1d;
+  }
+  .nav-title {
+    position: absolute; left: 50%; transform: translateX(-50%);
+    font-family: 'Hanken Grotesk', sans-serif;
+    font-weight: 800; font-size: 18px; color: #0F1B35;
+  }
+  .nav-log {
+    margin-left: auto;
+    background: none; border: none; cursor: pointer;
+    font-family: 'Inter', sans-serif; font-size: 15px; font-weight: 700; color: #FF3B5C;
+  }
+
+  /* Summary row */
+  .summary-row {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 14px 24px 16px;
+    background: #F5F5F7;
+    flex-shrink: 0;
+  }
+  .summary-left { display: flex; align-items: center; gap: 10px; }
+  .summary-left .material-symbols-outlined { color: #FF3B5C; font-size: 22px !important; }
+  .summary-left .t {
+    font-family: 'Hanken Grotesk', sans-serif;
+    font-weight: 800; font-size: 16px; color: #0F1B35;
+  }
+  .summary-right {
+    font-family: 'Inter', sans-serif; font-size: 15px; color: #535e7b;
+  }
+
+  /* Scroll body */
+  .scroll-body {
+    flex: 1; overflow-y: auto; overflow-x: hidden;
+    background: #f0f0f2;
+    padding: 20px 20px 40px;
+    -webkit-overflow-scrolling: touch;
+  }
+  .scroll-body::-webkit-scrollbar { display: none; }
+
+  .month-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; font-weight: 700;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: #535e7b; margin-bottom: 14px;
+  }
+
+  /* Journal card */
+  .j-card {
+    background: #fff;
+    border-radius: 20px;
+    padding: 18px;
+    margin-bottom: 16px;
+    box-shadow: 0 2px 10px rgba(15,27,53,0.06);
+    cursor: pointer;
+    transition: transform 0.12s;
+  }
+  .j-card:active { transform: scale(0.99); }
+  .j-meta {
+    font-size: 15px; color: #535e7b; margin-bottom: 14px;
+  }
+  .j-meta .date { color: #535e7b; font-weight: 500; }
+  .j-meta .dist {
+    font-family: 'Hanken Grotesk', sans-serif;
+    font-weight: 800; color: #0F1B35;
+  }
+  .j-meta .dim { color: #a0a0a8; }
+  .j-block {
+    position: relative;
+    height: 200px; border-radius: 16px;
+    display: flex; align-items: center; justify-content: center;
+    overflow: hidden;
+  }
+  .j-block.blue  { background: linear-gradient(135deg, #5FB4F0 0%, #3B6FE0 100%); }
+  .j-block.pink  { background: linear-gradient(135deg, #FF7A8C 0%, #FF3B5C 100%); }
+  .j-block img {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%; object-fit: cover;
+  }
+  .j-block .scrim {
+    position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(15,27,53,0.45), rgba(15,27,53,0.10));
+  }
+  .intensity {
+    position: absolute; top: 14px; right: 14px; z-index: 2;
+    background: rgba(15,27,53,0.40); backdrop-filter: blur(6px);
+    color: #fff; padding: 6px 14px; border-radius: 9999px;
+    font-family: 'Hanken Grotesk', sans-serif;
+    font-weight: 700; font-size: 13px;
+  }
+  .j-note {
+    font-size: 15px; color: #535e7b; margin-top: 14px;
+  }
+
+  .material-symbols-outlined {
+    font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    vertical-align: middle;
+  }
+  .filled { font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+</style>
+</head>
+
+<body style="display:flex; align-items:center; justify-content:center; min-height:100vh;">
+<div class="phone">
+
+  <!-- Status bar -->
+  <div style="height:48px; display:flex; align-items:center; padding:0 24px; flex-shrink:0; background:#F5F5F7;">
+    <span style="font-family:'Hanken Grotesk',sans-serif; font-weight:700; font-size:15px; color:#0F1B35;">9:41</span>
+  </div>
+
+  <!-- Nav bar -->
+  <div class="nav-bar">
+    <button class="nav-back" onclick="window.location.href='profile.html'">
+      <span class="material-symbols-outlined" style="font-size:24px;">arrow_back</span>
+    </button>
+    <span class="nav-title">My Running Journal</span>
+    <button class="nav-log" onclick="window.location.href='journal_log.html'">Log a Run</button>
+  </div>
+
+  <!-- Summary -->
+  <div class="summary-row">
+    <div class="summary-left">
+      <span class="material-symbols-outlined filled">menu_book</span>
+      <span class="t">2 runs logged</span>
+    </div>
+    <span class="summary-right">44.2 km</span>
+  </div>
+
+  <!-- Scroll body -->
+  <div class="scroll-body">
+
+    <p class="month-label">May 2026</p>
+
+    <!-- Card 1 -->
+    <div class="j-card" onclick="window.location.href='journal_detail.html'">
+      <div class="j-meta">
+        <span class="date">May 31</span>
+        <span class="dist">&nbsp;12.0 km</span>
+        <span class="dim"> &middot; 0 min &middot; 0:00/km</span>
+      </div>
+      <div class="j-block blue">
+        <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuBMulCzMzQa3vQmlqP_T2gK6Pu4ZfcI4OGq5FVYZnHb55fxdLVHsseg5XDTy353fVYrnDY-gueCO0BSKafyUGaPNJoD36BdQ6TG1mjJBw_n5ZFLqckj_bEzPGfnmmUSNMhL1HDcsFR6xoBQXtZaFxt_Ugf2nFz0RRC3xdoBx1ibFvXWN0jvG7mLCHJ7HYAX6kWgDVwanpxU1xo_rnuQlazbkj5BuvIk9UryAZaPk3YydV3Qjr1c4LiqcqF0GoceIxpAuqXBV2HfPtoi" alt="">
+        <div class="scrim"></div>
+        <span class="intensity">Hard</span>
+      </div>
+      <p class="j-note">I loved it!</p>
+    </div>
+
+    <!-- Card 2 -->
+    <div class="j-card" onclick="window.location.href='journal_detail.html'">
+      <div class="j-meta">
+        <span class="date">May 29</span>
+        <span class="dist">&nbsp;20.0 mi</span>
+        <span class="dim"> &middot; 0 min &middot; 0:00/mi</span>
+      </div>
+      <div class="j-block pink">
+        <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuCZ7QH8Gfro8Yha1SHXqxuXm1HlDPhI7qHNI17vw9Astdjh6Te0nNyJRIsZ6r9fg5a-m1w20pEahP-w9K1evl9gc7ZtqXue1aR09-GF1R1Sf7c8a7Ma-A5_NxMF9etzkk-cN6AGCz4WScAzOj4QIE8EexP96EzoHW5l6co3Vfs3kc76Jkg4sjzDf6muwcQeVuBXbaEBrFjmBVkaz5df0XM0K4Wu1SqEwsaHbdu1acAG3_1cV7Ff2-v83BxiwY9ABNQ9DX4m43B9cl_m" alt="">
+        <div class="scrim"></div>
+        <span class="intensity">Moderate</span>
+      </div>
+      <p class="j-note">Felt great</p>
+    </div>
+
+  </div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>IZUKE - Runner Moment</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700;800&amp;family=Inter:wght@400;500&amp;family=JetBrains+Mono:wght@700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+                  "outline-variant": "#e5bdbe",
+                  "surface-dim": "#d9dadc",
+                  "tertiary": "#006a43",
+                  "surface-container-low": "#f3f3f5",
+                  "surface-mist": "#F5F5F7",
+                  "primary-container": "#e12149",
+                  "inverse-primary": "#ffb3b6",
+                  "secondary-fixed": "#d9e2ff",
+                  "on-secondary": "#ffffff",
+                  "outline": "#906f70",
+                  "tertiary-fixed-dim": "#62dda0",
+                  "on-surface": "#1a1c1d",
+                  "on-primary-fixed-variant": "#920028",
+                  "on-primary-fixed": "#40000c",
+                  "surface-tint": "#be0037",
+                  "primary-fixed": "#ffdada",
+                  "surface-container-lowest": "#ffffff",
+                  "on-primary": "#ffffff",
+                  "on-error": "#ffffff",
+                  "tertiary-fixed": "#7ffaba",
+                  "surface-container-highest": "#e2e2e4",
+                  "surface-bright": "#f9f9fb",
+                  "on-error-container": "#93000a",
+                  "secondary-fixed-dim": "#bbc6e8",
+                  "inverse-on-surface": "#f0f0f2",
+                  "surface-container": "#eeeef0",
+                  "error-container": "#ffdad6",
+                  "on-secondary-fixed-variant": "#3b4663",
+                  "surface": "#f9f9fb",
+                  "primary": "#ba0035",
+                  "surface-container-high": "#e8e8ea",
+                  "secondary": "#535e7b",
+                  "pure-white": "#FFFFFF",
+                  "on-tertiary-fixed": "#002112",
+                  "velocity-pink": "#FF3B5C",
+                  "background": "#f9f9fb",
+                  "on-tertiary": "#ffffff",
+                  "on-background": "#1a1c1d",
+                  "tertiary-container": "#008656",
+                  "surface-variant": "#e2e2e4",
+                  "secondary-container": "#d1dcff",
+                  "on-secondary-container": "#55607e",
+                  "inverse-surface": "#2f3132",
+                  "primary-fixed-dim": "#ffb3b6",
+                  "on-primary-container": "#fffbff",
+                  "on-surface-variant": "#5c3f41",
+                  "error": "#ba1a1a",
+                  "on-tertiary-container": "#f6fff6",
+                  "on-tertiary-fixed-variant": "#005233",
+                  "on-secondary-fixed": "#0f1b35",
+                  "deep-track": "#0F1B35"
+          },
+          "borderRadius": {
+                  "DEFAULT": "0.25rem",
+                  "lg": "0.5rem",
+                  "xl": "0.75rem",
+                  "full": "9999px"
+          },
+          "spacing": {
+                  "margin-mobile": "20px",
+                  "margin-desktop": "40px",
+                  "gutter": "16px",
+                  "stack-md": "12px",
+                  "base": "8px",
+                  "stack-lg": "24px",
+                  "stack-sm": "4px"
+          },
+          "fontFamily": {
+                  "headline-md": ["Hanken Grotesk"],
+                  "label-caps": ["JetBrains Mono"],
+                  "headline-lg": ["Hanken Grotesk"],
+                  "body-md": ["Inter"],
+                  "display-lg": ["Hanken Grotesk"],
+                  "stats-number": ["Hanken Grotesk"],
+                  "headline-lg-mobile": ["Hanken Grotesk"],
+                  "body-lg": ["Inter"]
+          },
+          "fontSize": {
+                  "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                  "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.1em", "fontWeight": "700"}],
+                  "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "700"}],
+                  "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                  "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                  "stats-number": ["20px", {"lineHeight": "24px", "fontWeight": "700"}],
+                  "headline-lg-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "700"}],
+                  "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}]
+          }
+        },
+      },
+    }
+  </script>
+<style>
+    .glass-effect {
+      background: rgba(15, 27, 53, 0.4);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+    .moment-card {
+      transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    .moment-card:active {
+      transform: scale(0.98);
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface-mist text-on-surface font-body-md selection:bg-velocity-pink selection:text-pure-white">
+<!-- Top Navigation Shell (Suppressing full TopAppBar for focus, using back action) -->
+<nav class="sticky top-0 z-50 bg-surface h-16 flex items-center px-margin-mobile">
+<button class="p-2 -ml-2 hover:opacity-80 transition-opacity active:scale-95 duration-150">
+<span class="material-symbols-outlined text-primary">arrow_back</span>
+</button>
+<h1 class="ml-4 font-headline-md text-headline-md text-primary font-bold">IZUKE</h1>
+</nav>
+<main class="max-w-[1280px] mx-auto px-margin-mobile md:px-margin-desktop py-stack-lg flex flex-col items-center">
+<!-- Moment Card Section -->
+<div class="w-full max-w-md moment-card relative overflow-hidden rounded-xl shadow-2xl bg-deep-track group">
+<!-- Background Image -->
+<div class="aspect-[4/5] relative w-full overflow-hidden">
+<img alt="Athletes running at sunrise" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="A cinematic low-angle photograph of two diverse, high-performance runners sprinting together across a scenic ridge at the Skyline Summit during golden hour. The lighting is dramatic and high-contrast, with long shadows and warm, orange sunbeams hitting their athletic apparel. The background shows a vast valley partially covered in mist. The overall aesthetic is energetic and celebratory, matching the Velocity Pink and Deep Track brand colors of the IZUKE app." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCfd07JcRAXvEnsdxOmPjZdY0bHxDRexFY0sRIhGFtKARLngqKBYrtzdBGyg1wdtXss6OA3p3nKMLW9dz3DaNM_gWvVlGXQI6lRN6j5fXl45DEJmBC86bPiurxp4vEKNHrn_rw8bG7KuGKEVKsOAtHPUn1-QuAxKLuHM8Dob0hhwzJG6kzKuAnrskAJtccbgkjWTS57exgIogP61rRF78vRfnL1O1jqmA-msokEUejVbEizUrEfMYwMn_G4Ox0X81k3MVB9_7jPStHO"/>
+<!-- Overlays -->
+<div class="absolute inset-0 bg-gradient-to-t from-deep-track via-transparent to-transparent opacity-90"></div>
+<!-- Header Text (Top Left) -->
+<div class="absolute top-6 left-6 flex flex-col">
+<div class="flex items-center gap-2 mb-2">
+<span class="bg-velocity-pink text-pure-white font-label-caps text-[10px] px-2 py-1 rounded-full uppercase tracking-widest">
+              Verified Run
+            </span>
+</div>
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile text-pure-white leading-none">
+            Skyline Summit
+          </h2>
+</div>
+<!-- Names & Logo (Center Overlay) -->
+<div class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
+<div class="glass-effect px-6 py-4 rounded-xl border border-pure-white/10 flex flex-col items-center">
+<div class="flex items-center gap-4 mb-2">
+<span class="font-headline-md text-headline-md text-pure-white font-bold">Alex</span>
+<span class="material-symbols-outlined text-velocity-pink" style="font-variation-settings: 'FILL' 1;">bolt</span>
+<span class="font-headline-md text-headline-md text-pure-white font-bold">Jordan</span>
+</div>
+<p class="font-label-caps text-label-caps text-pure-white/60">SYNERGY MOMENT</p>
+</div>
+</div>
+<!-- Stats Grid (Bottom) -->
+<div class="absolute bottom-0 left-0 w-full p-6 bg-gradient-to-t from-deep-track to-transparent">
+<div class="grid grid-cols-3 gap-gutter items-center">
+<div class="flex flex-col items-center text-center">
+<span class="font-label-caps text-label-caps text-velocity-pink mb-1">DISTANCE</span>
+<span class="font-stats-number text-stats-number text-pure-white">8.42<span class="text-xs ml-0.5">KM</span></span>
+</div>
+<div class="flex flex-col items-center text-center border-x border-pure-white/10">
+<span class="font-label-caps text-label-caps text-velocity-pink mb-1">PACE</span>
+<span class="font-stats-number text-stats-number text-pure-white">4:52<span class="text-xs ml-0.5">/KM</span></span>
+</div>
+<div class="flex flex-col items-center text-center">
+<span class="font-label-caps text-label-caps text-velocity-pink mb-1">DURATION</span>
+<span class="font-stats-number text-stats-number text-pure-white">41:02</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Actions Section -->
+<div class="w-full max-w-md mt-stack-lg flex flex-col gap-4">
+<!-- Primary Share Button -->
+<button class="w-full h-14 bg-gradient-to-r from-velocity-pink to-primary rounded-xl flex items-center justify-center gap-3 text-pure-white font-headline-md hover:shadow-lg active:scale-[0.98] transition-all group">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">share</span>
+<span>Share on Socials</span>
+</button>
+<!-- Secondary Back Button -->
+<button class="w-full h-12 border-2 border-deep-track rounded-xl flex items-center justify-center gap-2 text-deep-track font-label-caps text-label-caps hover:bg-deep-track hover:text-pure-white transition-colors">
+<span>DONE</span>
+</button>
+</div>
+<!-- Social Proof / Context -->
+<div class="mt-stack-lg w-full max-w-md bg-white border border-outline-variant/30 rounded-xl p-4 flex items-center gap-4">
+<div class="w-12 h-12 rounded-full overflow-hidden flex-shrink-0">
+<img alt="Profile" class="w-full h-full object-cover" data-alt="A professional close-up studio portrait of a friendly-looking male runner in his late 20s with short hair, wearing a high-tech black moisture-wicking compression shirt. The lighting is clean and modern, with a subtle blue backlighting that matches the Deep Track brand color. The focus is sharp on his confident expression, set against a soft, out-of-focus athletic track background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB816cJ2sx-K7CKu_B1Of9LEB4qkG7Hk-mE1XDca7akll6-cCgkcEHAhxDsp6jR_DmyuGyzXyC47Zi0D3xNt8EU44-iOOoPC7IF5ym8R7rsA-UEJgzj4Awb6SKsVhFTEO8RnLvP0U-W5zBpKw9WY0cWzfUU8Yh9UbsIj2cio9Erf4aSwiXVeBpGuRhnEzFJ1H3_aqxfrOnjSBC97-Z5L2F2bHNwIUpwvhT_7LzRWV-ixWXGfLfBUiAZ8rW4pZJnRH5fgB7LRtg76PdV"/>
+</div>
+<div class="flex-grow">
+<p class="font-body-md text-body-md font-semibold text-on-surface">Moment Saved</p>
+<p class="text-xs text-secondary">This moment was added to your Activity Feed and Moments collection.</p>
+</div>
+<span class="material-symbols-outlined text-tertiary">check_circle</span>
+</div>
+</main>
+<!-- Bottom Navigation Shell (Filtered for Focus Screen: Inactive for this Transactional/Celebratory View) -->
+<!-- Note: Shared Components logic says suppress shell on sub-pages or task-focused screens. -->
+<script>
+    // Micro-interaction for the share button
+    const shareBtn = document.querySelector('button.bg-gradient-to-r');
+    shareBtn.addEventListener('click', () => {
+      shareBtn.innerHTML = `
+        <span class="material-symbols-outlined animate-spin">sync</span>
+        <span>Generating Post...</span>
+      `;
+      setTimeout(() => {
+        shareBtn.innerHTML = `
+          <span class="material-symbols-outlined">check</span>
+          <span>Shared to Instagram</span>
+        `;
+        shareBtn.classList.remove('from-velocity-pink', 'to-primary');
+        shareBtn.classList.add('bg-tertiary');
+      }, 1500);
+    });
+
+    // Suble parallax effect on mouse move for the card (desktop only)
+    const card = document.querySelector('.moment-card');
+    if (window.innerWidth > 768) {
+      document.addEventListener('mousemove', (e) => {
+        const xAxis = (window.innerWidth / 2 - e.pageX) / 40;
+        const yAxis = (window.innerHeight / 2 - e.pageY) / 40;
+        card.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
+      });
+    }
+  </script>
+</body></html>

@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Izuke – My Profile</title>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@600;700;800;900&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; background: #d9dadc; font-family: 'Inter', sans-serif; }
+
+  .phone {
+    width: 390px;
+    height: 844px;
+    background: #f9f9fb;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 32px 80px rgba(0,0,0,0.18);
+    border-radius: 48px;
+    overflow: hidden;
+  }
+
+  /* Top bar */
+  .top-bar {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 4px 20px 8px;
+    flex-shrink: 0;
+  }
+  .top-bar .title {
+    font-family: 'Hanken Grotesk', sans-serif;
+    font-weight: 800; font-size: 22px; color: #0F1B35;
+  }
+  .top-icon {
+    width: 38px; height: 38px; border-radius: 50%;
+    background: #fff; border: 1px solid #e8e8ea;
+    display: flex; align-items: center; justify-content: center;
+    color: #535e7b; cursor: pointer;
+    transition: transform 0.1s;
+  }
+  .top-icon:active { transform: scale(0.92); }
+
+  /* Scroll body */
+  .scroll-body {
+    flex: 1; overflow-y: auto; overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+    padding: 8px 20px 100px;
+  }
+  .scroll-body::-webkit-scrollbar { display: none; }
+
+  /* ── Runner card (mirrors Discover / setup_5) ── */
+  .runner-card {
+    background: #fff;
+    border-radius: 24px;
+    overflow: hidden;
+    border: 1px solid #e2e2e4;
+    box-shadow: 0 12px 32px rgba(15,27,53,0.12);
+    display: flex; flex-direction: column;
+  }
+  .card-photo {
+    position: relative; height: 290px; overflow: hidden; flex-shrink: 0;
+    background: #161435;
+  }
+  .card-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .card-scrim {
+    position: absolute; inset: 0;
+    background: linear-gradient(to bottom, rgba(15,27,53,0.35) 0%, transparent 35%);
+    pointer-events: none;
+  }
+  .verified-badge {
+    position: absolute; top: 14px; left: 14px;
+    background: rgba(83,94,123,0.55); color: #fff;
+    backdrop-filter: blur(8px);
+    padding: 4px 10px; border-radius: 9999px;
+    display: flex; align-items: center; gap: 4px;
+  }
+  .verified-badge .material-symbols-outlined { font-size: 13px !important; }
+  .verified-badge span.lbl {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px; font-weight: 700; letter-spacing: 0.1em;
+  }
+  .edit-photo {
+    position: absolute; top: 14px; right: 14px;
+    width: 34px; height: 34px; border-radius: 50%;
+    background: rgba(15,27,53,0.55); backdrop-filter: blur(8px);
+    border: none; cursor: pointer; color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    transition: transform 0.1s;
+  }
+  .edit-photo:active { transform: scale(0.9); }
+  .edit-photo .material-symbols-outlined { font-size: 18px !important; }
+
+  .card-info { padding: 16px; }
+  .card-name {
+    font-family: 'Hanken Grotesk', sans-serif;
+    font-weight: 800; font-size: 22px; color: #0F1B35; line-height: 1.1;
+  }
+  .card-loc {
+    display: flex; align-items: center; gap: 3px;
+    font-size: 13px; color: #535e7b; margin-top: 8px;
+  }
+  .card-loc .material-symbols-outlined { font-size: 15px !important; }
+
+  /* divider after location */
+  .card-divider { height: 1px; background: #f0f0f2; margin-top: 16px; }
+
+  /* stats row (inside card) */
+  .stat-row { display: flex; margin-top: 16px; align-items: stretch; }
+  .stat-col { display: flex; flex-direction: column; gap: 2px; flex: 1; text-align: center; }
+  .stat-col.mid { border-left: 1px solid #e2e2e4; border-right: 1px solid #e2e2e4; }
+  .stat-cap {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px; font-weight: 700; letter-spacing: 0.1em;
+    color: #535e7b; text-transform: uppercase;
+  }
+  .stat-val {
+    font-family: 'Hanken Grotesk', sans-serif;
+    font-weight: 700; font-size: 18px; color: #0F1B35;
+  }
+  .stat-sub { font-size: 10px; color: #535e7b; }
+
+  /* Verify card */
+  .verify-card {
+    display: flex; align-items: center; gap: 14px;
+    background: #FFF0F2;
+    border-radius: 16px;
+    padding: 14px 16px;
+    margin-top: 18px;
+  }
+  .verify-icon { color: #FF3B5C; flex-shrink: 0; display: flex; }
+  .verify-body { flex: 1; }
+  .verify-body .t {
+    font-family: 'Hanken Grotesk', sans-serif;
+    font-weight: 800; font-size: 15px; color: #0F1B35;
+  }
+  .verify-body .s { font-size: 12px; color: #535e7b; margin-top: 2px; line-height: 1.4; }
+  .verify-link {
+    flex-shrink: 0;
+    background: none; border: none; cursor: pointer;
+    font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 700; color: #FF3B5C;
+    white-space: nowrap;
+  }
+
+  /* Section */
+  .sec-head {
+    display: flex; align-items: center; justify-content: space-between;
+    margin: 26px 0 14px;
+  }
+  .sec-title {
+    font-family: 'Hanken Grotesk', sans-serif;
+    font-weight: 800; font-size: 18px; color: #0F1B35;
+  }
+  .sec-action {
+    background: none; border: none; cursor: pointer;
+    font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 700; color: #FF3B5C;
+  }
+
+  /* Editable summary list (from setup_5) */
+  .summary {
+    background: #fff;
+    border-radius: 20px;
+    border: 1px solid rgba(0,0,0,0.05);
+    box-shadow: 0 1px 6px rgba(0,0,0,0.05);
+    overflow: hidden;
+    margin-top: 18px;
+  }
+  .sum-row {
+    display: flex; align-items: center; gap: 14px;
+    padding: 14px 16px;
+    border-top: 1px solid #f0f0f2;
+  }
+  .sum-row:first-child { border-top: none; }
+  .sum-icon {
+    width: 36px; height: 36px; border-radius: 11px;
+    background: rgba(255,59,92,0.10);
+    display: flex; align-items: center; justify-content: center;
+    color: #FF3B5C; flex-shrink: 0;
+  }
+  .sum-icon .material-symbols-outlined { font-size: 19px !important; }
+  .sum-body { flex: 1; min-width: 0; }
+  .sum-label {
+    font-size: 11px; color: #999; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.04em;
+  }
+  .sum-value {
+    font-size: 14px; color: #0F1B35; font-weight: 600; margin-top: 2px;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .sum-edit {
+    background: none; border: none; cursor: pointer;
+    color: #FF3B5C; flex-shrink: 0; display: flex; align-items: center;
+  }
+  .sum-edit .material-symbols-outlined { font-size: 19px !important; }
+
+  /* Feature rows */
+  .row {
+    display: flex; align-items: center; gap: 14px;
+    background: #fff;
+    border: 1px solid #f0f0f2;
+    border-radius: 18px;
+    padding: 16px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    box-shadow: 0 1px 6px rgba(15,27,53,0.05);
+    transition: transform 0.12s;
+  }
+  .row:active { transform: scale(0.98); }
+  .row-icon {
+    width: 46px; height: 46px; border-radius: 14px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .row-icon.soft { background: #FFF0F2; color: #FF3B5C; }
+  .row-body { flex: 1; min-width: 0; }
+  .row-title {
+    font-family: 'Hanken Grotesk', sans-serif;
+    font-weight: 800; font-size: 16px; color: #0F1B35; line-height: 1.2;
+  }
+  .row-sub { font-size: 13px; color: #535e7b; margin-top: 2px; }
+  .row .chev { color: #c0c0c8; flex-shrink: 0; }
+
+  .row.gradient {
+    background: linear-gradient(135deg, #FF7A8C, #FF3B5C);
+    border: none; box-shadow: 0 8px 20px rgba(255,59,92,0.22);
+  }
+  .row.gradient .row-icon { background: rgba(255,255,255,0.20); color: #fff; }
+  .row.gradient .row-title { color: #fff; }
+  .row.gradient .row-sub { color: rgba(255,255,255,0.82); }
+  .row.dark {
+    background: linear-gradient(135deg, #E12149 0%, #BA0035 100%);
+    border: none; box-shadow: 0 8px 20px rgba(186,0,53,0.25);
+  }
+  .row.dark .row-icon { background: rgba(255,255,255,0.18); color: #fff; }
+  .row.dark .row-title { color: #fff; }
+  .row.dark .row-sub { color: rgba(255,255,255,0.75); }
+  .row.dark .chev { color: rgba(255,255,255,0.6); }
+  .badge-soon {
+    flex-shrink: 0;
+    background: #fff; color: #FF3B5C;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px; font-weight: 700; letter-spacing: 0.06em;
+    padding: 5px 11px; border-radius: 9999px;
+  }
+
+  /* Bottom nav */
+  .bottom-nav {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 82px;
+    background: #0F1B35;
+    display: flex; align-items: center;
+    padding-bottom: 14px;
+    z-index: 50;
+    border-bottom-left-radius: 48px;
+    border-bottom-right-radius: 48px;
+  }
+  .nav-tab {
+    flex: 1;
+    display: flex; flex-direction: column; align-items: center; gap: 3px;
+    color: rgba(255,255,255,0.35);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px; font-weight: 700;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    cursor: pointer; text-decoration: none;
+    transition: color 0.15s;
+  }
+  .nav-tab.active { color: #FF3B5C; }
+  .nav-tab .material-symbols-outlined { font-size: 22px; }
+
+  .material-symbols-outlined {
+    font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    vertical-align: middle;
+  }
+  .filled { font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+</style>
+</head>
+
+<body style="display:flex; align-items:center; justify-content:center; min-height:100vh;">
+<div class="phone">
+
+  <!-- Status bar -->
+  <div style="height:48px; display:flex; align-items:center; padding:0 24px; flex-shrink:0;">
+    <span style="font-family:'Hanken Grotesk',sans-serif; font-weight:700; font-size:15px; color:#0F1B35;">9:41</span>
+  </div>
+
+  <!-- Top bar -->
+  <div class="top-bar">
+    <span class="title">My Profile</span>
+    <button class="top-icon" onclick="window.location.href='settings.html'">
+      <span class="material-symbols-outlined" style="font-size:22px;">settings</span>
+    </button>
+  </div>
+
+  <!-- Scroll body -->
+  <div class="scroll-body">
+
+    <!-- Runner card (this is how others see you) -->
+    <div class="runner-card">
+      <div class="card-photo">
+        <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuBMulCzMzQa3vQmlqP_T2gK6Pu4ZfcI4OGq5FVYZnHb55fxdLVHsseg5XDTy353fVYrnDY-gueCO0BSKafyUGaPNJoD36BdQ6TG1mjJBw_n5ZFLqckj_bEzPGfnmmUSNMhL1HDcsFR6xoBQXtZaFxt_Ugf2nFz0RRC3xdoBx1ibFvXWN0jvG7mLCHJ7HYAX6kWgDVwanpxU1xo_rnuQlazbkj5BuvIk9UryAZaPk3YydV3Qjr1c4LiqcqF0GoceIxpAuqXBV2HfPtoi" alt="Charles">
+        <div class="card-scrim"></div>
+        <div class="verified-badge">
+          <span class="material-symbols-outlined filled">lock</span>
+          <span class="lbl">NOT VERIFIED</span>
+        </div>
+        <button class="edit-photo">
+          <span class="material-symbols-outlined">photo_camera</span>
+        </button>
+      </div>
+      <div class="card-info">
+        <h2 class="card-name">John Doe</h2>
+        <p class="card-loc">
+          <span class="material-symbols-outlined">location_on</span>
+          Marathon Enthusiast &bull; Lagos, NG
+        </p>
+        <div class="card-divider"></div>
+        <div class="stat-row">
+          <div class="stat-col">
+            <span class="stat-cap">Matches</span>
+            <span class="stat-val">0</span>
+            <span class="stat-sub">total</span>
+          </div>
+          <div class="stat-col mid">
+            <span class="stat-cap">Runs</span>
+            <span class="stat-val">0</span>
+            <span class="stat-sub">together</span>
+          </div>
+          <div class="stat-col">
+            <span class="stat-cap">Dist.</span>
+            <span class="stat-val">0.0</span>
+            <span class="stat-sub">miles</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Verify card -->
+    <div class="verify-card">
+      <div class="verify-icon">
+        <span class="material-symbols-outlined" style="font-size:26px;">shield</span>
+      </div>
+      <div class="verify-body">
+        <div class="t">Not Verified</div>
+        <div class="s">Get verified to build trust with other runners</div>
+      </div>
+      <button class="verify-link" onclick="window.location.href='verification.html'">Verify →</button>
+    </div>
+
+    <!-- Editable summary (Goals / Run Preferences / Location) -->
+    <div class="summary">
+      <div class="sum-row">
+        <div class="sum-icon"><span class="material-symbols-outlined">flag</span></div>
+        <div class="sum-body">
+          <div class="sum-label">Goals</div>
+          <div class="sum-value">Race Training, Social Running</div>
+        </div>
+        <button class="sum-edit" onclick="window.location.href='setup_2.html'">
+          <span class="material-symbols-outlined">edit</span>
+        </button>
+      </div>
+
+      <div class="sum-row">
+        <div class="sum-icon"><span class="material-symbols-outlined">directions_run</span></div>
+        <div class="sum-body">
+          <div class="sum-label">Run Preferences</div>
+          <div class="sum-value">Road &middot; Track &middot; 8:00/mi &middot; 5K</div>
+        </div>
+        <button class="sum-edit" onclick="window.location.href='setup_3.html'">
+          <span class="material-symbols-outlined">edit</span>
+        </button>
+      </div>
+
+      <div class="sum-row">
+        <div class="sum-icon"><span class="material-symbols-outlined">location_on</span></div>
+        <div class="sum-body">
+          <div class="sum-label">Location</div>
+          <div class="sum-value">Lagos, NG</div>
+        </div>
+        <button class="sum-edit" onclick="window.location.href='setup_4.html'">
+          <span class="material-symbols-outlined">edit</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Feature rows -->
+    <div style="margin-top:26px;">
+      <div class="row" onclick="window.location.href='journal.html'">
+        <div class="row-icon soft"><span class="material-symbols-outlined filled">book</span></div>
+        <div class="row-body">
+          <div class="row-title">My Running Journal</div>
+          <div class="row-sub">2 runs logged</div>
+        </div>
+        <span class="material-symbols-outlined chev">chevron_right</span>
+      </div>
+
+      <div class="row gradient">
+        <div class="row-icon"><span class="material-symbols-outlined">calendar_today</span></div>
+        <div class="row-body">
+          <div class="row-title">Year in Review 2026</div>
+          <div class="row-sub">Your movie arrives Dec 31</div>
+        </div>
+        <span class="badge-soon">SOON</span>
+      </div>
+
+      <div class="row gradient" onclick="window.location.href='run_clubs.html'">
+        <div class="row-icon"><span class="material-symbols-outlined">groups</span></div>
+        <div class="row-body">
+          <div class="row-title">Run Clubs</div>
+          <div class="row-sub">Coming Soon — Join the waitlist</div>
+        </div>
+        <span class="badge-soon">SOON</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Bottom nav -->
+  <nav class="bottom-nav">
+    <a class="nav-tab" href="discover.html">
+      <span class="material-symbols-outlined">explore</span>
+      Discover
+    </a>
+    <a class="nav-tab" href="matches.html">
+      <span class="material-symbols-outlined">chat_bubble</span>
+      Matches
+    </a>
+    <a class="nav-tab" href="activity.html">
+      <span class="material-symbols-outlined">notifications</span>
+      Activity
+    </a>
+    <a class="nav-tab active" href="profile.html">
+      <span class="material-symbols-outlined filled">person</span>
+      Profile
+    </a>
+  </nav>
+
+</div>
+</body>
+</html>

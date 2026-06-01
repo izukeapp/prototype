@@ -1,0 +1,204 @@
+<!DOCTYPE html><html class="light" lang="en" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Izuke - Run Better Together</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@600;700;800&amp;family=Inter:wght@400;500&amp;family=JetBrains+Mono:wght@700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                "on-secondary-fixed": "#0f1b35",
+                "on-secondary": "#ffffff",
+                "surface": "#f9f9fb",
+                "on-primary-fixed-variant": "#920028",
+                "outline-variant": "#e5bdbe",
+                "surface-container-low": "#f3f3f5",
+                "on-primary-container": "#fffbff",
+                "on-surface": "#1a1c1d",
+                "error-container": "#ffdad6",
+                "inverse-primary": "#ffb3b6",
+                "surface-bright": "#f9f9fb",
+                "velocity-pink": "#FF3B5C",
+                "on-surface-variant": "#5c3f41",
+                "on-tertiary-container": "#f6fff6",
+                "surface-mist": "#F5F5F7",
+                "primary-fixed": "#ffdada",
+                "surface-container": "#eeeef0",
+                "secondary": "#535e7b",
+                "surface-container-lowest": "#ffffff",
+                "surface-container-high": "#e8e8ea",
+                "on-background": "#1a1c1d",
+                "secondary-container": "#d1dcff",
+                "primary-container": "#e12149",
+                "tertiary-container": "#008656",
+                "primary": "#ba0035",
+                "on-tertiary-fixed-variant": "#005233",
+                "surface-tint": "#be0037",
+                "tertiary-fixed-dim": "#62dda0",
+                "on-secondary-fixed-variant": "#3b4663",
+                "on-error-container": "#93000a",
+                "background": "#f9f9fb",
+                "pure-white": "#FFFFFF",
+                "surface-variant": "#e2e2e4",
+                "on-secondary-container": "#55607e",
+                "inverse-surface": "#2f3132",
+                "secondary-fixed-dim": "#bbc6e8",
+                "tertiary-fixed": "#7ffaba",
+                "surface-container-highest": "#e2e2e4",
+                "on-primary-fixed": "#40000c",
+                "inverse-on-surface": "#f0f0f2",
+                "on-error": "#ffffff",
+                "deep-track": "#0F1B35",
+                "secondary-fixed": "#d9e2ff",
+                "on-tertiary-fixed": "#002112",
+                "on-primary": "#ffffff",
+                "tertiary": "#006a43",
+                "on-tertiary": "#ffffff",
+                "error": "#ba1a1a",
+                "surface-dim": "#d9dadc",
+                "primary-fixed-dim": "#ffb3b6",
+                "outline": "#906f70"
+            },
+            "borderRadius": {
+                "DEFAULT": "0.25rem",
+                "lg": "0.5rem",
+                "xl": "0.75rem",
+                "full": "9999px"
+            },
+            "spacing": {
+                "stack-lg": "24px",
+                "margin-mobile": "20px",
+                "margin-desktop": "40px",
+                "gutter": "16px",
+                "stack-md": "12px",
+                "base": "8px",
+                "stack-sm": "4px"
+            },
+            "fontFamily": {
+                "headline-md": ["Hanken Grotesk"],
+                "stats-number": ["Hanken Grotesk"],
+                "body-lg": ["Inter"],
+                "display-lg": ["Hanken Grotesk"],
+                "headline-lg-mobile": ["Hanken Grotesk"],
+                "headline-lg": ["Hanken Grotesk"],
+                "body-md": ["Inter"],
+                "label-caps": ["JetBrains Mono"]
+            },
+            "fontSize": {
+                "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                "stats-number": ["20px", {"lineHeight": "24px", "fontWeight": "700"}],
+                "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                "headline-lg-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "700"}],
+                "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "700"}],
+                "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.1em", "fontWeight": "700"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .kinetic-gradient {
+            background: linear-gradient(135deg, #FF3B5C 0%, #BA0035 100%);
+        }
+        .page-indicator-active {
+            width: 24px;
+            height: 8px;
+            background-color: #FF3B5C;
+            border-radius: 4px;
+        }
+        .page-indicator-inactive {
+            width: 8px;
+            height: 8px;
+            background-color: #e2e2e4;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface min-h-screen flex flex-col font-body-md overflow-x-hidden">
+<!-- Top Navigation (Skip Action) -->
+<header class="w-full flex justify-end items-center px-margin-mobile h-16 sticky top-0 z-50">
+<button class="font-label-caps text-label-caps text-secondary hover:text-deep-track transition-colors active:scale-95">
+            Skip
+        </button>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-grow flex flex-col items-center justify-center px-margin-mobile text-center" style="opacity: 1; transform: translateY(0px); transition: 0.6s ease-out;">
+<!-- Hero Visual Section -->
+<div class="relative w-full max-w-[320px] aspect-square mb-stack-lg animate-fade-in">
+<!-- Decorative kinetic pulses -->
+<div class="absolute inset-0 kinetic-gradient rounded-[48px] opacity-10 animate-ping rounded-3xl" style="animation-duration: 3s;"></div>
+<!-- Main Hero Image Container -->
+<div class="relative w-full h-full rounded-[48px] overflow-hidden bg-surface-container-high border border-outline-variant/30 shadow-sm flex items-center justify-center group rounded-3xl">
+<img alt="Runners matching pace" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" data-alt="Two diverse professional runners, a man and a woman, are captured mid-stride during a synchronized morning run on a sleek urban waterfront path. The lighting is bright and airy, reflecting a high-performance light-mode aesthetic with soft blue morning shadows. The composition is energetic and focused, highlighting the discipline of athlete's movement. The overall atmosphere is modern and premium, using a clean palette of whites and grays with subtle vibrant pink accents in their athletic gear." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA0pWGO15h-42jL_Wdj389ZjIJdnkLWWrNM5Y2RrMyjah7k-d2ET8qrGXOm177LNBdZ1jKjpKni7jOFrbPmESluIBtYJ1SDyaQOSuQfa38cE54wltjctZXJgvHbQnJd90mLEVO64yxtuMvJ92yUCFwDva6z58NqVlfI77e8fNDzdgCxoGMrq8aC0JYjTpoUiwX4XMQrd8bTuubipEYeVqeAZNLGGsR2KEhaLPjbfR6IylxfghVTg7ljLQDY7CbI_aR0vrsFlg3j39EW">
+<!-- Central Icon Overlay -->
+<div class="absolute inset-0 flex items-center justify-center bg-deep-track/10">
+<div class="w-24 h-24 bg-velocity-pink rounded-[32px] flex items-center justify-center shadow-lg transform rotate-3">
+<span class="material-symbols-outlined text-pure-white !text-5xl" style="font-variation-settings: 'FILL' 1;">directions_run</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Typography Cluster -->
+<div class="space-y-stack-md max-w-sm">
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile md:font-headline-lg md:text-headline-lg text-deep-track tracking-tight">
+                Run Better.<br>Together.
+            </h1>
+<p class="font-body-lg text-body-lg text-secondary px-4 leading-relaxed">
+                Match with runners who share your goals, pace and schedule.
+            </p>
+</div>
+</main>
+<!-- Bottom Action Section -->
+<footer class="w-full px-margin-mobile pb-12 flex flex-col items-center gap-stack-lg sticky bottom-0 bg-surface/80 backdrop-blur-xl pb-8">
+<!-- Page Indicators -->
+<div class="flex items-center gap-2">
+<div class="page-indicator-active"></div>
+<div class="page-indicator-inactive"></div>
+<div class="page-indicator-inactive"></div>
+</div>
+<!-- Primary CTA -->
+<button class="w-full max-w-md h-14 kinetic-gradient flex items-center justify-center gap-2 text-pure-white font-headline-md text-headline-md shadow-md active:scale-[0.98] transition-all hover:brightness-110 rounded-3xl">
+<span class="">Next</span>
+<span class="material-symbols-outlined !text-xl">arrow_forward</span>
+</button>
+</footer>
+<!-- Background Pattern Effect -->
+<div class="fixed inset-0 pointer-events-none -z-10 opacity-5">
+<div class="absolute top-0 right-0 w-96 h-96 bg-velocity-pink blur-[120px] rounded-full"></div>
+<div class="absolute bottom-0 left-0 w-64 h-64 bg-primary blur-[100px] rounded-full"></div>
+</div>
+<script>
+        // Simple micro-interaction for button and image hover
+        document.querySelector('button').addEventListener('mousedown', function() {
+            this.style.transform = 'scale(0.97)';
+        });
+        document.querySelector('button').addEventListener('mouseup', function() {
+            this.style.transform = 'scale(1)';
+        });
+
+        // Add a simple fade-in entrance for the content
+        document.addEventListener('DOMContentLoaded', () => {
+            const main = document.querySelector('main');
+            main.style.opacity = '0';
+            main.style.transform = 'translateY(10px)';
+            
+            setTimeout(() => {
+                main.style.transition = 'all 0.6s ease-out';
+                main.style.opacity = '1';
+                main.style.transform = 'translateY(0)';
+            }, 100);
+        });
+    </script>
+
+
+</body></html>

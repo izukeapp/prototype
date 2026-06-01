@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Izuke — Screen Map</title>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@700;800;900&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root { --pink: #FF3B5C; --text-3: #8b91a0; }
+  body {
+    font-family: 'Inter', sans-serif;
+    background: #0d0d18;
+    color: #fff;
+    min-height: 100vh;
+    padding: 40px 24px 80px;
+  }
+
+  .head { max-width: 1200px; margin: 0 auto 36px; }
+  .brand { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; }
+  .logo {
+    width: 40px; height: 40px; border-radius: 12px;
+    background: linear-gradient(135deg, #FF3B5C, #BA0035);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Hanken Grotesk', sans-serif; font-weight: 900; font-style: italic;
+    font-size: 18px; letter-spacing: -0.04em;
+  }
+  .brand h1 { font-family: 'Hanken Grotesk', sans-serif; font-weight: 900; font-size: 28px; letter-spacing: -0.02em; }
+  .head p { color: rgba(255,255,255,0.5); font-size: 15px; }
+
+  .group { max-width: 1200px; margin: 0 auto 40px; }
+  .group-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px; font-weight: 700; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--pink);
+    margin-bottom: 18px; display: flex; align-items: center; gap: 10px;
+  }
+  .group-title::after { content: ''; flex: 1; height: 1px; background: rgba(255,255,255,0.08); }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    gap: 16px;
+  }
+
+  .screen-card {
+    cursor: pointer; text-decoration: none; color: inherit;
+    display: flex; flex-direction: column; gap: 10px;
+    transition: transform 0.18s;
+  }
+  .screen-card:hover { transform: translateY(-5px); }
+  .tile {
+    position: relative;
+    width: 100%; aspect-ratio: 5 / 6;
+    border-radius: 20px;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.4);
+    border: 1px solid rgba(255,255,255,0.08);
+    overflow: hidden;
+    transition: box-shadow 0.18s;
+  }
+  .screen-card:hover .tile { box-shadow: 0 16px 40px rgba(255,59,92,0.25); }
+  .tile .material-symbols-outlined {
+    font-size: 40px; color: rgba(255,255,255,0.92);
+    font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 48;
+  }
+  .num-badge {
+    position: absolute; top: 10px; left: 12px;
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700;
+    color: rgba(255,255,255,0.7);
+  }
+  .label { padding-left: 4px; }
+  .label .name { font-family: 'Hanken Grotesk', sans-serif; font-weight: 800; font-size: 13px; display: block; }
+  .label .file { font-family: 'JetBrains Mono', monospace; font-size: 9px; color: var(--text-3); }
+</style>
+</head>
+<body>
+
+  <div class="head">
+    <div class="brand">
+      <div class="logo">IZ</div>
+      <h1>Izuke — Screen Map</h1>
+    </div>
+    <p>Interactive prototype · tap any screen to open it</p>
+  </div>
+
+  <div id="groups"></div>
+
+<script>
+  // [file, name, icon, gradient]
+  const groups = [
+    { title: 'Onboarding & Auth', screens: [
+      ['splash.html', 'Splash', 'bolt', 'linear-gradient(135deg,#FF3B5C,#BA0035)'],
+      ['onboarding_1.html', 'Onboarding 1', 'directions_run', 'linear-gradient(135deg,#667eea,#764ba2)'],
+      ['onboarding_2.html', 'Onboarding 2', 'verified_user', 'linear-gradient(135deg,#11998e,#38ef7d)'],
+      ['onboarding_3.html', 'Onboarding 3', 'hub', 'linear-gradient(135deg,#f093fb,#f5576c)'],
+      ['auth.html', 'Sign In Options', 'login', 'linear-gradient(135deg,#0F1B35,#1d2a4d)'],
+      ['email_auth.html', 'Email Sign In', 'mail', 'linear-gradient(135deg,#4facfe,#00f2fe)'],
+    ]},
+    { title: 'Profile Setup', screens: [
+      ['setup_1.html', 'Step 1 · Profile', 'person', 'linear-gradient(135deg,#1d2a4d,#2a4f90)'],
+      ['setup_2.html', 'Step 2 · Goals', 'flag', 'linear-gradient(135deg,#1d2a4d,#2a4f90)'],
+      ['setup_3.html', 'Step 3 · Run Prefs', 'tune', 'linear-gradient(135deg,#1d2a4d,#2a4f90)'],
+      ['setup_4.html', 'Step 4 · Location', 'location_on', 'linear-gradient(135deg,#1d2a4d,#2a4f90)'],
+      ['setup_5.html', 'Step 5 · Review', 'task_alt', 'linear-gradient(135deg,#1d2a4d,#2a4f90)'],
+      ['verification.html', 'Get Verified', 'verified', 'linear-gradient(135deg,#8B5CF6,#6D28D9)'],
+    ]},
+    { title: 'Discover & Matching', screens: [
+      ['discover.html', 'Discover', 'explore', 'linear-gradient(135deg,#FF3B5C,#FF6B80)'],
+      ['profile_detail.html', 'Runner Profile', 'id_card', 'linear-gradient(135deg,#FF6B6B,#FF91A4)'],
+      ['matches.html', 'Matches', 'chat_bubble', 'linear-gradient(135deg,#4ECDC4,#44A08D)'],
+      ['pending_requests.html', 'Pending Requests', 'inbox', 'linear-gradient(135deg,#43e97b,#38f9d7)'],
+      ['its_a_match.html', "It's a Match", 'bolt', 'linear-gradient(135deg,#FF3B5C,#BA0035)'],
+    ]},
+    { title: 'Chat & Moments', screens: [
+      ['chat.html', 'Chat', 'forum', 'linear-gradient(135deg,#667eea,#764ba2)'],
+      ['create_moment.html', 'Capture Moment', 'add_a_photo', 'linear-gradient(135deg,#0F1B35,#1d2a4d)'],
+      ['moment_detail.html', 'Moment Card', 'share', 'linear-gradient(135deg,#4A4488,#161435)'],
+    ]},
+    { title: 'Journal', screens: [
+      ['journal.html', 'Running Journal', 'book', 'linear-gradient(135deg,#FF3B5C,#FF6B80)'],
+      ['journal_log.html', 'Log a Run', 'add_circle', 'linear-gradient(135deg,#f093fb,#f5576c)'],
+      ['journal_detail.html', 'Journal Entry', 'directions_run', 'linear-gradient(135deg,#5FB4F0,#3B6FE0)'],
+    ]},
+    { title: 'Profile & Settings', screens: [
+      ['profile.html', 'My Profile', 'account_circle', 'linear-gradient(135deg,#FF5069,#FF3B5C)'],
+      ['activity.html', 'Activity', 'notifications', 'linear-gradient(135deg,#4facfe,#00f2fe)'],
+      ['settings.html', 'Settings', 'settings', 'linear-gradient(135deg,#374151,#6B7280)'],
+      ['run_clubs.html', 'Run Clubs', 'groups', 'linear-gradient(135deg,#0F1B35,#FF3B5C)'],
+    ]},
+  ];
+
+  const container = document.getElementById('groups');
+  let n = 1;
+
+  groups.forEach(group => {
+    const sec = document.createElement('div');
+    sec.className = 'group';
+    sec.innerHTML = `<div class="group-title">${group.title}</div>`;
+    const grid = document.createElement('div');
+    grid.className = 'grid';
+
+    group.screens.forEach(([file, name, icon, grad]) => {
+      const card = document.createElement('a');
+      card.className = 'screen-card';
+      card.href = file;
+      card.innerHTML = `
+        <div class="tile" style="background:${grad};">
+          <span class="num-badge">${String(n).padStart(2,'0')}</span>
+          <span class="material-symbols-outlined">${icon}</span>
+        </div>
+        <div class="label">
+          <span class="name">${name}</span>
+          <span class="file">${file}</span>
+        </div>`;
+      grid.appendChild(card);
+      n++;
+    });
+
+    sec.appendChild(grid);
+    container.appendChild(sec);
+  });
+</script>
+</body>
+</html>
