@@ -100,7 +100,15 @@
 <div class="phone">
 
   <!-- Header -->
-  <header class="flex justify-end px-6 pt-14 pb-2">
+  <header class="flex justify-between items-center px-6 pt-14 pb-2">
+    <div style="position:relative; width:44px; height:44px;">
+      <svg width="44" height="44" style="transform:rotate(-90deg);">
+        <circle cx="22" cy="22" r="18" fill="transparent" stroke="#e2e2e4" stroke-width="3"/>
+        <circle cx="22" cy="22" r="18" fill="transparent" stroke="#FF3B5C" stroke-width="3"
+                stroke-linecap="round" stroke-dasharray="113.1" stroke-dashoffset="0"/>
+      </svg>
+      <span style="position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-family:'JetBrains Mono',monospace; font-size:10px; font-weight:700; color:#FF3B5C;">100%</span>
+    </div>
     <a href="auth.html"
        style="font-family:'Inter',sans-serif; font-size:15px; font-weight:500; color:#535e7b; text-decoration:none;">
       SKIP
@@ -152,5 +160,6 @@
   </footer>
 
 </div>
+  <script src="_nav.js"></script>
 </body>
 </html>

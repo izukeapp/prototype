@@ -13,7 +13,7 @@
   .phone {
     width: 390px;
     height: 844px;
-    background: #F5F5F7;
+    background: #f8fafb;
     position: relative;
     display: flex;
     flex-direction: column;
@@ -27,13 +27,13 @@
     height: 56px;
     display: flex; align-items: center;
     padding: 0 16px;
-    background: #F5F5F7;
+    background: #f8fafb;
     flex-shrink: 0;
     position: relative;
   }
   .nav-back {
     width: 36px; height: 36px;
-    border-radius: 50%; background: #ebebed;
+    border-radius: 50%; background: #eceeef;
     display: flex; align-items: center; justify-content: center;
     cursor: pointer; border: none; color: #1a1c1d;
   }
@@ -43,91 +43,122 @@
     font-weight: 800; font-size: 17px; color: #0F1B35;
   }
 
-  /* Progress bar */
-  .progress-track {
-    height: 4px; background: #e2e2e4; flex-shrink: 0;
-  }
-  .progress-fill {
-    height: 100%; width: 20%;
-    background: linear-gradient(90deg, #FF3B5C, #BA0035);
-    border-radius: 0 4px 4px 0;
-    transition: width 0.4s ease;
-  }
-
   /* Scrollable content */
   .scroll-body {
     flex: 1; overflow-y: auto; overflow-x: hidden;
-    padding: 24px 24px 0;
+    padding: 12px 24px 0;
     -webkit-overflow-scrolling: touch;
   }
   .scroll-body::-webkit-scrollbar { display: none; }
 
+  /* Progress header */
+  .progress-head {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 20px;
+  }
+  .progress-head .step-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; font-weight: 700;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    color: #535e7b; margin-bottom: 4px;
+  }
+  .progress-head .step-num {
+    font-family: 'Hanken Grotesk', sans-serif;
+    font-weight: 800; font-size: 22px; color: #0F1B35;
+  }
+  .ring-wrap { position: relative; width: 60px; height: 60px; flex-shrink: 0; }
+  .ring-wrap svg { transform: rotate(-90deg); }
+  .ring-wrap .pct {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px; font-weight: 700; color: #FF3B5C;
+  }
+
+  /* Form card */
+  .card {
+    background: #fff;
+    border: 1px solid #e1e3e4;
+    border-radius: 20px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.04);
+    padding: 24px 22px;
+  }
+  .card-title {
+    font-family: 'Hanken Grotesk', sans-serif;
+    font-weight: 900; font-size: 24px; color: #2d3748;
+    line-height: 1.2; margin-bottom: 24px;
+  }
+
   /* Avatar */
   .avatar-wrap {
-    position: relative; width: 100px; height: 100px;
-    margin: 36px auto 44px;
+    position: relative; width: 104px; height: 104px;
+    margin: 0 auto 8px;
     cursor: pointer;
   }
   .avatar-circle {
-    width: 100px; height: 100px; border-radius: 50%;
+    width: 104px; height: 104px; border-radius: 50%;
     background: linear-gradient(135deg, #FF3B5C, #BA0035);
     display: flex; align-items: center; justify-content: center;
-    box-shadow: 0 8px 24px rgba(255,59,92,0.30);
+    box-shadow: 0 8px 24px rgba(255,59,92,0.28);
     overflow: hidden;
+    border: 2px solid #eceeef;
   }
   .avatar-circle span {
     font-family: 'Hanken Grotesk', sans-serif;
     font-weight: 900; font-size: 40px; color: #fff;
   }
-  .avatar-circle img {
-    width: 100%; height: 100%; object-fit: cover; display: none;
-  }
+  .avatar-circle img { width: 100%; height: 100%; object-fit: cover; display: none; }
   .camera-badge {
     position: absolute; bottom: 2px; right: 2px;
     width: 32px; height: 32px; border-radius: 50%;
-    background: #fff; display: flex; align-items: center; justify-content: center;
+    background: #FF3B5C; color: #fff;
+    display: flex; align-items: center; justify-content: center;
     box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-    border: 2px solid #F5F5F7;
+    border: 2px solid #fff;
+  }
+  .avatar-label {
+    text-align: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; font-weight: 700; letter-spacing: 0.1em;
+    text-transform: uppercase; color: #535e7b;
+    margin-bottom: 24px;
   }
 
-  /* Field label */
+  /* Field */
+  .field { margin-bottom: 18px; }
   .field-label {
+    display: flex; align-items: center; justify-content: space-between;
     font-family: 'Inter', sans-serif;
-    font-size: 15px; font-weight: 600; color: #0F1B35;
-    margin-bottom: 8px; display: block;
+    font-size: 14px; font-weight: 600; color: #0F1B35;
+    margin-bottom: 8px;
   }
-  .field-label.optional { color: #535e7b; }
-  .field-label .opt {
-    font-weight: 400; color: #999; font-size: 14px;
+  .field-label .counter {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; font-weight: 700; color: #a0a0a8;
   }
-
-  /* Inputs */
+  .field-label .counter.warn { color: #FF3B5C; }
   .input-field {
     width: 100%;
-    background: #fff;
-    border: none;
-    border-radius: 16px;
-    padding: 16px;
+    background: #f2f4f5;
+    border: 1px solid #e1e3e4;
+    border-radius: 12px;
+    padding: 14px 16px;
     font-family: 'Inter', sans-serif;
     font-size: 15px; color: #0F1B35;
     outline: none;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
-    transition: box-shadow 0.2s;
+    transition: background 0.2s, border-color 0.2s, box-shadow 0.2s;
     resize: none;
   }
-  .input-field::placeholder { color: #bbb; }
+  .input-field::placeholder { color: #a8b0b4; }
   .input-field:focus {
-    box-shadow: 0 0 0 2px #FF3B5C, 0 1px 4px rgba(0,0,0,0.06);
+    background: #fff;
+    border-color: #FF3B5C;
+    box-shadow: 0 0 0 3px rgba(255,59,92,0.10);
   }
 
-  /* Sticky footer */
-  .footer {
-    padding: 16px 24px 36px;
-    background: #F5F5F7;
-    flex-shrink: 0;
-  }
+  /* Continue button */
   .btn-continue {
-    width: 100%; height: 56px;
+    width: 100%; height: 54px;
     border: none; border-radius: 9999px;
     background: linear-gradient(135deg, #FF3B5C 0%, #BA0035 100%);
     color: #fff;
@@ -136,11 +167,21 @@
     cursor: pointer;
     box-shadow: 0 8px 24px rgba(255,59,92,0.28);
     transition: transform 0.15s;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    margin-top: 8px;
   }
-  .btn-continue:active { transform: scale(0.97); }
+  .btn-continue:active { transform: scale(0.98); }
+  .btn-continue .material-symbols-outlined { font-size: 20px; }
+
+  /* Helper text */
+  .helper {
+    font-size: 13px; color: #535e7b;
+    text-align: center; line-height: 1.5;
+    max-width: 280px; margin: 20px auto 32px;
+  }
 
   .material-symbols-outlined {
-    font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
   }
 </style>
 </head>
@@ -161,60 +202,67 @@
     <span class="nav-title">Your Profile</span>
   </div>
 
-  <!-- Progress bar -->
-  <div class="progress-track">
-    <div class="progress-fill"></div>
-  </div>
-
   <!-- Scrollable content -->
   <div class="scroll-body">
 
-    <!-- Step label -->
-    <p style="font-family:'JetBrains Mono',monospace; font-size:11px; font-weight:700; letter-spacing:0.14em; text-transform:uppercase; color:#535e7b; margin-bottom:6px;">
-      Step 1 of 5
-    </p>
-
-    <!-- Headline -->
-    <h1 style="font-family:'Hanken Grotesk',sans-serif; font-weight:900; font-size:26px; color:#2d3748; line-height:1.2;">
-      Let's set up your profile
-    </h1>
-
-    <!-- Avatar uploader -->
-    <div class="avatar-wrap" onclick="document.getElementById('avatar-input').click()">
-      <div class="avatar-circle" id="avatar-circle">
-        <span id="avatar-initial">C</span>
-        <img id="avatar-preview" alt="avatar">
+    <!-- Progress header -->
+    <div class="progress-head">
+      <div>
+        <div class="step-label">Onboarding</div>
+        <div class="step-num">Step 1 of 5</div>
       </div>
-      <div class="camera-badge">
-        <span class="material-symbols-outlined" style="font-size:16px; color:#535e7b;">photo_camera</span>
+      <div class="ring-wrap">
+        <svg width="60" height="60">
+          <circle cx="30" cy="30" r="26" fill="transparent" stroke="#eceeef" stroke-width="3"/>
+          <circle cx="30" cy="30" r="26" fill="transparent" stroke="#FF3B5C" stroke-width="3"
+                  stroke-linecap="round" stroke-dasharray="163.4" stroke-dashoffset="130.7"/>
+        </svg>
+        <span class="pct">20%</span>
       </div>
     </div>
-    <input type="file" id="avatar-input" accept="image/*" style="display:none;" onchange="previewAvatar(this)">
 
-    <!-- Full Name -->
-    <div style="margin-bottom:20px;">
-      <label class="field-label">Full Name</label>
-      <input class="input-field" type="text" placeholder="Enter your full name" id="name-input" oninput="updateInitial()">
+    <!-- Form card -->
+    <div class="card">
+      <h2 class="card-title">Let's set up your profile</h2>
+
+      <!-- Avatar uploader -->
+      <div class="avatar-wrap" onclick="document.getElementById('avatar-input').click()">
+        <div class="avatar-circle" id="avatar-circle">
+          <span id="avatar-initial">C</span>
+          <img id="avatar-preview" alt="avatar">
+        </div>
+        <div class="camera-badge">
+          <span class="material-symbols-outlined" style="font-size:16px;">photo_camera</span>
+        </div>
+      </div>
+      <input type="file" id="avatar-input" accept="image/*" style="display:none;" onchange="previewAvatar(this)">
+      <p class="avatar-label">Upload Photo</p>
+
+      <!-- Full Name -->
+      <div class="field">
+        <label class="field-label">Full Name</label>
+        <input class="input-field" type="text" placeholder="E.g. Alex Rivera" id="name-input" oninput="updateInitial()">
+      </div>
+
+      <!-- Bio -->
+      <div class="field">
+        <label class="field-label">
+          Bio
+          <span class="counter" id="bio-counter">0/160</span>
+        </label>
+        <textarea class="input-field" rows="3" placeholder="Tell the community about your running goals…" maxlength="160" id="bio-input" oninput="updateCounter()"></textarea>
+      </div>
+
+      <!-- Continue -->
+      <button class="btn-continue" onclick="window.location.href='setup_2.html'">
+        Continue
+        <span class="material-symbols-outlined">arrow_forward</span>
+      </button>
     </div>
 
-    <!-- Bio -->
-    <div style="margin-bottom:20px;">
-      <label class="field-label">Bio <span class="opt">(optional)</span></label>
-      <textarea class="input-field" rows="4" placeholder="Tell runners a bit about yourself..." maxlength="160"></textarea>
-    </div>
+    <!-- Helper text -->
+    <p class="helper">You can update your profile details and privacy settings at any time in the app.</p>
 
-    <!-- Character hint -->
-    <p style="font-family:'JetBrains Mono',monospace; font-size:10px; color:#bbb; letter-spacing:0.08em; text-align:right; margin-top:-12px; margin-bottom:24px;">
-      160 chars max
-    </p>
-
-  </div>
-
-  <!-- Sticky footer -->
-  <div class="footer">
-    <button class="btn-continue" onclick="window.location.href='setup_2.html'">
-      Continue
-    </button>
   </div>
 
 </div>
@@ -222,8 +270,14 @@
 <script>
   function updateInitial() {
     const name = document.getElementById('name-input').value.trim();
-    const initial = name ? name[0].toUpperCase() : 'C';
-    document.getElementById('avatar-initial').textContent = initial;
+    document.getElementById('avatar-initial').textContent = name ? name[0].toUpperCase() : 'C';
+  }
+
+  function updateCounter() {
+    const len = document.getElementById('bio-input').value.length;
+    const c = document.getElementById('bio-counter');
+    c.textContent = len + '/160';
+    c.classList.toggle('warn', len >= 150);
   }
 
   function previewAvatar(input) {
@@ -238,5 +292,6 @@
     reader.readAsDataURL(input.files[0]);
   }
 </script>
+  <script src="_nav.js"></script>
 </body>
 </html>

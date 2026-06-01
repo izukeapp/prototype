@@ -45,27 +45,39 @@
   }
 
   /* Progress bar */
-  .progress-track { height: 3px; background: #e2e2e4; flex-shrink: 0; }
-  .progress-fill {
-    height: 100%; width: 100%;
-    background: linear-gradient(90deg, #FF3B5C, #BA0035);
-  }
-
   /* Scrollable content */
   .scroll-body {
     flex: 1; overflow-y: auto; overflow-x: hidden;
     -webkit-overflow-scrolling: touch;
-    padding: 20px 24px 110px;
+    padding: 12px 24px 110px;
   }
   .scroll-body::-webkit-scrollbar { display: none; }
 
-  /* Intro */
-  .step-label {
+  /* Progress header */
+  .progress-head {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 20px;
+  }
+  .progress-head .step-label {
     font-family: 'JetBrains Mono', monospace;
     font-size: 11px; font-weight: 700;
     letter-spacing: 0.14em; text-transform: uppercase;
-    color: #535e7b; margin-bottom: 6px;
+    color: #535e7b; margin-bottom: 4px;
   }
+  .progress-head .step-num {
+    font-family: 'Hanken Grotesk', sans-serif;
+    font-weight: 800; font-size: 22px; color: #0F1B35;
+  }
+  .ring-wrap { position: relative; width: 60px; height: 60px; flex-shrink: 0; }
+  .ring-wrap svg { transform: rotate(-90deg); }
+  .ring-wrap .pct {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px; font-weight: 700; color: #FF3B5C;
+  }
+
+  /* Intro */
   .headline {
     font-family: 'Hanken Grotesk', sans-serif;
     font-weight: 900; font-size: 26px; color: #2d3748;
@@ -263,15 +275,25 @@
     <span class="nav-title">Review Profile</span>
   </div>
 
-  <!-- Progress bar -->
-  <div class="progress-track">
-    <div class="progress-fill"></div>
-  </div>
-
   <!-- Scrollable content -->
   <div class="scroll-body">
 
-    <p class="step-label">Step 5 of 5</p>
+    <!-- Progress header -->
+    <div class="progress-head">
+      <div>
+        <div class="step-label">Onboarding</div>
+        <div class="step-num">Step 5 of 5</div>
+      </div>
+      <div class="ring-wrap">
+        <svg width="60" height="60">
+          <circle cx="30" cy="30" r="26" fill="transparent" stroke="#eceeef" stroke-width="3"/>
+          <circle cx="30" cy="30" r="26" fill="transparent" stroke="#FF3B5C" stroke-width="3"
+                  stroke-linecap="round" stroke-dasharray="163.4" stroke-dashoffset="0"/>
+        </svg>
+        <span class="pct">100%</span>
+      </div>
+    </div>
+
     <h1 class="headline">This is how others see you</h1>
     <p class="subhead">This is the card runners swipe on. Looking good?</p>
 
@@ -373,5 +395,6 @@
   </div>
 
 </div>
+  <script src="_nav.js"></script>
 </body>
 </html>

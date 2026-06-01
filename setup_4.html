@@ -4,346 +4,213 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Izuke – Location</title>
-<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@700;800;900&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@700;800;900&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@700&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   html, body { height: 100%; background: #d9dadc; font-family: 'Inter', sans-serif; }
 
   .phone {
-    width: 390px;
-    height: 844px;
-    background: #ffffff;
+    width: 390px; height: 844px;
+    background: #f8fafb;
     position: relative;
-    display: flex;
-    flex-direction: column;
+    display: flex; flex-direction: column;
     box-shadow: 0 32px 80px rgba(0,0,0,0.18);
-    border-radius: 48px;
-    overflow: hidden;
+    border-radius: 48px; overflow: hidden;
   }
 
-  /* Nav bar */
-  .nav-bar {
-    height: 56px;
-    display: flex; align-items: center;
-    padding: 0 20px;
-    background: #fff;
-    flex-shrink: 0;
-    position: relative;
-  }
-  .nav-back {
-    width: 36px; height: 36px;
-    border-radius: 50%; background: none;
-    display: flex; align-items: center; justify-content: center;
-    cursor: pointer; border: none; color: #1a1c1d;
-  }
-  .nav-title {
-    position: absolute; left: 50%; transform: translateX(-50%);
-    font-family: 'Hanken Grotesk', sans-serif;
-    font-weight: 800; font-size: 17px; color: #0F1B35;
-  }
+  .nav-bar { height: 56px; display: flex; align-items: center; padding: 0 16px; background: #f8fafb; flex-shrink: 0; position: relative; }
+  .nav-back { width: 36px; height: 36px; border-radius: 50%; background: #eceeef; display: flex; align-items: center; justify-content: center; cursor: pointer; border: none; color: #1a1c1d; }
+  .nav-title { position: absolute; left: 50%; transform: translateX(-50%); font-family: 'Hanken Grotesk', sans-serif; font-weight: 800; font-size: 17px; color: #0F1B35; }
 
-  /* Progress bar */
-  .progress-track { height: 3px; background: #e2e2e4; flex-shrink: 0; }
-  .progress-fill {
-    height: 100%; width: 80%;
-    background: linear-gradient(90deg, #FF3B5C, #BA0035);
-  }
-
-  /* Scrollable content */
-  .scroll-body {
-    flex: 1; overflow-y: auto; overflow-x: hidden;
-    padding: 24px 24px 100px;
-    -webkit-overflow-scrolling: touch;
-  }
+  .scroll-body { flex: 1; overflow-y: auto; overflow-x: hidden; padding: 12px 24px 24px; -webkit-overflow-scrolling: touch; }
   .scroll-body::-webkit-scrollbar { display: none; }
 
-  /* Search input */
-  .search-wrap {
-    position: relative; margin-bottom: 14px;
-  }
-  .search-icon {
-    position: absolute; left: 14px; top: 50%; transform: translateY(-50%);
-    color: #999; pointer-events: none;
-    font-size: 18px !important;
-  }
-  .input-field {
-    width: 100%; height: 52px;
-    border: 1.5px solid #e2e2e4;
-    border-radius: 14px;
-    padding: 0 16px 0 42px;
-    font-family: 'Inter', sans-serif;
-    font-size: 15px; color: #0F1B35;
-    background: #fff;
-    outline: none;
-    transition: border-color 0.2s, box-shadow 0.2s;
-  }
-  .input-field:focus {
-    border-color: #FF3B5C;
-    box-shadow: 0 0 0 3px rgba(255,59,92,0.08);
-  }
-  .input-field::placeholder { color: #c0c0c8; }
+  .progress-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
+  .progress-head .step-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #535e7b; margin-bottom: 4px; }
+  .progress-head .step-num { font-family: 'Hanken Grotesk', sans-serif; font-weight: 800; font-size: 22px; color: #0F1B35; }
+  .ring-wrap { position: relative; width: 60px; height: 60px; flex-shrink: 0; }
+  .ring-wrap svg { transform: rotate(-90deg); }
+  .ring-wrap .pct { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 700; color: #FF3B5C; }
 
-  /* Suggestions dropdown */
-  .suggestions {
-    display: none;
-    position: absolute; top: calc(100% + 4px); left: 0; right: 0;
-    background: #fff;
-    border-radius: 14px;
-    box-shadow: 0 8px 32px rgba(0,0,0,0.12);
-    overflow: hidden;
-    z-index: 50;
+  .card { background: #fff; border: 1px solid #e1e3e4; border-radius: 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.04); padding: 24px 22px; }
+  .card-title { font-family: 'Hanken Grotesk', sans-serif; font-weight: 900; font-size: 24px; color: #2d3748; line-height: 1.2; }
+  .card-sub { font-size: 14px; color: #535e7b; margin-top: 6px; margin-bottom: 22px; line-height: 1.5; }
+
+  /* Search input */
+  .search-wrap { position: relative; margin-bottom: 16px; }
+  .search-icon { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: #999; pointer-events: none; font-size: 20px !important; }
+  .input-field {
+    width: 100%; height: 52px; background: #f2f4f5; border: 1px solid #e1e3e4;
+    border-radius: 12px; padding: 0 16px 0 44px;
+    font-family: 'Inter', sans-serif; font-size: 15px; color: #0F1B35;
+    outline: none; transition: background 0.2s, border-color 0.2s, box-shadow 0.2s;
   }
-  .suggestion-item {
-    display: flex; align-items: center; gap: 12px;
-    padding: 13px 16px;
-    font-size: 14px; color: #0F1B35;
-    cursor: pointer;
-    border-top: 1px solid rgba(0,0,0,0.05);
-    transition: background 0.15s;
-  }
+  .input-field:focus { background: #fff; border-color: #FF3B5C; box-shadow: 0 0 0 3px rgba(255,59,92,0.10); }
+  .input-field::placeholder { color: #a8b0b4; }
+  .suggestions { display: none; position: absolute; top: calc(100% + 4px); left: 0; right: 0; background: #fff; border-radius: 12px; box-shadow: 0 8px 32px rgba(0,0,0,0.12); overflow: hidden; z-index: 50; }
+  .suggestion-item { display: flex; align-items: center; gap: 12px; padding: 13px 16px; font-size: 14px; color: #0F1B35; cursor: pointer; border-top: 1px solid rgba(0,0,0,0.05); transition: background 0.15s; }
   .suggestion-item:first-child { border-top: none; }
-  .suggestion-item:hover { background: #F5F5F7; }
-  .suggestion-item .material-symbols-outlined {
-    font-size: 16px !important; color: #FF3B5C; flex-shrink: 0;
-  }
+  .suggestion-item:hover { background: #f2f4f5; }
+  .suggestion-item .material-symbols-outlined { font-size: 16px !important; color: #FF3B5C; flex-shrink: 0; }
 
   /* Map preview */
-  .map-preview {
-    width: 100%; height: 190px;
-    border-radius: 20px; overflow: hidden;
-    position: relative; margin-bottom: 14px;
-    background: #dbeafe;
-  }
-  .map-idle {
-    position: absolute; inset: 0;
-    display: flex; align-items: center; justify-content: center;
-    flex-direction: column; gap: 8px;
-    color: #93c5fd; opacity: 0.6;
-  }
-  .map-active {
-    display: none;
-    position: absolute; inset: 0;
-    background: linear-gradient(135deg, #e8f4e8, #d4edda);
-  }
-  /* Fake road lines */
+  .map-preview { width: 100%; height: 180px; border-radius: 14px; overflow: hidden; position: relative; margin-bottom: 16px; background: #dbeafe; }
+  .map-idle { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 8px; color: #93c5fd; opacity: 0.6; }
+  .map-active { display: none; position: absolute; inset: 0; background: linear-gradient(135deg, #e8f4e8, #d4edda); }
   .road-h { position: absolute; left: 0; right: 0; background: rgba(255,255,255,0.8); }
   .road-v { position: absolute; top: 0; bottom: 0; background: rgba(255,255,255,0.8); }
-  .park-block {
-    position: absolute; top: 42%; left: 32%; width: 27%; height: 22%;
-    background: rgba(100,180,100,0.35); border-radius: 4px;
-  }
-  .map-pin {
-    display: none;
-    position: absolute; top: 50%; left: 50%;
-    transform: translate(-50%, -100%);
-    pointer-events: none;
-    filter: drop-shadow(0 3px 8px rgba(255,59,92,0.5));
-    color: #FF3B5C;
-  }
+  .park-block { position: absolute; top: 42%; left: 32%; width: 27%; height: 22%; background: rgba(100,180,100,0.35); border-radius: 4px; }
+  .map-pin { display: none; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -100%); pointer-events: none; filter: drop-shadow(0 3px 8px rgba(255,59,92,0.5)); color: #FF3B5C; }
 
   /* Current location button */
   .btn-location {
-    width: 100%; height: 52px;
-    border: 1.5px solid #e2e2e4;
-    border-radius: 14px;
-    background: #fff;
+    width: 100%; height: 52px; border: 1px solid #e1e3e4; border-radius: 12px; background: #f2f4f5;
     display: flex; align-items: center; justify-content: center; gap: 10px;
-    font-family: 'Inter', sans-serif;
-    font-size: 15px; font-weight: 600; color: #0F1B35;
-    cursor: pointer;
-    margin-bottom: 0;
-    transition: background 0.15s, transform 0.1s;
+    font-family: 'Inter', sans-serif; font-size: 15px; font-weight: 600; color: #0F1B35;
+    cursor: pointer; transition: background 0.15s, transform 0.1s;
   }
-  .btn-location:active { transform: scale(0.98); background: #F5F5F7; }
-  .btn-location .material-symbols-outlined {
-    color: #FF3B5C; font-size: 20px !important;
-  }
+  .btn-location:active { transform: scale(0.98); background: #eceeef; }
+  .btn-location .material-symbols-outlined { color: #FF3B5C; font-size: 20px !important; }
 
-  /* Divider */
-  .divider { height: 1px; background: #f0f0f2; margin: 18px 0; }
+  .divider { height: 1px; background: #eceeef; margin: 20px 0; }
 
-  /* Precise location toggle row */
-  .toggle-row {
-    display: flex; align-items: center;
-  }
+  /* Precise toggle */
+  .toggle-row { display: flex; align-items: center; }
   .toggle-row .info { flex: 1; }
-  .toggle-row .info .title {
-    font-size: 14px; font-weight: 600; color: #0F1B35;
-  }
-  .toggle-row .info .sub {
-    font-size: 12px; color: #999; margin-top: 2px;
-  }
-  /* iOS toggle */
-  .ios-toggle {
-    position: relative; width: 51px; height: 31px; cursor: pointer; flex-shrink: 0;
-  }
+  .toggle-row .info .title { font-size: 14px; font-weight: 600; color: #0F1B35; }
+  .toggle-row .info .sub { font-size: 12px; color: #999; margin-top: 2px; }
+  .ios-toggle { position: relative; width: 51px; height: 31px; cursor: pointer; flex-shrink: 0; }
   .ios-toggle input { opacity: 0; width: 0; height: 0; position: absolute; }
-  .ios-toggle .track {
-    position: absolute; inset: 0;
-    background: #e2e2e4; border-radius: 9999px;
-    transition: background 0.2s;
-  }
+  .ios-toggle .track { position: absolute; inset: 0; background: #e1e3e4; border-radius: 9999px; transition: background 0.2s; }
   .ios-toggle input:checked + .track { background: #FF3B5C; }
-  .ios-toggle .thumb {
-    position: absolute; top: 2px; left: 2px;
-    width: 27px; height: 27px;
-    background: #fff; border-radius: 50%;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.22);
-    transition: transform 0.2s;
-    pointer-events: none;
-  }
+  .ios-toggle .thumb { position: absolute; top: 2px; left: 2px; width: 27px; height: 27px; background: #fff; border-radius: 50%; box-shadow: 0 1px 4px rgba(0,0,0,0.22); transition: transform 0.2s; pointer-events: none; }
   .ios-toggle input:checked ~ .thumb { transform: translateX(20px); }
 
-  /* Sticky footer */
-  .footer {
-    padding: 16px 24px 36px;
-    background: linear-gradient(to top, #fff 80%, transparent);
-    position: absolute; bottom: 0; left: 0; right: 0;
-    pointer-events: none;
-  }
   .btn-continue {
-    width: 100%; height: 56px;
-    border: none; border-radius: 9999px;
-    background: linear-gradient(135deg, #FF3B5C 0%, #BA0035 100%);
-    color: #fff;
-    font-family: 'Inter', sans-serif;
-    font-weight: 500; font-size: 16px;
-    cursor: pointer;
-    box-shadow: 0 8px 24px rgba(255,59,92,0.28);
-    transition: transform 0.15s;
-    pointer-events: all;
+    width: 100%; height: 54px; border: none; border-radius: 9999px;
+    background: linear-gradient(135deg, #FF3B5C 0%, #BA0035 100%); color: #fff;
+    font-family: 'Inter', sans-serif; font-weight: 500; font-size: 16px;
+    cursor: pointer; box-shadow: 0 8px 24px rgba(255,59,92,0.28); transition: transform 0.15s;
+    display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 26px;
   }
-  .btn-continue:active { transform: scale(0.97); }
+  .btn-continue:active { transform: scale(0.98); }
+  .btn-continue .material-symbols-outlined { font-size: 20px; }
 
-  .material-symbols-outlined {
-    font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
-    vertical-align: middle;
-  }
+  .helper { font-size: 13px; color: #535e7b; text-align: center; line-height: 1.5; max-width: 280px; margin: 20px auto 0; }
+
+  .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; vertical-align: middle; }
 </style>
 </head>
 
 <body style="display:flex; align-items:center; justify-content:center; min-height:100vh;">
 <div class="phone">
 
-  <!-- Status bar -->
   <div style="height:48px; display:flex; align-items:center; padding:0 24px; flex-shrink:0;">
     <span style="font-family:'Hanken Grotesk',sans-serif; font-weight:700; font-size:15px; color:#0F1B35;">9:41</span>
   </div>
 
-  <!-- Nav bar -->
   <div class="nav-bar">
     <button class="nav-back" onclick="window.location.href='setup_3.html'">
-      <span class="material-symbols-outlined" style="font-size:24px;">arrow_back</span>
+      <span class="material-symbols-outlined" style="font-size:20px;">chevron_left</span>
     </button>
     <span class="nav-title">Location</span>
   </div>
 
-  <!-- Progress bar -->
-  <div class="progress-track">
-    <div class="progress-fill"></div>
-  </div>
-
-  <!-- Scrollable content -->
   <div class="scroll-body">
 
-    <!-- Step label -->
-    <p style="font-family:'JetBrains Mono',monospace; font-size:11px; font-weight:700; letter-spacing:0.14em; text-transform:uppercase; color:#535e7b; margin-bottom:6px; margin-top:12px;">
-      Step 4 of 5
-    </p>
-
-    <!-- Headline -->
-    <h1 style="font-family:'Hanken Grotesk',sans-serif; font-weight:900; font-size:26px; color:#2d3748; line-height:1.2; margin-bottom:6px;">
-      Where do you run?
-    </h1>
-    <p style="font-size:14px; color:#535e7b; line-height:1.5; margin-bottom:20px;">
-      We use your location to find runners near you. Your exact address is never shared.
-    </p>
-
-    <!-- Search input -->
-    <div class="search-wrap">
-      <span class="material-symbols-outlined search-icon">search</span>
-      <input class="input-field" id="location-input" type="text"
-        placeholder="Enter your neighbourhood or city…"
-        autocomplete="off"
-        oninput="onLocationInput(this.value)"
-        onfocus="onLocationInput(this.value)">
-      <div class="suggestions" id="suggestions"></div>
-    </div>
-
-    <!-- Map preview -->
-    <div class="map-preview">
-      <div class="map-idle" id="map-idle">
-        <span class="material-symbols-outlined" style="font-size:48px;">map</span>
-        <span style="font-size:13px; font-family:'Inter',sans-serif;">Map Preview</span>
+    <!-- Progress header -->
+    <div class="progress-head">
+      <div>
+        <div class="step-label">Onboarding</div>
+        <div class="step-num">Step 4 of 5</div>
       </div>
-      <div class="map-active" id="map-active">
-        <div class="road-h" style="top:40%; height:2px;"></div>
-        <div class="road-h" style="top:65%; height:1px; opacity:0.6;"></div>
-        <div class="road-h" style="top:20%; height:1px; opacity:0.6;"></div>
-        <div class="road-v" style="left:30%; width:2px;"></div>
-        <div class="road-v" style="left:60%; width:1px; opacity:0.6;"></div>
-        <div class="road-v" style="left:80%; width:1px; opacity:0.6;"></div>
-        <div class="park-block"></div>
-      </div>
-      <div class="map-pin" id="map-pin">
-        <span class="material-symbols-outlined" style="font-size:38px; font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 24;">location_on</span>
+      <div class="ring-wrap">
+        <svg width="60" height="60">
+          <circle cx="30" cy="30" r="26" fill="transparent" stroke="#eceeef" stroke-width="3"/>
+          <circle cx="30" cy="30" r="26" fill="transparent" stroke="#FF3B5C" stroke-width="3"
+                  stroke-linecap="round" stroke-dasharray="163.4" stroke-dashoffset="32.7"/>
+        </svg>
+        <span class="pct">80%</span>
       </div>
     </div>
 
-    <!-- Use current location -->
-    <button class="btn-location" onclick="selectLocation('Current Location')">
-      <span class="material-symbols-outlined">my_location</span>
-      Use My Current Location
-    </button>
+    <!-- Card -->
+    <div class="card">
+      <h2 class="card-title">Where do you run?</h2>
+      <p class="card-sub">We use your location to find runners near you. Your exact address is never shared.</p>
 
-    <div class="divider"></div>
-
-    <!-- Precise location toggle -->
-    <div class="toggle-row">
-      <div class="info">
-        <div class="title">Precise Location</div>
-        <div class="sub">Show runners within exact radius</div>
+      <!-- Search -->
+      <div class="search-wrap">
+        <span class="material-symbols-outlined search-icon">search</span>
+        <input class="input-field" id="location-input" type="text" placeholder="Enter your neighbourhood or city…" autocomplete="off" oninput="onLocationInput(this.value)" onfocus="onLocationInput(this.value)">
+        <div class="suggestions" id="suggestions"></div>
       </div>
-      <label class="ios-toggle">
-        <input type="checkbox">
-        <div class="track"></div>
-        <div class="thumb"></div>
-      </label>
+
+      <!-- Map -->
+      <div class="map-preview">
+        <div class="map-idle" id="map-idle">
+          <span class="material-symbols-outlined" style="font-size:44px;">map</span>
+          <span style="font-size:13px;">Map Preview</span>
+        </div>
+        <div class="map-active" id="map-active">
+          <div class="road-h" style="top:40%; height:2px;"></div>
+          <div class="road-h" style="top:65%; height:1px; opacity:0.6;"></div>
+          <div class="road-h" style="top:20%; height:1px; opacity:0.6;"></div>
+          <div class="road-v" style="left:30%; width:2px;"></div>
+          <div class="road-v" style="left:60%; width:1px; opacity:0.6;"></div>
+          <div class="road-v" style="left:80%; width:1px; opacity:0.6;"></div>
+          <div class="park-block"></div>
+        </div>
+        <div class="map-pin" id="map-pin">
+          <span class="material-symbols-outlined" style="font-size:38px; font-variation-settings:'FILL' 1,'wght' 400;">location_on</span>
+        </div>
+      </div>
+
+      <!-- Current location -->
+      <button class="btn-location" onclick="selectLocation('Current Location')">
+        <span class="material-symbols-outlined">my_location</span>
+        Use My Current Location
+      </button>
+
+      <div class="divider"></div>
+
+      <!-- Precise toggle -->
+      <div class="toggle-row">
+        <div class="info">
+          <div class="title">Precise Location</div>
+          <div class="sub">Show runners within exact radius</div>
+        </div>
+        <label class="ios-toggle">
+          <input type="checkbox">
+          <div class="track"></div>
+          <div class="thumb"></div>
+        </label>
+      </div>
+
+      <!-- Continue -->
+      <button class="btn-continue" onclick="window.location.href='setup_5.html'">
+        Continue
+        <span class="material-symbols-outlined">arrow_forward</span>
+      </button>
     </div>
 
-  </div>
+    <p class="helper">You're always in control of who can see your location.</p>
 
-  <!-- Sticky footer -->
-  <div class="footer">
-    <button class="btn-continue" onclick="window.location.href='setup_5.html'">Continue</button>
   </div>
 
 </div>
 
 <script>
-  const places = [
-    'Brooklyn, New York',
-    'Riverside Park, Manhattan',
-    'Central Park, New York',
-    'Prospect Park, Brooklyn',
-    'Hoboken, New Jersey',
-    'Astoria, Queens',
-  ];
-
+  const places = ['Brooklyn, New York','Riverside Park, Manhattan','Central Park, New York','Prospect Park, Brooklyn','Hoboken, New Jersey','Astoria, Queens'];
   function onLocationInput(val) {
     const box = document.getElementById('suggestions');
     if (!val.trim()) { box.style.display = 'none'; return; }
     const matches = places.filter(p => p.toLowerCase().includes(val.toLowerCase()));
     if (!matches.length) { box.style.display = 'none'; return; }
-    box.innerHTML = matches.map(p =>
-      `<div class="suggestion-item" onclick="selectLocation('${p}')">
-        <span class="material-symbols-outlined">location_on</span>${p}
-      </div>`
-    ).join('');
+    box.innerHTML = matches.map(p => `<div class="suggestion-item" onclick="selectLocation('${p}')"><span class="material-symbols-outlined">location_on</span>${p}</div>`).join('');
     box.style.display = 'block';
   }
-
   function selectLocation(place) {
     document.getElementById('location-input').value = place;
     document.getElementById('suggestions').style.display = 'none';
@@ -351,12 +218,10 @@
     document.getElementById('map-active').style.display = 'block';
     document.getElementById('map-pin').style.display = 'block';
   }
-
   document.addEventListener('click', e => {
-    if (!e.target.closest('.search-wrap')) {
-      document.getElementById('suggestions').style.display = 'none';
-    }
+    if (!e.target.closest('.search-wrap')) document.getElementById('suggestions').style.display = 'none';
   });
 </script>
+  <script src="_nav.js"></script>
 </body>
 </html>
