@@ -224,11 +224,8 @@
   <div style="display:flex; flex-direction:column; align-items:center; gap:14px; text-align:center; position:relative; z-index:2;">
     <div class="logo-mark"><span>IZ</span></div>
 
-    <!-- Letter-by-letter wordmark — delays set by JS below -->
-    <div class="wordmark" id="wordmark"></div>
-
     <!-- Typing tagline -->
-    <p id="tagline"></p>
+    <p id="tagline" style="margin-top:6px;"></p>
   </div>
 
   <!-- Bottom: progress + loading label + button + footer -->
@@ -244,11 +241,6 @@
       </p>
     </div>
 
-    <!-- CTA button (hidden until load done) -->
-    <div class="btn-wrap" id="btn-wrap">
-      <a href="onboarding_1.html" class="cta-btn">Get Moving</a>
-    </div>
-
     <!-- Footer -->
     <p style="font-family:'JetBrains Mono',monospace; font-size:9px; letter-spacing:0.18em; text-transform:uppercase; color:rgba(83,94,123,0.3);">
       Designed for Momentum &nbsp;·&nbsp; V1.0.0
@@ -258,19 +250,8 @@
 </div>
 
 <script>
-  /* ── 1. Letter-by-letter wordmark ── */
-  const letters = 'IZUKE'.split('');
-  const wordmarkEl = document.getElementById('wordmark');
-  letters.forEach((ch, i) => {
-    const span = document.createElement('span');
-    span.className = 'letter';
-    span.textContent = ch;
-    span.style.animationDelay = (0.75 + i * 0.07) + 's';
-    wordmarkEl.appendChild(span);
-  });
-
-  /* ── 2. Tagline typing effect ── */
-  const taglineText = 'Find Your Pace. Find Your Person.';
+  /* ── 1. Tagline typing effect ── */
+  const taglineText = 'Find Your Pace.';
   const taglineEl = document.getElementById('tagline');
   let charIndex = 0;
   const startTyping = () => {
@@ -281,7 +262,7 @@
       taglineEl.classList.add('done'); // removes blinking cursor
     }
   };
-  setTimeout(startTyping, 1150); // starts after wordmark finishes
+  setTimeout(startTyping, 800); // starts after logo bounce-in
 
   /* ── 3. Loading label cycling ── */
   const labels = ['Lacing up…', 'Finding your pace…', 'Ready'];
@@ -309,10 +290,10 @@
     setTimeout(() => { fill.style.width = pct; }, delay);
   });
 
-  /* ── 5. Reveal CTA button after load complete ── */
+  /* ── 5. Auto-advance to onboarding after load completes ── */
   setTimeout(() => {
-    document.getElementById('btn-wrap').classList.add('revealed');
-  }, 2800);
+    window.location.href = 'onboarding_1.html';
+  }, 3000);
 </script>
   <script src="_nav.js"></script>
 </body>
