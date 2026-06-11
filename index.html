@@ -3,163 +3,126 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Izuke — Screen Map</title>
+<title>Izuke — Redesign Screen Map</title>
 <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@700;800;900&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@700&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  :root { --pink: #FF3B5C; --text-3: #8b91a0; }
-  body {
-    font-family: 'Inter', sans-serif;
-    background: #0d0d18;
-    color: #fff;
-    min-height: 100vh;
-    padding: 40px 24px 80px;
-  }
-
-  .head { max-width: 1200px; margin: 0 auto 36px; }
+  :root { --pink: #FF3B5C; }
+  body { font-family: 'Inter', sans-serif; background: #0d0d18; color: #fff; min-height: 100vh; padding: 44px 24px 80px; }
+  .head { max-width: 1100px; margin: 0 auto 36px; }
   .brand { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; }
-  .logo {
-    width: 40px; height: 40px; border-radius: 12px;
-    background: linear-gradient(135deg, #FF3B5C, #BA0035);
-    display: flex; align-items: center; justify-content: center;
-    font-family: 'Hanken Grotesk', sans-serif; font-weight: 900; font-style: italic;
-    font-size: 18px; letter-spacing: -0.04em;
-  }
-  .brand h1 { font-family: 'Hanken Grotesk', sans-serif; font-weight: 900; font-size: 28px; letter-spacing: -0.02em; }
+  .logo { width: 44px; height: 44px; border-radius: 13px; background: linear-gradient(135deg,#FF3B5C,#BA0035); display: flex; align-items: center; justify-content: center; font-family: 'Hanken Grotesk'; font-weight: 900; font-style: italic; font-size: 19px; letter-spacing: -0.04em; }
+  .brand h1 { font-family: 'Hanken Grotesk'; font-weight: 900; font-size: 28px; letter-spacing: -0.02em; }
   .head p { color: rgba(255,255,255,0.5); font-size: 15px; }
+  .pill { display:inline-block; margin-top:10px; font-family:'JetBrains Mono'; font-size:11px; font-weight:700; letter-spacing:0.1em; color:#FF6B8A; background:rgba(255,59,92,0.12); border:1px solid rgba(255,59,92,0.3); padding:5px 12px; border-radius:9999px; }
 
-  .group { max-width: 1200px; margin: 0 auto 40px; }
-  .group-title {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 12px; font-weight: 700; letter-spacing: 0.14em;
-    text-transform: uppercase; color: var(--pink);
-    margin-bottom: 18px; display: flex; align-items: center; gap: 10px;
-  }
+  .group { max-width: 1100px; margin: 0 auto 36px; }
+  .group-title { font-family: 'JetBrains Mono'; font-size: 12px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--pink); margin-bottom: 16px; display: flex; align-items: center; gap: 10px; }
   .group-title::after { content: ''; flex: 1; height: 1px; background: rgba(255,255,255,0.08); }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 14px; }
 
-  .grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
-    gap: 16px;
-  }
-
-  .screen-card {
-    cursor: pointer; text-decoration: none; color: inherit;
-    display: flex; flex-direction: column; gap: 10px;
-    transition: transform 0.18s;
-  }
-  .screen-card:hover { transform: translateY(-5px); }
-  .tile {
-    position: relative;
-    width: 100%; aspect-ratio: 5 / 6;
-    border-radius: 20px;
-    display: flex; align-items: center; justify-content: center;
-    box-shadow: 0 12px 30px rgba(0,0,0,0.4);
-    border: 1px solid rgba(255,255,255,0.08);
-    overflow: hidden;
-    transition: box-shadow 0.18s;
-  }
-  .screen-card:hover .tile { box-shadow: 0 16px 40px rgba(255,59,92,0.25); }
-  .tile .material-symbols-outlined {
-    font-size: 40px; color: rgba(255,255,255,0.92);
-    font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 48;
-  }
-  .num-badge {
-    position: absolute; top: 10px; left: 12px;
-    font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700;
-    color: rgba(255,255,255,0.7);
-  }
-  .label { padding-left: 4px; }
-  .label .name { font-family: 'Hanken Grotesk', sans-serif; font-weight: 800; font-size: 13px; display: block; }
-  .label .file { font-family: 'JetBrains Mono', monospace; font-size: 9px; color: var(--text-3); }
+  .card { position: relative; text-decoration: none; color: inherit; background: #16161f; border: 1px solid rgba(255,255,255,0.07); border-radius: 16px; padding: 18px 16px; display: flex; flex-direction: column; gap: 12px; transition: transform 0.16s, border-color 0.16s; }
+  .card:hover { transform: translateY(-4px); border-color: rgba(255,59,92,0.5); }
+  .card .num { position: absolute; top: 12px; right: 14px; font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700; color: rgba(255,255,255,0.38); }
+  .card .ico { width: 42px; height: 42px; border-radius: 12px; background: rgba(255,59,92,0.12); color: #FF6B8A; display: flex; align-items: center; justify-content: center; }
+  .card .ico .material-symbols-outlined { font-size: 24px; }
+  .card .nm { font-family: 'Hanken Grotesk'; font-weight: 700; font-size: 15px; }
+  .card .ds { font-size: 12px; color: rgba(255,255,255,0.45); line-height: 1.4; }
+  .new-tag { font-family:'JetBrains Mono'; font-size:8px; font-weight:700; letter-spacing:0.08em; color:#0d0d18; background:#FF6B8A; padding:2px 6px; border-radius:5px; align-self:flex-start; }
+  .material-symbols-outlined { font-variation-settings: 'FILL' 1, 'wght' 400; }
 </style>
 </head>
 <body>
-
   <div class="head">
     <div class="brand">
       <div class="logo">IZ</div>
-      <h1>Izuke — Screen Map</h1>
+      <h1>Izuke — Redesign</h1>
     </div>
-    <p>Interactive prototype · tap any screen to open it</p>
+    <p>Map-first running-partner platform · WHO · WHERE · WHY</p>
+    <span class="pill">REDESIGN PROTOTYPE</span>
   </div>
 
-  <div id="groups"></div>
+  <div class="group">
+    <div class="group-title">Onboarding &amp; Auth</div>
+    <div class="grid">
+      <a class="card" href="splash.html"><div class="ico"><span class="material-symbols-outlined">bolt</span></div><div class="nm">Splash</div></a>
+      <a class="card" href="auth.html"><div class="ico"><span class="material-symbols-outlined">login</span></div><div class="nm">Auth</div></a>
+      <a class="card" href="email_auth.html"><div class="ico"><span class="material-symbols-outlined">mail</span></div><div class="nm">Email Auth</div></a>
+      <a class="card" href="onboarding_1.html"><div class="ico"><span class="material-symbols-outlined">looks_one</span></div><div class="nm">Onboarding</div></a>
+      <a class="card" href="setup_1.html"><div class="ico"><span class="material-symbols-outlined">tune</span></div><div class="nm">Setup</div><div class="ds">Steps 1–5</div></a>
+    </div>
+  </div>
+
+  <div class="group">
+    <div class="group-title">Home &amp; Discovery</div>
+    <div class="grid">
+      <a class="card" href="map_home.html"><span class="new-tag">NEW</span><div class="ico"><span class="material-symbols-outlined">map</span></div><div class="nm">Map Home</div><div class="ds">Open Run pins · safe zones · clubs</div></a>
+      <a class="card" href="runners_here.html"><span class="new-tag">NEW</span><div class="ico"><span class="material-symbols-outlined">groups</span></div><div class="nm">Runners nearby</div><div class="ds">Proximity profile list</div></a>
+      <a class="card" href="profile_detail.html"><span class="new-tag">NEW</span><div class="ico"><span class="material-symbols-outlined">badge</span></div><div class="nm">Runner Profile</div><div class="ds">WHY · trust · request to run</div></a>
+    </div>
+  </div>
+
+  <div class="group">
+    <div class="group-title">Where — Routes</div>
+    <div class="grid">
+      <a class="card" href="routes.html"><span class="new-tag">NEW</span><div class="ico"><span class="material-symbols-outlined">route</span></div><div class="nm">Routes Library</div><div class="ds">Filter · safety ★ · runners</div></a>
+      <a class="card" href="route_detail.html"><span class="new-tag">NEW</span><div class="ico"><span class="material-symbols-outlined">map</span></div><div class="nm">Route Detail</div><div class="ds">Safety bars · chat thread</div></a>
+      <a class="card" href="create_route.html"><span class="new-tag">NEW</span><div class="ico"><span class="material-symbols-outlined">add_location_alt</span></div><div class="nm">Create Route</div><div class="ds">Trace area · name · surface</div></a>
+    </div>
+  </div>
+
+  <div class="group">
+    <div class="group-title">Who — Runs &amp; Matches</div>
+    <div class="grid">
+      <a class="card" href="open_run_post.html"><span class="new-tag">NEW</span><div class="ico"><span class="material-symbols-outlined">add_circle</span></div><div class="nm">Post Open Run</div><div class="ds">Goal · emoji pin · 1:1</div></a>
+      <a class="card" href="matches.html"><div class="ico"><span class="material-symbols-outlined">favorite</span></div><div class="nm">Matches</div><div class="ds">Request-to-Run</div></a>
+      <a class="card" href="chat.html"><div class="ico"><span class="material-symbols-outlined">chat</span></div><div class="nm">Chat</div><div class="ds">Plan · confirm · route link</div></a>
+      <a class="card" href="rate_partner.html"><span class="new-tag">NEW</span><div class="ico"><span class="material-symbols-outlined">star</span></div><div class="nm">Rate Partner</div><div class="ds">Post-run · stars + tags</div></a>
+      <a class="card" href="rate_route.html"><span class="new-tag">NEW</span><div class="ico"><span class="material-symbols-outlined">shield</span></div><div class="nm">Rate Route</div><div class="ds">Post-run · safety prompt</div></a>
+      <a class="card" href="its_a_match.html"><div class="ico"><span class="material-symbols-outlined">celebration</span></div><div class="nm">It's a Match</div></a>
+      <a class="card" href="pending_requests.html"><div class="ico"><span class="material-symbols-outlined">hourglass_top</span></div><div class="nm">Pending</div></a>
+    </div>
+  </div>
+
+  <div class="group">
+    <div class="group-title">Run Clubs</div>
+    <div class="grid">
+      <a class="card" href="club_events.html"><span class="new-tag">NEW</span><div class="ico"><span class="material-symbols-outlined">event</span></div><div class="nm">Club Events</div><div class="ds">Capacity · filterable list</div></a>
+      <a class="card" href="club_event_detail.html"><span class="new-tag">NEW</span><div class="ico"><span class="material-symbols-outlined">groups</span></div><div class="nm">Event Detail</div><div class="ds">Group chat · pinned organiser</div></a>
+      <a class="card" href="club_detail.html"><span class="new-tag">NEW</span><div class="ico"><span class="material-symbols-outlined">shield</span></div><div class="nm">Club Page</div><div class="ds">About · events · members · edit</div></a>
+      <a class="card" href="event_attendees.html"><span class="new-tag">NEW</span><div class="ico"><span class="material-symbols-outlined">group</span></div><div class="nm">Attendees</div><div class="ds">Going list · message · remove</div></a>
+      <a class="card" href="create_event.html"><span class="new-tag">NEW</span><div class="ico"><span class="material-symbols-outlined">edit_calendar</span></div><div class="nm">Create / Edit Event</div><div class="ds">Organiser · capacity · cancel</div></a>
+      <a class="card" href="create_club.html"><span class="new-tag">NEW</span><div class="ico"><span class="material-symbols-outlined">add_business</span></div><div class="nm">Create Club</div><div class="ds">Name · focus · verify later</div></a>
+    </div>
+  </div>
+
+  <div class="group">
+    <div class="group-title">Profile &amp; Identity</div>
+    <div class="grid">
+      <a class="card" href="profile.html"><span class="new-tag">NEW</span><div class="ico"><span class="material-symbols-outlined">person</span></div><div class="nm">My Profile</div><div class="ds">WHY · completeness %</div></a>
+      <a class="card" href="verification.html"><div class="ico"><span class="material-symbols-outlined">verified</span></div><div class="nm">Verification</div></a>
+      <a class="card" href="activity.html"><div class="ico"><span class="material-symbols-outlined">notifications</span></div><div class="nm">Activity</div></a>
+      <a class="card" href="settings.html"><div class="ico"><span class="material-symbols-outlined">settings</span></div><div class="nm">Settings</div></a>
+    </div>
+  </div>
+
+  <div class="group">
+    <div class="group-title">Moments</div>
+    <div class="grid">
+      <a class="card" href="my_moments.html"><span class="new-tag">NEW</span><div class="ico"><span class="material-symbols-outlined">grid_view</span></div><div class="nm">My Moments</div><div class="ds">Photo grid</div></a>
+      <a class="card" href="create_moment.html"><div class="ico"><span class="material-symbols-outlined">add_a_photo</span></div><div class="nm">Create Moment</div></a>
+      <a class="card" href="moment_detail.html"><div class="ico"><span class="material-symbols-outlined">photo_camera</span></div><div class="nm">Moment Detail</div></a>
+    </div>
+  </div>
 
 <script>
-  // [file, name, icon, gradient]
-  const groups = [
-    { title: 'Onboarding & Auth', screens: [
-      ['splash.html', 'Splash', 'bolt', 'linear-gradient(135deg,#FF3B5C,#BA0035)'],
-      ['onboarding_1.html', 'Onboarding 1', 'directions_run', 'linear-gradient(135deg,#667eea,#764ba2)'],
-      ['onboarding_2.html', 'Onboarding 2', 'verified_user', 'linear-gradient(135deg,#11998e,#38ef7d)'],
-      ['onboarding_3.html', 'Onboarding 3', 'hub', 'linear-gradient(135deg,#f093fb,#f5576c)'],
-      ['auth.html', 'Sign In Options', 'login', 'linear-gradient(135deg,#0F1B35,#1d2a4d)'],
-      ['email_auth.html', 'Email Sign In', 'mail', 'linear-gradient(135deg,#4facfe,#00f2fe)'],
-    ]},
-    { title: 'Profile Setup', screens: [
-      ['setup_1.html', 'Step 1 · Profile', 'person', 'linear-gradient(135deg,#1d2a4d,#2a4f90)'],
-      ['setup_2.html', 'Step 2 · Goals', 'flag', 'linear-gradient(135deg,#1d2a4d,#2a4f90)'],
-      ['setup_3.html', 'Step 3 · Run Prefs', 'tune', 'linear-gradient(135deg,#1d2a4d,#2a4f90)'],
-      ['setup_4.html', 'Step 4 · Location', 'location_on', 'linear-gradient(135deg,#1d2a4d,#2a4f90)'],
-      ['setup_5.html', 'Step 5 · Review', 'task_alt', 'linear-gradient(135deg,#1d2a4d,#2a4f90)'],
-      ['verification.html', 'Get Verified', 'verified', 'linear-gradient(135deg,#8B5CF6,#6D28D9)'],
-    ]},
-    { title: 'Discover & Matching', screens: [
-      ['discover.html', 'Discover', 'explore', 'linear-gradient(135deg,#FF3B5C,#FF6B80)'],
-      ['profile_detail.html', 'Runner Profile', 'id_card', 'linear-gradient(135deg,#FF6B6B,#FF91A4)'],
-      ['matches.html', 'Matches', 'chat_bubble', 'linear-gradient(135deg,#4ECDC4,#44A08D)'],
-      ['pending_requests.html', 'Pending Requests', 'inbox', 'linear-gradient(135deg,#43e97b,#38f9d7)'],
-      ['its_a_match.html', "It's a Match", 'bolt', 'linear-gradient(135deg,#FF3B5C,#BA0035)'],
-    ]},
-    { title: 'Chat & Moments', screens: [
-      ['chat.html', 'Chat', 'forum', 'linear-gradient(135deg,#667eea,#764ba2)'],
-      ['create_moment.html', 'Capture Moment', 'add_a_photo', 'linear-gradient(135deg,#0F1B35,#1d2a4d)'],
-      ['moment_detail.html', 'Moment Card', 'share', 'linear-gradient(135deg,#4A4488,#161435)'],
-    ]},
-    { title: 'Journal', screens: [
-      ['journal.html', 'Running Journal', 'book', 'linear-gradient(135deg,#FF3B5C,#FF6B80)'],
-      ['journal_log.html', 'Log a Run', 'add_circle', 'linear-gradient(135deg,#f093fb,#f5576c)'],
-      ['journal_detail.html', 'Journal Entry', 'directions_run', 'linear-gradient(135deg,#5FB4F0,#3B6FE0)'],
-    ]},
-    { title: 'Profile & Settings', screens: [
-      ['profile.html', 'My Profile', 'account_circle', 'linear-gradient(135deg,#FF5069,#FF3B5C)'],
-      ['activity.html', 'Activity', 'notifications', 'linear-gradient(135deg,#4facfe,#00f2fe)'],
-      ['settings.html', 'Settings', 'settings', 'linear-gradient(135deg,#374151,#6B7280)'],
-      ['run_clubs.html', 'Run Clubs', 'groups', 'linear-gradient(135deg,#0F1B35,#FF3B5C)'],
-    ]},
-  ];
-
-  const container = document.getElementById('groups');
-  let n = 1;
-
-  groups.forEach(group => {
-    const sec = document.createElement('div');
-    sec.className = 'group';
-    sec.innerHTML = `<div class="group-title">${group.title}</div>`;
-    const grid = document.createElement('div');
-    grid.className = 'grid';
-
-    group.screens.forEach(([file, name, icon, grad]) => {
-      const card = document.createElement('a');
-      card.className = 'screen-card';
-      card.href = file;
-      card.innerHTML = `
-        <div class="tile" style="background:${grad};">
-          <span class="num-badge">${String(n).padStart(2,'0')}</span>
-          <span class="material-symbols-outlined">${icon}</span>
-        </div>
-        <div class="label">
-          <span class="name">${name}</span>
-          <span class="file">${file}</span>
-        </div>`;
-      grid.appendChild(card);
-      n++;
-    });
-
-    sec.appendChild(grid);
-    container.appendChild(sec);
+  // sequential number badge on each card (display order) — handy for stakeholder review
+  document.querySelectorAll('.card').forEach((c, i) => {
+    const b = document.createElement('span');
+    b.className = 'num';
+    b.textContent = String(i + 1).padStart(2, '0');
+    c.appendChild(b);
   });
 </script>
 </body>

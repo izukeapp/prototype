@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Izuke — My Moments</title>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@600;700;800;900&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; background: #d9dadc; font-family: 'Inter', sans-serif; }
+  .phone { width: 390px; height: 844px; background: #F5F5F7; position: relative; overflow: hidden; display: flex; flex-direction: column; box-shadow: 0 32px 80px rgba(0,0,0,0.18); border-radius: 48px; }
+
+  .nav-bar { height: 56px; display: flex; align-items: center; padding: 8px 12px 0; flex-shrink: 0; position: relative; }
+  .nav-back { width: 38px; height: 38px; border-radius: 50%; background: #fff; border: 1px solid #e8e8ea; cursor: pointer; display: flex; align-items: center; justify-content: center; color: #0F1B35; }
+  .nav-title { position: absolute; left: 50%; transform: translate(-50%, 4px); font-family: 'Hanken Grotesk', sans-serif; font-weight: 700; font-size: 18px; color: #0F1B35; }
+
+  /* Ran-with partners strip */
+  .rw-label { display: flex; align-items: center; gap: 6px; font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #8a91a0; padding: 8px 20px 8px; flex-shrink: 0; }
+  .rw-label .material-symbols-outlined { font-size: 16px; color: #FF3B5C; }
+  .partners { display: flex; gap: 14px; overflow-x: auto; padding: 0 18px 14px; flex-shrink: 0; scrollbar-width: none; }
+  .partners::-webkit-scrollbar { display: none; }
+  .partner { flex-shrink: 0; width: 56px; text-align: center; cursor: pointer; }
+  .partner .av { width: 54px; height: 54px; border-radius: 50%; object-fit: cover; border: 2px solid #fff; box-shadow: 0 0 0 2px transparent; transition: box-shadow 0.12s; }
+  .partner.active .av { box-shadow: 0 0 0 2px #FF3B5C; }
+  .partner .all { width: 54px; height: 54px; border-radius: 50%; background: #fff; border: 1.5px solid #e2e5ec; display: flex; align-items: center; justify-content: center; color: #535e7b; }
+  .partner.active .all { border-color: #FF3B5C; color: #FF3B5C; box-shadow: 0 0 0 2px #FF3B5C; }
+  .partner .nm { font-size: 11px; color: #535e7b; font-weight: 600; margin-top: 6px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .partner.active .nm { color: #FF3B5C; }
+
+  .scroll-body { flex: 1; overflow-y: auto; overflow-x: hidden; padding: 0 16px 28px; }
+  .scroll-body::-webkit-scrollbar { display: none; }
+
+  .month-head { display: flex; align-items: baseline; gap: 8px; margin: 4px 2px 12px; }
+  .month-head:first-child { margin-top: 6px; }
+  .month-head .d { font-family: 'Hanken Grotesk', sans-serif; font-weight: 800; font-size: 15px; color: #2b3550; }
+  .month-head .n { font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700; color: #FF3B5C; }
+
+  .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-bottom: 28px; }
+  .grid:last-child { margin-bottom: 0; }
+  .m { position: relative; aspect-ratio: 1; border-radius: 12px; overflow: hidden; cursor: pointer; }
+  .m img.photo { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .m .scrim { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(15,27,53,0.25) 0%, transparent 40%, rgba(15,27,53,0.7)); }
+  .m .pal { position: absolute; top: 7px; left: 7px; width: 24px; height: 24px; border-radius: 50%; object-fit: cover; border: 2px solid rgba(255,255,255,0.95); box-shadow: 0 1px 4px rgba(0,0,0,0.25); }
+  .scroll-body.by-partner .pal { display: none; }
+  .m .dist { position: absolute; left: 8px; bottom: 7px; font-family: 'Hanken Grotesk', sans-serif; font-weight: 700; font-size: 13px; color: #fff; text-shadow: 0 1px 6px rgba(0,0,0,0.45); }
+  .m .dist .u { font-size: 9px; font-weight: 700; opacity: 0.85; margin-left: 1px; }
+
+  .pempty { display: none; flex-direction: column; align-items: center; text-align: center; padding: 50px 30px; color: #8a91a0; }
+  .pempty.show { display: flex; }
+  .pempty .material-symbols-outlined { font-size: 46px; color: #cdd2db; margin-bottom: 14px; }
+  .pempty h3 { font-family: 'Hanken Grotesk', sans-serif; font-weight: 700; font-size: 17px; color: #2b3550; margin-bottom: 5px; }
+  .pempty p { font-size: 13.5px; line-height: 1.5; }
+
+  .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400; }
+  .filled { font-variation-settings: 'FILL' 1; }
+</style>
+</head>
+<body style="display:flex; align-items:center; justify-content:center; min-height:100vh;">
+<div class="phone">
+  <div class="nav-bar">
+    <button class="nav-back" onclick="window.location.href='profile.html'"><span class="material-symbols-outlined">arrow_back</span></button>
+    <span class="nav-title">Moments</span>
+  </div>
+
+  <div class="rw-label"><span class="material-symbols-outlined filled">group</span>Ran with</div>
+  <div class="partners">
+    <div class="partner active" data-p="all" onclick="filterPartner(this)"><div class="all"><span class="material-symbols-outlined">apps</span></div><div class="nm">All</div></div>
+    <div class="partner" data-p="nam" onclick="filterPartner(this)"><img class="av" src="https://i.pravatar.cc/120?img=12"><div class="nm">Nam</div></div>
+    <div class="partner" data-p="linh" onclick="filterPartner(this)"><img class="av" src="https://i.pravatar.cc/120?img=5"><div class="nm">Linh</div></div>
+    <div class="partner" data-p="mai" onclick="filterPartner(this)"><img class="av" src="https://i.pravatar.cc/120?img=32"><div class="nm">Mai</div></div>
+    <div class="partner" data-p="tran" onclick="filterPartner(this)"><img class="av" src="https://i.pravatar.cc/120?img=8"><div class="nm">Tran</div></div>
+    <div class="partner" data-p="alex" onclick="filterPartner(this)"><img class="av" src="https://i.pravatar.cc/120?img=51"><div class="nm">Alex</div></div>
+  </div>
+
+  <div class="scroll-body">
+
+    <div class="month-head"><span class="d">June 2026</span><span class="n">7 MOMENTS</span></div>
+    <div class="grid">
+      <div class="m" data-p="nam" onclick="window.location.href='moment_detail.html'"><img class="photo" src="https://picsum.photos/seed/m1/300"><div class="scrim"></div><img class="pal" src="https://i.pravatar.cc/60?img=12"><div class="dist">12.4<span class="u">km</span></div></div>
+      <div class="m" data-p="linh" onclick="window.location.href='moment_detail.html'"><img class="photo" src="https://picsum.photos/seed/m2/300"><div class="scrim"></div><img class="pal" src="https://i.pravatar.cc/60?img=5"><div class="dist">5.0<span class="u">km</span></div></div>
+      <div class="m" data-p="nam" onclick="window.location.href='moment_detail.html'"><img class="photo" src="https://picsum.photos/seed/m3/300"><div class="scrim"></div><img class="pal" src="https://i.pravatar.cc/60?img=12"><div class="dist">8.2<span class="u">km</span></div></div>
+      <div class="m" data-p="mai" onclick="window.location.href='moment_detail.html'"><img class="photo" src="https://picsum.photos/seed/m4/300"><div class="scrim"></div><img class="pal" src="https://i.pravatar.cc/60?img=32"><div class="dist">21.1<span class="u">km</span></div></div>
+      <div class="m" data-p="linh" onclick="window.location.href='moment_detail.html'"><img class="photo" src="https://picsum.photos/seed/m5/300"><div class="scrim"></div><img class="pal" src="https://i.pravatar.cc/60?img=5"><div class="dist">10.0<span class="u">km</span></div></div>
+      <div class="m" data-p="tran" onclick="window.location.href='moment_detail.html'"><img class="photo" src="https://picsum.photos/seed/m6/300"><div class="scrim"></div><img class="pal" src="https://i.pravatar.cc/60?img=8"><div class="dist">6.5<span class="u">km</span></div></div>
+      <div class="m" data-p="nam" onclick="window.location.href='moment_detail.html'"><img class="photo" src="https://picsum.photos/seed/m7/300"><div class="scrim"></div><img class="pal" src="https://i.pravatar.cc/60?img=12"><div class="dist">15.0<span class="u">km</span></div></div>
+    </div>
+
+    <div class="month-head"><span class="d">May 2026</span><span class="n">5 MOMENTS</span></div>
+    <div class="grid">
+      <div class="m" data-p="alex" onclick="window.location.href='moment_detail.html'"><img class="photo" src="https://picsum.photos/seed/m8/300"><div class="scrim"></div><img class="pal" src="https://i.pravatar.cc/60?img=51"><div class="dist">4.2<span class="u">km</span></div></div>
+      <div class="m" data-p="mai" onclick="window.location.href='moment_detail.html'"><img class="photo" src="https://picsum.photos/seed/m9/300"><div class="scrim"></div><img class="pal" src="https://i.pravatar.cc/60?img=32"><div class="dist">9.8<span class="u">km</span></div></div>
+      <div class="m" data-p="tran" onclick="window.location.href='moment_detail.html'"><img class="photo" src="https://picsum.photos/seed/m10/300"><div class="scrim"></div><img class="pal" src="https://i.pravatar.cc/60?img=8"><div class="dist">7.0<span class="u">km</span></div></div>
+      <div class="m" data-p="linh" onclick="window.location.href='moment_detail.html'"><img class="photo" src="https://picsum.photos/seed/m11/300"><div class="scrim"></div><img class="pal" src="https://i.pravatar.cc/60?img=5"><div class="dist">3.1<span class="u">km</span></div></div>
+      <div class="m" data-p="nam" onclick="window.location.href='moment_detail.html'"><img class="photo" src="https://picsum.photos/seed/m12/300"><div class="scrim"></div><img class="pal" src="https://i.pravatar.cc/60?img=12"><div class="dist">11.3<span class="u">km</span></div></div>
+    </div>
+
+    <div class="pempty" id="pEmpty">
+      <span class="material-symbols-outlined">photo_library</span>
+      <h3>No moments yet</h3>
+      <p>Moments from runs with this partner will show here.</p>
+    </div>
+
+  </div>
+</div>
+<script>
+  function filterPartner(el) {
+    document.querySelectorAll('.partner').forEach(p => p.classList.remove('active'));
+    el.classList.add('active');
+    const p = el.dataset.p;
+    let total = 0;
+    document.querySelectorAll('.grid').forEach(grid => {
+      let vis = 0;
+      grid.querySelectorAll('.m').forEach(m => {
+        const show = p === 'all' || m.dataset.p === p;
+        m.style.display = show ? '' : 'none';
+        if (show) vis++;
+      });
+      grid.style.display = vis ? '' : 'none';
+      total += vis;
+      const head = grid.previousElementSibling;
+      if (head && head.classList.contains('month-head')) {
+        head.style.display = vis ? '' : 'none';
+        if (vis) head.querySelector('.n').textContent = vis + (vis === 1 ? ' MOMENT' : ' MOMENTS');
+      }
+    });
+    document.getElementById('pEmpty').classList.toggle('show', total === 0);
+    document.querySelector('.scroll-body').classList.toggle('by-partner', p !== 'all');
+  }
+</script>
+<script src="_nav.js"></script>
+</body>
+</html>

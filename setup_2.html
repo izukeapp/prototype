@@ -92,6 +92,15 @@
     font-size: 14px; color: #535e7b; margin-top: 6px; margin-bottom: 22px;
   }
 
+  /* Section label (note-label pattern: pink icon + mono caps) */
+  .section-label {
+    display: flex; align-items: center; gap: 6px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; font-weight: 700; letter-spacing: 0.1em;
+    text-transform: uppercase; color: #8a91a0;
+  }
+  .section-label .material-symbols-outlined { font-size: 16px; color: #FF3B5C; }
+
   /* Goals grid */
   .goals-grid {
     display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
@@ -280,8 +289,8 @@
 
       <!-- Weekly mileage -->
       <div class="mileage-block">
-        <h3>Weekly mileage target</h3>
-        <p class="sub">A perfect pace for steady progress.</p>
+        <p class="section-label"><span class="material-symbols-outlined">trending_up</span>Weekly mileage target</p>
+        <p class="sub" style="margin-top:8px;">A perfect pace for steady progress.</p>
         <div class="stepper-row">
           <button class="stepper-btn minus" onclick="stepMileage(-1)">
             <span class="material-symbols-outlined" style="font-size:22px;">remove</span>

@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Izuke — Route Detail</title>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@600;700;800;900&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; background: #d9dadc; font-family: 'Inter', sans-serif; }
+  .phone { width: 390px; height: 844px; background: #F5F5F7; position: relative; overflow: hidden; display: flex; flex-direction: column; box-shadow: 0 32px 80px rgba(0,0,0,0.18); border-radius: 48px; }
+  .scroll-body { flex: 1; overflow-y: auto; overflow-x: hidden; -webkit-overflow-scrolling: touch; }
+  .scroll-body::-webkit-scrollbar { display: none; }
+
+  /* Top nav */
+  .nav-bar { height: 56px; display: flex; align-items: center; padding: 10px 12px 0; flex-shrink: 0; position: relative; }
+  .nav-ico { width: 38px; height: 38px; border-radius: 50%; background: #fff; border: 1px solid #e8e8ea; cursor: pointer; display: flex; align-items: center; justify-content: center; color: #0F1B35; }
+  .nav-title { position: absolute; left: 50%; transform: translate(-50%, 5px); font-family: 'Hanken Grotesk', sans-serif; font-weight: 700; font-size: 18px; color: #0F1B35; }
+
+  .body { padding: 6px 20px 40px; }
+
+  /* Route hero card (mirrors profile runner-card) */
+  .route-card { background: #fff; border-radius: 24px; overflow: hidden; border: 1px solid #e2e2e4; box-shadow: 0 12px 32px rgba(15,27,53,0.10); margin-bottom: 16px; }
+  .card-map { position: relative; height: 180px; background:
+      linear-gradient(0deg, rgba(15,27,53,0.05) 1px, transparent 1px) 0 0 / 100% 30px,
+      linear-gradient(90deg, rgba(15,27,53,0.05) 1px, transparent 1px) 0 0 / 30px 100%, #e9edf0; }
+  .card-map .road { position: absolute; background: #fff; }
+  .card-map .road.h { height: 14px; left: -10px; right: -10px; }
+  .card-map .road.v { width: 14px; top: -10px; bottom: -10px; }
+  .card-map .zone { position: absolute; top: 40px; left: 60px; width: 205px; height: 105px;
+    background: rgba(34,197,94,0.25); border: 2.5px solid rgba(34,197,94,0.6);
+    border-radius: 46% 54% 50% 50% / 55% 46% 54% 45%; }
+
+  .card-info { padding: 16px; }
+  .r-name { font-family: 'Hanken Grotesk', sans-serif; font-weight: 700; font-size: 19px; color: #2b3550; letter-spacing: -0.01em; }
+  .r-loc { display: flex; align-items: center; gap: 4px; color: #777e90; font-size: 13px; margin-top: 6px; }
+  .r-loc .material-symbols-outlined { font-size: 16px; }
+  .card-divider { height: 1px; background: #f0f0f2; margin: 16px 0; }
+
+  .stat-row { display: flex; }
+  .stat-col { flex: 1; text-align: center; padding: 0 4px; }
+  .stat-col + .stat-col { border-left: 1px solid #eef0f4; }
+  .stat-col .v { font-family: 'Hanken Grotesk', sans-serif; font-weight: 800; font-size: 18px; color: #2b3550; display: inline-flex; align-items: center; gap: 3px; }
+  .stat-col .v.pink { color: #FF3B5C; }
+  .stat-col .v.green { color: #15a34a; }
+  .stat-col .v .material-symbols-outlined { font-size: 17px; }
+  .stat-col .k { font-family: 'JetBrains Mono', monospace; font-size: 9px; font-weight: 700; letter-spacing: 0.06em; color: #999; text-transform: uppercase; margin-top: 4px; }
+
+  .card { background: #fff; border: 1px solid #e8e8ea; border-radius: 18px; padding: 16px; margin-bottom: 14px; }
+  .card-title { display: flex; align-items: center; gap: 6px; font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #8a91a0; margin-bottom: 14px; }
+  .card-title .material-symbols-outlined { font-size: 16px; color: #FF3B5C; }
+
+  .bar-row { margin-bottom: 14px; }
+  .bar-row:last-child { margin-bottom: 0; }
+  .bar-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+  .bar-label { display: flex; align-items: center; gap: 6px; font-size: 14px; font-weight: 600; color: #0F1B35; }
+  .bar-label .material-symbols-outlined { font-size: 18px; color: #777e90; }
+  .bar-val { font-size: 13px; font-weight: 700; color: #777e90; }
+  .bar-track { height: 8px; border-radius: 4px; background: #eef0f4; overflow: hidden; }
+  .bar-fill { height: 100%; border-radius: 4px; }
+  .bar-fill.good { background: linear-gradient(90deg,#22C55E,#16a34a); }
+  .bar-fill.warn { background: linear-gradient(90deg,#f59e0b,#ef4444); }
+
+  /* rate gate */
+  .rate-gate { display: flex; align-items: center; gap: 12px; background: #FFF4F6; border: 1px solid #ffd7df; border-radius: 16px; padding: 14px; margin-bottom: 14px; }
+  .rate-gate .material-symbols-outlined { color: #FF3B5C; font-size: 24px; }
+  .rate-gate .txt { flex: 1; }
+  .rate-gate .txt b { display:block; font-family:'Hanken Grotesk'; font-size:14px; color:#0F1B35; }
+  .rate-gate .txt span { font-size: 12.5px; color: #777e90; }
+  .ran-btn { border: none; cursor: pointer; background: linear-gradient(135deg,#FF3B5C,#BA0035); color: #fff; font-weight: 700; font-size: 13px; padding: 10px 14px; border-radius: 10px; white-space: nowrap; }
+
+  /* chat thread */
+  .post { border-bottom: 1px solid #f0f0f3; padding: 14px 0; }
+  .post:last-child { border-bottom: none; padding-bottom: 0; }
+  .post-head { display: flex; align-items: center; gap: 10px; position: relative; }
+  .post-head .ht { flex: 1; min-width: 0; }
+  .post-head img { width: 34px; height: 34px; border-radius: 50%; }
+  .post-head .nm { font-family: 'Hanken Grotesk'; font-weight: 700; font-size: 14px; color: #0F1B35; }
+  .post-head .tm { font-size: 11px; color: #aaa; }
+  .pin-badge { display: inline-flex; align-items: center; gap: 3px; background: #FFF4F6; color: #FF3B5C; font-size: 10px; font-weight: 700; padding: 3px 7px; border-radius: 7px; font-family: 'JetBrains Mono'; letter-spacing: 0.04em; }
+  .pin-badge .material-symbols-outlined { font-size: 13px; }
+  .post-body { font-size: 14px; color: #333b4d; line-height: 1.5; margin: 8px 0 8px 44px; }
+  .post-actions { margin-left: 44px; display: flex; gap: 16px; }
+  .vote { display: inline-flex; align-items: center; gap: 5px; font-family: 'Inter', sans-serif; font-size: 12.5px; font-weight: 600; color: #777e90; background: none; border: none; padding: 0; cursor: pointer; }
+  .vote .material-symbols-outlined { font-size: 17px; }
+  .vote.on { color: #FF3B5C; }
+  .vote.on .material-symbols-outlined { font-variation-settings: 'FILL' 1, 'wght' 400; }
+  .reply-btn { display: inline-flex; align-items: center; gap: 5px; font-family: 'Inter', sans-serif; font-size: 12.5px; font-weight: 600; color: #777e90; background: none; border: none; padding: 0; cursor: pointer; }
+  .reply-btn .material-symbols-outlined { font-size: 17px; }
+
+  /* threaded replies (open to everyone) */
+  .thread { display: none; margin: 12px 0 0 44px; padding-left: 12px; border-left: 2px solid #f0f0f3; }
+  .thread.open { display: block; }
+  .reply { display: flex; gap: 8px; margin-bottom: 10px; }
+  .reply img { width: 28px; height: 28px; border-radius: 50%; flex-shrink: 0; }
+  .reply .rb { background: #f5f5f7; border-radius: 4px 12px 12px 12px; padding: 8px 11px; }
+  .reply .nm { font-family: 'Hanken Grotesk', sans-serif; font-weight: 700; font-size: 12px; color: #0F1B35; margin-bottom: 1px; }
+  .reply .tx { font-size: 13px; color: #333b4d; line-height: 1.4; }
+  .reply-box { display: flex; gap: 8px; align-items: center; margin-top: 4px; }
+  .reply-box input { flex: 1; height: 38px; padding: 0 14px; border-radius: 9999px; border: 1.5px solid #e8e8ea; background: #fff; font-family: 'Inter', sans-serif; font-size: 13px; outline: none; }
+  .reply-box .send { width: 38px; height: 38px; border-radius: 50%; border: none; background: #0F1B35; color: #fff; display: flex; align-items: center; justify-content: center; cursor: pointer; flex-shrink: 0; }
+  .reply-box .send .material-symbols-outlined { font-size: 18px; }
+
+  /* overflow menu: edit / delete (own) · report (others) */
+  .more-btn { flex-shrink: 0; background: none; border: none; cursor: pointer; color: #b6bcc9; padding: 2px; display: flex; align-items: center; }
+  .more-btn .material-symbols-outlined { font-size: 20px; }
+  .post-menu { position: absolute; top: 30px; right: 0; background: #fff; border: 1px solid #ececed; border-radius: 13px; box-shadow: 0 12px 32px rgba(15,27,53,0.16); padding: 6px; z-index: 30; display: none; min-width: 152px; }
+  .post-menu.open { display: block; }
+  .post-menu button { display: flex; align-items: center; gap: 9px; width: 100%; background: none; border: none; cursor: pointer; padding: 9px 11px; border-radius: 9px; font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 600; color: #0F1B35; text-align: left; }
+  .post-menu button:hover { background: #f5f5f7; }
+  .post-menu button .material-symbols-outlined { font-size: 18px; color: #777e90; }
+  .post-menu button.danger, .post-menu button.danger .material-symbols-outlined { color: #ef4444; }
+  .edited { font-size: 11px; color: #b6bcc9; font-style: italic; margin-left: 5px; }
+  .reported { display: inline-flex; align-items: center; gap: 4px; font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 700; letter-spacing: 0.04em; color: #15a34a; flex-shrink: 0; }
+  .reported .material-symbols-outlined { font-size: 13px; }
+  .post-removed { font-size: 14px; color: #aab0bd; font-style: italic; line-height: 1.5; margin: 8px 0 8px 44px; }
+  .edit-input { width: calc(100% - 44px); margin: 8px 0 0 44px; padding: 9px 13px; border: 1.5px solid #FF3B5C; border-radius: 11px; font-family: 'Inter', sans-serif; font-size: 14px; color: #0F1B35; outline: none; }
+  .edit-actions { margin: 8px 0 0 44px; display: flex; gap: 8px; }
+  .edit-actions button { border: none; cursor: pointer; font-family: 'Inter', sans-serif; font-weight: 600; font-size: 13px; padding: 7px 14px; border-radius: 9px; }
+  .edit-actions .save { background: #FF3B5C; color: #fff; }
+  .edit-actions .cancel { background: #f1f3f7; color: #535e7b; }
+
+  .composer { display: none; gap: 10px; align-items: center; margin-top: 14px; }
+  .composer input { flex: 1; height: 44px; padding: 0 16px; border-radius: 9999px; border: 1.5px solid #e8e8ea; background: #F5F5F7; font-family: 'Inter'; font-size: 14px; outline: none; }
+  .composer .send { width: 44px; height: 44px; border-radius: 50%; border: none; cursor: pointer; background: #0F1B35; color: #fff; display: flex; align-items: center; justify-content: center; }
+
+  /* locked composer (non-runners) */
+  .chat-locked { display: flex; align-items: center; gap: 9px; margin-top: 14px; padding: 13px 14px; border-radius: 14px; background: #f1f3f7; color: #8a91a0; font-size: 13px; font-weight: 600; }
+  .chat-locked .material-symbols-outlined { font-size: 18px; }
+
+  /* Add safety pin (runners only) */
+  .add-pin { display: none; width: 100%; align-items: center; justify-content: center; gap: 8px; height: 46px; margin-top: 14px; border: 1.5px dashed #ffb3c0; background: #FFF8F9; color: #FF3B5C; border-radius: 12px; font-family: 'Inter', sans-serif; font-weight: 600; font-size: 14px; cursor: pointer; }
+  .add-pin .material-symbols-outlined { font-size: 19px; }
+  .phone.ran .add-pin { display: flex; }
+
+  /* Add-safety-pin sheet */
+  .scrim { position: absolute; inset: 0; background: rgba(15,27,53,0.4); opacity: 0; pointer-events: none; transition: opacity 0.25s; z-index: 60; }
+  .scrim.open { opacity: 1; pointer-events: auto; }
+  .pin-sheet { position: absolute; left: 0; right: 0; bottom: 0; z-index: 70; background: #fff; border-radius: 26px 26px 0 0; padding: 18px 20px 28px; transform: translateY(100%); transition: transform 0.32s cubic-bezier(0.34,1.4,0.64,1); }
+  .pin-sheet.open { transform: translateY(0); }
+  .pin-sheet .grip { width: 40px; height: 4px; border-radius: 2px; background: #e2e5ec; margin: 0 auto 16px; }
+  .ps-title { font-family: 'Hanken Grotesk', sans-serif; font-weight: 800; font-size: 19px; color: #0F1B35; }
+  .ps-sub { font-size: 12.5px; color: #8a91a0; margin-top: 3px; margin-bottom: 16px; }
+  .ps-label { display: flex; align-items: center; gap: 6px; font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #8a91a0; margin-bottom: 10px; }
+  .ps-label .material-symbols-outlined { font-size: 16px; color: #FF3B5C; }
+  .ps-chips { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
+  .ps-chips .chip { padding: 9px 14px; border-radius: 9999px; background: #fff; border: 1.5px solid #e8e8ea; font-size: 13px; font-weight: 600; color: #535e7b; cursor: pointer; }
+  .ps-chips .chip.active { background: #FF3B5C; border-color: #FF3B5C; color: #fff; }
+  .ps-note { width: 100%; min-height: 78px; resize: none; padding: 12px 14px; border-radius: 14px; border: 1.5px solid #e8e8ea; background: #F5F5F7; font-family: 'Inter', sans-serif; font-size: 14px; color: #0F1B35; outline: none; margin-bottom: 16px; }
+  .ps-note:focus { border-color: #FF3B5C; }
+  .ps-post { width: 100%; height: 52px; border: none; border-radius: 9999px; background: linear-gradient(135deg,#FF3B5C,#BA0035); color: #fff; font-family: 'Inter', sans-serif; font-weight: 500; font-size: 16px; cursor: pointer; box-shadow: 0 8px 20px rgba(255,59,92,0.3); display: flex; align-items: center; justify-content: center; gap: 8px; }
+  .ps-post .material-symbols-outlined { font-size: 20px; }
+
+  /* Rate safety (shown after check-in) */
+  .rate-safety { display: none; width: 100%; height: 50px; margin-bottom: 14px; align-items: center; justify-content: center; gap: 8px; border: 1.5px solid #FF3B5C; background: #fff; color: #FF3B5C; border-radius: 9999px; font-family: 'Inter', sans-serif; font-weight: 600; font-size: 15px; cursor: pointer; }
+  .rate-safety .material-symbols-outlined { font-size: 19px; }
+
+  /* contribution gating: .ran toggles after "I ran this" */
+  .phone.ran .rate-gate { display: none; }
+  .phone.ran .chat-locked { display: none; }
+  .phone.ran .composer { display: flex; }
+  .phone.ran .rate-safety { display: flex; }
+
+  .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+  .filled { font-variation-settings: 'FILL' 1; }
+</style>
+</head>
+<body style="display:flex; align-items:center; justify-content:center; min-height:100vh;">
+<div class="phone" id="phone">
+
+  <div class="nav-bar">
+    <button class="nav-ico" onclick="window.location.href='routes.html'"><span class="material-symbols-outlined">arrow_back</span></button>
+    <span class="nav-title">Route</span>
+    <button class="nav-ico" style="margin-left:auto;"><span class="material-symbols-outlined">ios_share</span></button>
+  </div>
+
+  <div class="scroll-body">
+    <div class="body">
+
+      <div class="route-card">
+        <div class="card-map">
+          <div class="road h" style="top:64px;"></div>
+          <div class="road v" style="left:120px;"></div>
+          <div class="zone"></div>
+        </div>
+        <div class="card-info">
+          <div class="r-name">Tao Dan Park Loop</div>
+          <div class="r-loc"><span class="material-symbols-outlined">place</span> District 1, Ho Chi Minh City</div>
+          <div class="card-divider"></div>
+          <div class="stat-row">
+            <div class="stat-col"><div class="v green"><span class="material-symbols-outlined filled">star</span>4.8</div><div class="k">Safety</div></div>
+            <div class="stat-col"><div class="v"><span class="material-symbols-outlined">straighten</span>5K</div><div class="k">Distance</div></div>
+            <div class="stat-col"><div class="v"><span class="material-symbols-outlined">terrain</span>Paved</div><div class="k">Surface</div></div>
+            <div class="stat-col"><div class="v"><span class="material-symbols-outlined">directions_run</span>23</div><div class="k">This week</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Safety breakdown -->
+      <div class="card">
+        <div class="card-title"><span class="material-symbols-outlined filled">health_and_safety</span>Safety breakdown</div>
+        <div class="bar-row">
+          <div class="bar-top"><span class="bar-label"><span class="material-symbols-outlined">lightbulb</span>Lighting</span><span class="bar-val">Well lit</span></div>
+          <div class="bar-track"><div class="bar-fill good" style="width:88%"></div></div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-top"><span class="bar-label"><span class="material-symbols-outlined">groups</span>Foot traffic</span><span class="bar-val">Busy</span></div>
+          <div class="bar-track"><div class="bar-fill good" style="width:80%"></div></div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-top"><span class="bar-label"><span class="material-symbols-outlined">warning</span>Recent hazards</span><span class="bar-val">1 in 48h</span></div>
+          <div class="bar-track"><div class="bar-fill warn" style="width:20%"></div></div>
+        </div>
+      </div>
+
+      <!-- Rate gate (non-runners): check in to unlock rating + posting -->
+      <div class="rate-gate">
+        <span class="material-symbols-outlined">directions_run</span>
+        <div class="txt"><b>Ran this route?</b><span>Check in to rate its safety & post.</span></div>
+        <button class="ran-btn" onclick="ranThis()">I ran this</button>
+      </div>
+
+      <!-- Rate safety (shown after check-in) -->
+      <button class="rate-safety" onclick="window.location.href='rate_route.html?ret=route_detail.html'"><span class="material-symbols-outlined">star</span>Rate this route's safety</button>
+
+      <!-- Route chat thread -->
+      <div class="card" id="chatCard">
+        <div class="card-title"><span class="material-symbols-outlined filled">forum</span>Route chat</div>
+
+        <div class="post">
+          <div class="post-head">
+            <img src="https://i.pravatar.cc/80?img=32">
+            <div class="ht"><div class="nm">Mai</div><div class="tm">2h ago</div></div>
+            <span class="pin-badge"><span class="material-symbols-outlined">push_pin</span>SAFETY · 48H</span>
+            <button class="more-btn" onclick="toggleMenu(this, event)"><span class="material-symbols-outlined">more_horiz</span></button>
+            <div class="post-menu"><button onclick="reportPost(this)"><span class="material-symbols-outlined">flag</span>Report</button></div>
+          </div>
+          <div class="post-body">Construction near the west gate this week — exit feels tight after dark. Lighting still great on the main loop though.</div>
+          <div class="post-actions">
+            <button class="vote" onclick="toggleVote(this)"><span class="material-symbols-outlined">thumb_up</span><span class="n">12</span></button>
+            <button class="reply-btn" onclick="toggleThread(this)"><span class="material-symbols-outlined">mode_comment</span>4 replies</button>
+          </div>
+          <div class="thread">
+            <div class="reply"><img src="https://i.pravatar.cc/60?img=20"><div class="rb"><div class="nm">Sara</div><div class="tx">Is the west gate fully closed, or just narrow? Planning a night run Thu.</div></div></div>
+            <div class="reply"><img src="https://i.pravatar.cc/60?img=32"><div class="rb"><div class="nm">Mai</div><div class="tx">Just narrow — fine with a head-torch. Main loop is unaffected.</div></div></div>
+            <div class="reply-box"><input placeholder="Reply…"><button class="send"><span class="material-symbols-outlined">send</span></button></div>
+          </div>
+        </div>
+
+        <div class="post">
+          <div class="post-head">
+            <img src="https://i.pravatar.cc/80?img=12">
+            <div class="ht"><div class="nm">Nam</div><div class="tm">Yesterday</div></div>
+            <button class="more-btn" onclick="toggleMenu(this, event)"><span class="material-symbols-outlined">more_horiz</span></button>
+            <div class="post-menu"><button onclick="reportPost(this)"><span class="material-symbols-outlined">flag</span>Report</button></div>
+          </div>
+          <div class="post-body">Best for early morning long runs. Water fountain by the south entrance is working again 👍</div>
+          <div class="post-actions">
+            <button class="vote" onclick="toggleVote(this)"><span class="material-symbols-outlined">thumb_up</span><span class="n">6</span></button>
+            <button class="reply-btn" onclick="toggleThread(this)"><span class="material-symbols-outlined">mode_comment</span>2 replies</button>
+          </div>
+          <div class="thread">
+            <div class="reply"><img src="https://i.pravatar.cc/60?img=45"><div class="rb"><div class="nm">Alex</div><div class="tx">Perfect, was parched last time 😄 Anyone running this Sat AM?</div></div></div>
+            <div class="reply"><img src="https://i.pravatar.cc/60?img=12"><div class="rb"><div class="nm">Nam</div><div class="tx">I'll be there ~6am — come say hi!</div></div></div>
+            <div class="reply-box"><input placeholder="Reply…"><button class="send"><span class="material-symbols-outlined">send</span></button></div>
+          </div>
+        </div>
+
+        <button class="add-pin" onclick="openPin()"><span class="material-symbols-outlined">push_pin</span>Add a safety pin</button>
+
+        <div class="chat-locked">
+          <span class="material-symbols-outlined">lock</span>
+          Only runners who've done this route can post — you can still like &amp; reply
+        </div>
+        <div class="composer">
+          <input placeholder="Share something about this route…" onkeydown="if(event.key==='Enter')postToFeed()">
+          <button class="send" onclick="postToFeed()"><span class="material-symbols-outlined">send</span></button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Add safety pin sheet -->
+  <div class="scrim" id="pinScrim" onclick="closePin()"></div>
+  <div class="pin-sheet" id="pinSheet">
+    <div class="grip"></div>
+    <div class="ps-title">Add a safety pin</div>
+    <div class="ps-sub">Visible to everyone · pinned ~48h on this route</div>
+    <div class="ps-label"><span class="material-symbols-outlined filled">warning</span>What did you notice?</div>
+    <div class="ps-chips">
+      <div class="chip active" onclick="pickHazard(this)">Construction</div>
+      <div class="chip" onclick="pickHazard(this)">Dogs</div>
+      <div class="chip" onclick="pickHazard(this)">Flooding</div>
+      <div class="chip" onclick="pickHazard(this)">Blockage</div>
+      <div class="chip" onclick="pickHazard(this)">Poor lighting</div>
+    </div>
+    <textarea class="ps-note" placeholder="Add detail (optional)…"></textarea>
+    <button class="ps-post" onclick="postPin()"><span class="material-symbols-outlined">push_pin</span>Post safety pin</button>
+  </div>
+</div>
+<script>
+  function ranThis() { document.getElementById('phone').classList.add('ran'); }
+  function postToFeed() {
+    const input = document.querySelector('.composer input');
+    const text = input.value.trim();
+    if (!text) return;
+    const card = document.getElementById('chatCard');
+    const post = document.createElement('div');
+    post.className = 'post';
+    post.innerHTML =
+      '<div class="post-head"><img src="https://i.pravatar.cc/80?img=47"><div class="ht"><div class="nm">You</div><div class="tm">Just now</div></div>' + ownMenu() + '</div>' +
+      '<div class="post-body">' + escapeHtml(text) + '</div>' +
+      '<div class="post-actions"><button class="vote" onclick="toggleVote(this)"><span class="material-symbols-outlined">thumb_up</span><span class="n">0</span></button><button class="reply-btn" onclick="toggleThread(this)"><span class="material-symbols-outlined">mode_comment</span>0 replies</button></div>' +
+      '<div class="thread"><div class="reply-box"><input placeholder="Reply…"><button class="send"><span class="material-symbols-outlined">send</span></button></div></div>';
+    // pinned safety posts stay on top; new post goes above other normal posts
+    const pinned = [...card.querySelectorAll('.post')].filter(p => p.querySelector('.pin-badge'));
+    if (pinned.length) pinned[pinned.length - 1].insertAdjacentElement('afterend', post);
+    else card.querySelector('.card-title').insertAdjacentElement('afterend', post);
+    input.value = '';
+  }
+  function openPin() { document.getElementById('pinSheet').classList.add('open'); document.getElementById('pinScrim').classList.add('open'); }
+  function closePin() { document.getElementById('pinSheet').classList.remove('open'); document.getElementById('pinScrim').classList.remove('open'); }
+  function pickHazard(el) { el.parentElement.querySelectorAll('.chip').forEach(c => c.classList.remove('active')); el.classList.add('active'); }
+  function postPin() {
+    const hazard = document.querySelector('.ps-chips .chip.active').textContent.trim();
+    const note = document.querySelector('.ps-note').value.trim();
+    const body = note ? (hazard + ' — ' + note) : (hazard + ' reported on this route.');
+    const title = document.getElementById('chatCard').querySelector('.card-title');
+    const post = document.createElement('div');
+    post.className = 'post';
+    post.innerHTML =
+      '<div class="post-head"><img src="https://i.pravatar.cc/80?img=47"><div class="ht"><div class="nm">You</div><div class="tm">Just now</div></div><span class="pin-badge"><span class="material-symbols-outlined">push_pin</span>SAFETY · 48H</span>' + ownMenu(true) + '</div>' +
+      '<div class="post-body">' + escapeHtml(body) + '</div>' +
+      '<div class="post-actions"><button class="vote" onclick="toggleVote(this)"><span class="material-symbols-outlined">thumb_up</span><span class="n">0</span></button><button class="reply-btn" onclick="toggleThread(this)"><span class="material-symbols-outlined">mode_comment</span>0 replies</button></div>' +
+      '<div class="thread"><div class="reply-box"><input placeholder="Reply…"><button class="send"><span class="material-symbols-outlined">send</span></button></div></div>';
+    title.insertAdjacentElement('afterend', post);
+    document.querySelector('.ps-note').value = '';
+    closePin();
+  }
+  function toggleVote(btn) {
+    const n = btn.querySelector('.n');
+    const on = btn.classList.toggle('on');
+    n.textContent = parseInt(n.textContent) + (on ? 1 : -1);
+  }
+  function toggleThread(btn) {
+    btn.closest('.post').querySelector('.thread').classList.toggle('open');
+  }
+
+  // --- edit / delete (own) · report (others) ---
+  function escapeHtml(s) { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+  function ownMenu(isPin) {
+    return '<button class="more-btn" onclick="toggleMenu(this, event)"><span class="material-symbols-outlined">more_horiz</span></button>' +
+      '<div class="post-menu">' +
+        '<button onclick="editPost(this)"><span class="material-symbols-outlined">edit</span>Edit</button>' +
+        '<button class="danger" onclick="deletePost(this)"><span class="material-symbols-outlined">delete</span>' + (isPin ? 'Remove pin' : 'Delete') + '</button>' +
+      '</div>';
+  }
+  function closeMenus() { document.querySelectorAll('.post-menu.open').forEach(m => m.classList.remove('open')); }
+  function toggleMenu(btn, e) {
+    e.stopPropagation();
+    const m = btn.nextElementSibling;
+    const open = m.classList.contains('open');
+    closeMenus();
+    if (!open) m.classList.add('open');
+  }
+  document.addEventListener('click', closeMenus);
+
+  function editPost(btn) {
+    closeMenus();
+    const post = btn.closest('.post');
+    if (post.querySelector('.edit-input')) return;
+    const body = post.querySelector('.post-body');
+    const cur = body.dataset.raw || body.textContent.replace(/·\s*edited\s*$/, '').trim();
+    body.style.display = 'none';
+    const input = document.createElement('input');
+    input.className = 'edit-input';
+    input.value = cur;
+    const actions = document.createElement('div');
+    actions.className = 'edit-actions';
+    actions.innerHTML = '<button class="save" onclick="saveEdit(this)">Save</button><button class="cancel" onclick="cancelEdit(this)">Cancel</button>';
+    body.insertAdjacentElement('afterend', input);
+    input.insertAdjacentElement('afterend', actions);
+    input.focus();
+  }
+  function saveEdit(btn) {
+    const post = btn.closest('.post');
+    const body = post.querySelector('.post-body');
+    const input = post.querySelector('.edit-input');
+    const val = input.value.trim();
+    if (val) { body.dataset.raw = val; body.innerHTML = escapeHtml(val) + ' <span class="edited">· edited</span>'; }
+    body.style.display = '';
+    input.remove();
+    post.querySelector('.edit-actions').remove();
+  }
+  function cancelEdit(btn) {
+    const post = btn.closest('.post');
+    post.querySelector('.post-body').style.display = '';
+    post.querySelector('.edit-input').remove();
+    post.querySelector('.edit-actions').remove();
+  }
+  function deletePost(btn) {
+    closeMenus();
+    const post = btn.closest('.post');
+    // soft-delete posts that already have replies so the thread context survives
+    if (post.querySelectorAll('.thread .reply').length > 0) {
+      post.querySelector('.post-body').outerHTML = '<div class="post-removed">This post was removed.</div>';
+      post.querySelectorAll('.pin-badge, .more-btn, .post-menu, .vote').forEach(e => e.remove());
+    } else {
+      post.remove();
+    }
+  }
+  function reportPost(btn) {
+    closeMenus();
+    const head = btn.closest('.post-head');
+    head.querySelector('.more-btn').remove();
+    head.querySelector('.post-menu').remove();
+    const tag = document.createElement('span');
+    tag.className = 'reported';
+    tag.innerHTML = '<span class="material-symbols-outlined">flag</span>Reported';
+    head.appendChild(tag);
+  }
+</script>
+<script src="_nav.js"></script>
+</body>
+</html>

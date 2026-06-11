@@ -24,6 +24,7 @@
 
   /* Header */
   .header {
+    position: relative;
     display: flex; align-items: center; justify-content: space-between;
     padding: 4px 20px 12px;
     background: #F5F5F7;
@@ -37,9 +38,10 @@
   }
   .icon-btn:active { transform: scale(0.92); }
   .header h1 {
+    position: absolute; left: 50%; transform: translateX(-50%);
     font-family: 'Hanken Grotesk', sans-serif;
-    font-weight: 800; font-size: 28px; color: #FF3B5C;
-    letter-spacing: -0.03em;
+    font-weight: 700; font-size: 18px; color: #0F1B35;
+    letter-spacing: -0.01em;
   }
 
   /* Scroll body */
@@ -50,8 +52,8 @@
   }
   .scroll-body::-webkit-scrollbar { display: none; }
 
-  /* Search + filter */
-  .search-bar { display: flex; gap: 12px; align-items: center; margin-bottom: 24px; }
+  /* Search */
+  .search-bar { display: flex; align-items: center; margin-bottom: 24px; }
   .search-wrap { position: relative; flex: 1; }
   .search-wrap .material-symbols-outlined {
     position: absolute; left: 16px; top: 50%; transform: translateY(-50%);
@@ -70,15 +72,6 @@
   }
   .search-wrap input::placeholder { color: #906f70; }
   .search-wrap input:focus { border-color: #0F1B35; }
-  .filter-btn {
-    width: 48px; height: 48px; flex-shrink: 0;
-    background: #0F1B35; color: #fff;
-    border: none; border-radius: 9999px; cursor: pointer;
-    display: flex; align-items: center; justify-content: center;
-    box-shadow: 0 4px 10px rgba(15,27,53,0.18);
-    transition: transform 0.1s;
-  }
-  .filter-btn:active { transform: scale(0.94); }
 
   /* Section header */
   .sec-head {
@@ -86,11 +79,13 @@
     margin-bottom: 14px;
   }
   .sec-title {
+    display: flex; align-items: center; gap: 6px;
     font-family: 'JetBrains Mono', monospace;
-    font-size: 12px; font-weight: 700;
+    font-size: 11px; font-weight: 700;
     letter-spacing: 0.1em; text-transform: uppercase;
-    color: #535e7b;
+    color: #8a91a0;
   }
+  .sec-title .material-symbols-outlined { font-size: 16px; color: #FF3B5C; }
   .view-all {
     background: none; border: none; cursor: pointer;
     font-family: 'JetBrains Mono', monospace;
@@ -193,52 +188,13 @@
     display: flex; align-items: center; padding: 4px;
   }
 
-  /* AI Smart Match CTA */
-  .cta-card {
-    position: relative; overflow: hidden;
-    background: #0F1B35;
-    border-radius: 24px;
-    padding: 24px;
-    margin-top: 24px;
-    color: #fff;
-  }
-  .cta-glow {
-    position: absolute; right: -40px; bottom: -40px;
-    width: 180px; height: 180px;
-    background: #FF3B5C; opacity: 0.12;
-    border-radius: 50%; filter: blur(40px);
-  }
-  .cta-card .inner { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: flex-start; gap: 14px; }
-  .cta-tag {
-    background: rgba(255,59,92,0.18);
-    border: 1px solid rgba(255,59,92,0.30);
-    padding: 5px 12px; border-radius: 9999px;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 10px; font-weight: 700; letter-spacing: 0.06em;
-    color: #FF3B5C;
-  }
-  .cta-card h3 {
-    font-family: 'Hanken Grotesk', sans-serif;
-    font-weight: 700; font-size: 18px; line-height: 1.25;
-    color: rgba(255,255,255,0.88);
-  }
-  .cta-card p { font-size: 14px; color: rgba(255,255,255,0.70); line-height: 1.5; }
-  .cta-btn {
-    background: #FF3B5C; color: #fff; border: none; cursor: pointer;
-    padding: 12px 24px; border-radius: 12px;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 11px; font-weight: 700; letter-spacing: 0.06em;
-    box-shadow: 0 8px 20px rgba(255,59,92,0.25);
-    transition: transform 0.1s;
-  }
-  .cta-btn:active { transform: scale(0.96); }
-
   /* Bottom nav */
   .bottom-nav {
     position: absolute;
     bottom: 0; left: 0; right: 0;
     height: 82px;
-    background: #0F1B35;
+    background: #fff;
+    border-top: 1px solid rgba(15,27,53,0.07);
     display: flex; align-items: center;
     padding-bottom: 14px;
     z-index: 50;
@@ -248,7 +204,7 @@
   .nav-tab {
     flex: 1;
     display: flex; flex-direction: column; align-items: center; gap: 3px;
-    color: rgba(255,255,255,0.35);
+    color: #b6bcc9;
     font-family: 'JetBrains Mono', monospace;
     font-size: 9px; font-weight: 700;
     letter-spacing: 0.08em; text-transform: uppercase;
@@ -276,7 +232,7 @@
   <!-- Header -->
   <div class="header">
     <div class="header-left">
-      <button class="icon-btn" onclick="window.location.href='discover.html'">
+      <button class="icon-btn" onclick="window.location.href='map_home.html'">
         <span class="material-symbols-outlined" style="font-size:26px;">arrow_back</span>
       </button>
       <h1>Matches</h1>
@@ -289,21 +245,18 @@
   <!-- Scroll body -->
   <div class="scroll-body">
 
-    <!-- Search + filter -->
+    <!-- Search -->
     <div class="search-bar">
       <div class="search-wrap">
         <span class="material-symbols-outlined">search</span>
         <input type="text" placeholder="Search runners...">
       </div>
-      <button class="filter-btn">
-        <span class="material-symbols-outlined" style="font-size:22px;">tune</span>
-      </button>
     </div>
 
     <!-- Pending Requests -->
     <section>
       <div class="sec-head">
-        <span class="sec-title">Pending Requests (3)</span>
+        <span class="sec-title"><span class="material-symbols-outlined filled">hourglass_top</span>Pending Requests (3)</span>
         <button class="view-all" onclick="window.location.href='pending_requests.html'">VIEW ALL</button>
       </div>
       <div class="req-row">
@@ -341,7 +294,7 @@
     <!-- Active Runners -->
     <section style="margin-top:24px;">
       <div class="sec-head">
-        <span class="sec-title">Active Runners (12)</span>
+        <span class="sec-title"><span class="material-symbols-outlined filled">group</span>Active Runners (12)</span>
       </div>
       <div class="runners-list">
 
@@ -421,32 +374,21 @@
       </div>
     </section>
 
-    <!-- Group Runs teaser -->
-    <div class="cta-card">
-      <div class="cta-glow"></div>
-      <div class="inner">
-        <span class="cta-tag">COMING SOON</span>
-        <h3>Group Runs are on the way.</h3>
-        <p>Soon you'll be able to plan a run, set a route and time, and invite your matches to join. Want to be first to try it?</p>
-        <button class="cta-btn">NOTIFY ME</button>
-      </div>
-    </div>
-
   </div>
 
   <!-- Bottom nav -->
   <nav class="bottom-nav">
-    <a class="nav-tab" href="discover.html">
-      <span class="material-symbols-outlined">explore</span>
-      Discover
+    <a class="nav-tab" href="map_home.html">
+      <span class="material-symbols-outlined">map</span>
+      Map
+    </a>
+    <a class="nav-tab" href="routes.html">
+      <span class="material-symbols-outlined">route</span>
+      Routes
     </a>
     <a class="nav-tab active" href="matches.html">
-      <span class="material-symbols-outlined filled">chat_bubble</span>
+      <span class="material-symbols-outlined filled">favorite</span>
       Matches
-    </a>
-    <a class="nav-tab" href="activity.html">
-      <span class="material-symbols-outlined">notifications</span>
-      Activity
     </a>
     <a class="nav-tab" href="profile.html">
       <span class="material-symbols-outlined">person</span>

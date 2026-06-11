@@ -1,188 +1,98 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
+<meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GoWith — Settings</title>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<title>Izuke — Settings</title>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@600;700;800;900&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
 <style>
-:root {
-  --primary: #FF3B5C;
-  --secondary: #0F1B35;
-  --surface: #F5F5F5;
-  --surface-2: #E8E8E8;
-  --white: #FFFFFF;
-  --text: #1A1A1A;
-  --text-2: #555555;
-  --text-3: #999999;
-  --success: #22C55E;
-  --danger: #EF4444;
-  --radius-card: 20px;
-  --radius-sheet: 24px;
-  --radius-btn: 12px;
-  --tab-height: 83px;
-  --nav-height: 56px;
-  --status-height: 44px;
-}
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; background: #d9dadc; font-family: 'Inter', sans-serif; }
+  .phone { width: 390px; height: 844px; background: #F5F5F7; position: relative; overflow: hidden; display: flex; flex-direction: column; box-shadow: 0 32px 80px rgba(0,0,0,0.18); border-radius: 48px; }
 
-* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+  .nav-bar { height: 56px; display: flex; align-items: center; padding: 8px 12px 0; flex-shrink: 0; position: relative; }
+  .nav-ico { width: 38px; height: 38px; border-radius: 50%; background: #fff; border: 1px solid #e8e8ea; cursor: pointer; display: flex; align-items: center; justify-content: center; color: #0F1B35; }
+  .nav-title { position: absolute; left: 50%; transform: translate(-50%,5px); font-family: 'Hanken Grotesk', sans-serif; font-weight: 700; font-size: 18px; color: #0F1B35; }
 
-body {
-  font-family: 'Inter', sans-serif;
-  background: #0d0d1a;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 100vh;
-}
+  .scroll-body { flex: 1; overflow-y: auto; overflow-x: hidden; padding-bottom: 20px; }
+  .scroll-body::-webkit-scrollbar { display: none; }
 
-.phone {
-  width: 390px;
-  height: 844px;
-  background: var(--surface);
-  position: relative;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  box-shadow: 0 32px 80px rgba(0,0,0,0.4);
-  border-radius: 48px;
-}
+  .group-title { font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #b6bcc9; padding: 18px 22px 8px; }
+  .list { background: #fff; border: 1px solid #eef0f4; border-radius: 16px; margin: 0 16px; overflow: hidden; }
 
-.screen-content {
-  flex: 1;
-  overflow-y: auto;
-  overflow-x: hidden;
-  -webkit-overflow-scrolling: touch;
-}
-.screen-content::-webkit-scrollbar { display: none; }
+  .row { display: flex; align-items: center; gap: 13px; padding: 13px 14px; border-bottom: 1px solid #f0f0f3; cursor: pointer; }
+  .row:last-child { border-bottom: none; }
+  .row .ic { width: 34px; height: 34px; border-radius: 10px; background: rgba(255,59,92,0.10); color: #FF3B5C; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .row .ic.blue { background: rgba(14,165,233,0.12); color: #0EA5E9; }
+  .row .ic .material-symbols-outlined { font-size: 19px; }
+  .row .bd { flex: 1; min-width: 0; }
+  .row .lbl { font-size: 15px; font-weight: 600; color: #0F1B35; }
+  .row .sub { font-size: 12px; color: #999; margin-top: 1px; }
+  .row .chev { color: #cdd2db; flex-shrink: 0; }
 
-/* Status Bar */
-.status-bar {
-  height: var(--status-height);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 28px;
-  flex-shrink: 0;
-  position: relative;
-  z-index: 10;
-}
-.status-bar .time { font-weight: 700; font-size: 15px; }
-.status-bar .icons { display: flex; align-items: center; gap: 5px; font-size: 12px; }
+  /* toggle */
+  .sw { width: 46px; height: 28px; border-radius: 9999px; background: #d7dbe2; position: relative; cursor: pointer; flex-shrink: 0; transition: background 0.2s; }
+  .sw.on { background: #FF3B5C; }
+  .sw::after { content: ''; position: absolute; top: 3px; left: 3px; width: 22px; height: 22px; border-radius: 50%; background: #fff; transition: transform 0.2s; box-shadow: 0 1px 4px rgba(0,0,0,0.2); }
+  .sw.on::after { transform: translateX(18px); }
 
-/* Nav Bar */
-.nav-bar {
-  height: var(--nav-height);
-  display: flex;
-  align-items: center;
-  padding: 0 16px;
-  background: white;
-  border-bottom: 1px solid rgba(0,0,0,0.06);
-  flex-shrink: 0;
-  z-index: 10;
-  position: relative;
-  gap: 8px;
-}
-.nav-title {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  font-weight: 700;
-  font-size: 17px;
-  white-space: nowrap;
-}
-.nav-back {
-  width: 34px; height: 34px;
-  display: flex; align-items: center; justify-content: center;
-  border-radius: 50%;
-  background: var(--surface);
-  cursor: pointer;
-  color: var(--text);
-  font-size: 14px;
-  flex-shrink: 0;
-}
+  .foot { padding: 22px 18px 30px; display: flex; flex-direction: column; gap: 10px; }
+  .logout { height: 50px; border-radius: 9999px; border: 1.5px solid #ef4444; background: #fff; color: #ef4444; font-family: 'Inter', sans-serif; font-weight: 600; font-size: 15px; cursor: pointer; }
+  .delete-acc { background: none; border: none; color: #999; font-family: 'Inter', sans-serif; font-size: 13.5px; font-weight: 600; cursor: pointer; padding: 6px; }
+  .version { text-align: center; font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #b6bcc9; margin-top: 4px; }
 
-/* Buttons */
-.btn {
-  padding: 15px 24px;
-  border-radius: var(--radius-btn);
-  font-family: 'Inter', sans-serif;
-  font-size: 16px;
-  font-weight: 500;
-  border: none;
-  cursor: pointer;
-  text-align: center;
-  width: 100%;
-  transition: opacity 0.15s, transform 0.1s;
-}
-.btn:active { transform: scale(0.98); opacity: 0.9; }
-.btn-outline { background: transparent; color: var(--primary); border: 2px solid var(--primary); }
-
-/* Toggle */
-.toggle {
-  width: 44px; height: 26px; border-radius: 13px;
-  background: var(--success); position: relative;
-  cursor: pointer; margin-left: auto; flex-shrink: 0;
-  transition: background 0.2s;
-}
-.toggle::after {
-  content: '';
-  width: 22px; height: 22px; border-radius: 50%;
-  background: white; position: absolute;
-  top: 2px; right: 2px;
-  transition: right 0.2s, left 0.2s;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.25);
-}
-.toggle.off { background: var(--surface-2); }
-.toggle.off::after { right: auto; left: 2px; }
-
-/* Settings */
-.settings-group-title { font-size: 12px; font-weight: 700; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.8px; padding: 16px 20px 6px; }
-.settings-row { display: flex; align-items: center; padding: 13px 20px; background: white; border-bottom: 1px solid rgba(0,0,0,0.05); cursor: pointer; }
-.settings-icon { width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 14px; margin-right: 14px; flex-shrink: 0; color: white; }
+  .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400; }
+  .filled { font-variation-settings: 'FILL' 1; }
 </style>
 </head>
-<body>
-
+<body style="display:flex; align-items:center; justify-content:center; min-height:100vh;">
 <div class="phone">
-  <div class="screen-content" id="settings">
-    <div class="status-bar"><span class="time">9:41</span><div class="icons"><i class="fas fa-signal"></i><i class="fas fa-wifi"></i><i class="fas fa-battery-full"></i></div></div>
-    <div class="nav-bar"><div class="nav-back" onclick="window.location.href='profile.html'"><i class="fas fa-chevron-left"></i></div><span class="nav-title">Settings</span></div>
-    <div class="screen-content">
-      <div class="settings-group-title">Account</div>
-      <div style="background:white;">
-        <div class="settings-row"><div class="settings-icon" style="background:#3B82F6;"><i class="fas fa-user"></i></div><div style="flex:1;font-weight:600;font-size:15px;">Account Info</div><i class="fas fa-chevron-right" style="color:var(--text-3);font-size:13px;"></i></div>
-        <div class="settings-row" onclick="window.location.href='verification.html'"><div class="settings-icon" style="background:#8B5CF6;"><i class="fas fa-shield-halved"></i></div><div style="flex:1;"><div style="font-weight:600;font-size:15px;">Verification</div><div style="font-size:12px;color:var(--text-3);margin-top:1px;">Not verified</div></div><i class="fas fa-chevron-right" style="color:var(--text-3);font-size:13px;"></i></div>
-      </div>
-      <div class="settings-group-title">Discovery</div>
-      <div style="background:white;">
-        <div class="settings-row"><div class="settings-icon" style="background:var(--primary);"><i class="fas fa-compass"></i></div><div style="flex:1;font-weight:600;font-size:15px;">Pause Discovery</div><div class="toggle off"></div></div>
-        <div class="settings-row"><div class="settings-icon" style="background:var(--secondary);"><i class="fas fa-eye"></i></div><div style="flex:1;font-weight:600;font-size:15px;">Who Can See Me</div><i class="fas fa-chevron-right" style="color:var(--text-3);font-size:13px;"></i></div>
-      </div>
-      <div class="settings-group-title">Notifications</div>
-      <div style="background:white;">
-        <div class="settings-row"><div class="settings-icon" style="background:var(--primary);"><i class="fas fa-person-running"></i></div><div style="flex:1;font-weight:600;font-size:15px;">New Matches</div><div class="toggle"></div></div>
-        <div class="settings-row"><div class="settings-icon" style="background:#3B82F6;"><i class="fas fa-comment-dots"></i></div><div style="flex:1;font-weight:600;font-size:15px;">Messages</div><div class="toggle"></div></div>
-        <div class="settings-row"><div class="settings-icon" style="background:var(--success);"><i class="fas fa-person-running"></i></div><div style="flex:1;font-weight:600;font-size:15px;">Runners Near You</div><div class="toggle"></div></div>
-      </div>
-      <div class="settings-group-title">Phase 2</div>
-      <div style="background:white;">
-        <div class="settings-row" onclick="window.location.href='run_clubs.html'"><div class="settings-icon" style="background:var(--primary);"><i class="fas fa-people-group"></i></div><div style="flex:1;"><div style="font-weight:600;font-size:15px;">Run Clubs</div><div style="font-size:12px;color:var(--text-3);margin-top:1px;">Coming soon</div></div><div style="background:rgba(255,59,92,0.1);color:var(--primary);padding:3px 10px;border-radius:20px;font-size:11px;font-weight:800;">SOON</div></div>
-      </div>
-      <div class="settings-group-title">About</div>
-      <div style="background:white;">
-        <div class="settings-row"><div class="settings-icon" style="background:#6B7280;"><i class="fas fa-file-lines"></i></div><div style="flex:1;font-weight:600;font-size:15px;">Terms of Service</div><i class="fas fa-chevron-right" style="color:var(--text-3);font-size:13px;"></i></div>
-        <div class="settings-row"><div class="settings-icon" style="background:#6B7280;"><i class="fas fa-lock"></i></div><div style="flex:1;font-weight:600;font-size:15px;">Privacy Policy</div><i class="fas fa-chevron-right" style="color:var(--text-3);font-size:13px;"></i></div>
-      </div>
-      <div style="padding:24px 20px 32px;display:flex;flex-direction:column;gap:10px;">
-        <button class="btn btn-outline" style="color:var(--danger);border-color:var(--danger);" onclick="window.location.href='auth.html'">Log Out</button>
-        <button class="btn" style="background:transparent;color:var(--text-3);font-size:14px;">Delete Account</button>
-      </div>
+  <div class="nav-bar">
+    <button class="nav-ico" onclick="window.location.href='profile.html'"><span class="material-symbols-outlined">arrow_back</span></button>
+    <span class="nav-title">Settings</span>
+  </div>
+
+  <div class="scroll-body">
+
+    <div class="group-title">Account</div>
+    <div class="list">
+      <div class="row"><div class="ic"><span class="material-symbols-outlined filled">person</span></div><div class="bd"><div class="lbl">Account info</div><div class="sub">Name · email · phone</div></div><span class="material-symbols-outlined chev">chevron_right</span></div>
+      <div class="row" onclick="window.location.href='verification.html'"><div class="ic blue"><span class="material-symbols-outlined filled">verified</span></div><div class="bd"><div class="lbl">Verification</div><div class="sub">Not verified</div></div><span class="material-symbols-outlined chev">chevron_right</span></div>
     </div>
+
+    <div class="group-title">Discovery &amp; privacy</div>
+    <div class="list">
+      <div class="row"><div class="ic"><span class="material-symbols-outlined filled">visibility_off</span></div><div class="bd"><div class="lbl">Pause discovery</div><div class="sub">Hide me from the map &amp; nearby</div></div><div class="sw" onclick="this.classList.toggle('on')"></div></div>
+      <div class="row"><div class="ic"><span class="material-symbols-outlined filled">group</span></div><div class="bd"><div class="lbl">Who can see me</div><div class="sub">Everyone</div></div><span class="material-symbols-outlined chev">chevron_right</span></div>
+      <div class="row"><div class="ic"><span class="material-symbols-outlined filled">my_location</span></div><div class="bd"><div class="lbl">Precise location</div><div class="sub">Show exact distance to others</div></div><div class="sw on" onclick="this.classList.toggle('on')"></div></div>
+      <div class="row"><div class="ic"><span class="material-symbols-outlined filled">straighten</span></div><div class="bd"><div class="lbl">Distance units</div><div class="sub">Kilometres</div></div><span class="material-symbols-outlined chev">chevron_right</span></div>
+    </div>
+
+    <div class="group-title">Notifications</div>
+    <div class="list">
+      <div class="row"><div class="ic"><span class="material-symbols-outlined filled">favorite</span></div><div class="bd"><div class="lbl">Matches &amp; run requests</div></div><div class="sw on" onclick="this.classList.toggle('on')"></div></div>
+      <div class="row"><div class="ic"><span class="material-symbols-outlined filled">chat_bubble</span></div><div class="bd"><div class="lbl">Messages</div></div><div class="sw on" onclick="this.classList.toggle('on')"></div></div>
+      <div class="row"><div class="ic"><span class="material-symbols-outlined filled">groups</span></div><div class="bd"><div class="lbl">Runners nearby</div></div><div class="sw on" onclick="this.classList.toggle('on')"></div></div>
+      <div class="row"><div class="ic"><span class="material-symbols-outlined filled">event</span></div><div class="bd"><div class="lbl">Run clubs &amp; events</div></div><div class="sw on" onclick="this.classList.toggle('on')"></div></div>
+      <div class="row"><div class="ic"><span class="material-symbols-outlined filled">shield</span></div><div class="bd"><div class="lbl">Route safety alerts</div></div><div class="sw" onclick="this.classList.toggle('on')"></div></div>
+    </div>
+
+    <div class="group-title">About</div>
+    <div class="list">
+      <div class="row"><div class="ic"><span class="material-symbols-outlined filled">description</span></div><div class="bd"><div class="lbl">Terms of Service</div></div><span class="material-symbols-outlined chev">chevron_right</span></div>
+      <div class="row"><div class="ic"><span class="material-symbols-outlined filled">lock</span></div><div class="bd"><div class="lbl">Privacy Policy</div></div><span class="material-symbols-outlined chev">chevron_right</span></div>
+      <div class="row"><div class="ic"><span class="material-symbols-outlined filled">help</span></div><div class="bd"><div class="lbl">Help &amp; support</div></div><span class="material-symbols-outlined chev">chevron_right</span></div>
+    </div>
+
+    <div class="foot">
+      <button class="logout" onclick="window.location.href='auth.html'">Log out</button>
+      <button class="delete-acc">Delete account</button>
+      <div class="version">Izuke · v1.0.0</div>
+    </div>
+
   </div>
 </div>
-
-  <script src="_nav.js"></script>
+<script src="_nav.js"></script>
 </body>
 </html>

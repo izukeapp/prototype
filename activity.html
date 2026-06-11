@@ -1,188 +1,165 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
+<meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GoWith — Activity</title>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<title>Izuke — Activity</title>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@600;700;800;900&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
 <style>
-:root {
-  --primary: #FF3B5C;
-  --secondary: #0F1B35;
-  --surface: #F5F5F5;
-  --surface-2: #E8E8E8;
-  --white: #FFFFFF;
-  --text: #1A1A1A;
-  --text-2: #555555;
-  --text-3: #999999;
-  --success: #22C55E;
-  --danger: #EF4444;
-  --radius-card: 20px;
-  --radius-sheet: 24px;
-  --radius-btn: 12px;
-  --tab-height: 83px;
-  --nav-height: 56px;
-  --status-height: 44px;
-}
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; background: #d9dadc; font-family: 'Inter', sans-serif; }
+  .phone { width: 390px; height: 844px; background: #F5F5F7; position: relative; overflow: hidden; display: flex; flex-direction: column; box-shadow: 0 32px 80px rgba(0,0,0,0.18); border-radius: 48px; }
 
-* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+  .nav-bar { height: 56px; display: flex; align-items: center; padding: 8px 12px 0; flex-shrink: 0; position: relative; }
+  .nav-ico { width: 38px; height: 38px; border-radius: 50%; background: #fff; border: 1px solid #e8e8ea; cursor: pointer; display: flex; align-items: center; justify-content: center; color: #0F1B35; }
+  .nav-title { position: absolute; left: 50%; transform: translate(-50%,5px); font-family: 'Hanken Grotesk', sans-serif; font-weight: 700; font-size: 18px; color: #0F1B35; }
+  .mark-read { margin-left: auto; background: none; border: none; cursor: pointer; font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 600; color: #FF3B5C; }
 
-body {
-  font-family: 'Inter', sans-serif;
-  background: #0d0d1a;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 100vh;
-}
+  /* filter chips */
+  .chips { display: flex; gap: 8px; overflow-x: auto; padding: 10px 16px 12px; flex-shrink: 0; scrollbar-width: none; }
+  .chips::-webkit-scrollbar { display: none; }
+  .chip { flex-shrink: 0; padding: 8px 14px; border-radius: 9999px; background: #fff; border: 1.5px solid #e8e8ea; font-size: 13px; font-weight: 600; color: #535e7b; cursor: pointer; white-space: nowrap; }
+  .chip.active { background: #FF3B5C; border-color: #FF3B5C; color: #fff; }
 
-.phone {
-  width: 390px;
-  height: 844px;
-  background: var(--surface);
-  position: relative;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  box-shadow: 0 32px 80px rgba(0,0,0,0.4);
-  border-radius: 48px;
-}
+  .scroll-body { flex: 1; overflow-y: auto; overflow-x: hidden; }
+  .scroll-body::-webkit-scrollbar { display: none; }
 
-.screen-content {
-  flex: 1;
-  overflow-y: auto;
-  overflow-x: hidden;
-  -webkit-overflow-scrolling: touch;
-  background: white;
-}
-.screen-content::-webkit-scrollbar { display: none; }
+  .group { font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #b6bcc9; padding: 14px 18px 6px; }
 
-/* Status Bar */
-.status-bar {
-  height: var(--status-height);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 28px;
-  flex-shrink: 0;
-  position: relative;
-  z-index: 10;
-}
-.status-bar .time { font-weight: 700; font-size: 15px; }
-.status-bar .icons { display: flex; align-items: center; gap: 5px; font-size: 12px; }
+  .notif { display: flex; align-items: flex-start; gap: 12px; padding: 14px 16px; border-bottom: 1px solid #f0f0f3; cursor: pointer; background: #fff; transition: background 0.12s; }
+  .notif:active { background: #fafafa; }
+  .notif.unread { background: rgba(255,59,92,0.04); box-shadow: inset 3px 0 0 #FF3B5C; }
+  .n-ic { width: 42px; height: 42px; border-radius: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .n-ic .material-symbols-outlined { font-size: 21px; }
+  .n-ic.pink { background: rgba(255,59,92,0.10); color: #FF3B5C; }
+  .n-ic.blue { background: rgba(59,130,246,0.10); color: #3B82F6; }
+  .n-ic.green { background: rgba(34,197,94,0.12); color: #15a34a; }
+  .n-ic.verified { background: rgba(14,165,233,0.12); color: #0EA5E9; }
+  .n-ic.amber { background: rgba(245,158,11,0.14); color: #f59e0b; }
+  .n-ic.red { background: rgba(239,68,68,0.10); color: #ef4444; }
+  .n-body { flex: 1; min-width: 0; }
+  .n-text { font-size: 14px; line-height: 1.45; color: #2b3550; }
+  .n-text b { font-weight: 700; color: #0F1B35; }
+  .n-time { font-size: 12px; color: #8a91a0; margin-top: 3px; }
+  .n-thumb { width: 38px; height: 38px; border-radius: 50%; object-fit: cover; flex-shrink: 0; }
 
-/* Nav Bar */
-.nav-bar {
-  height: var(--nav-height);
-  display: flex;
-  align-items: center;
-  padding: 0 16px;
-  background: white;
-  border-bottom: 1px solid rgba(0,0,0,0.06);
-  flex-shrink: 0;
-  z-index: 10;
-  position: relative;
-  gap: 8px;
-}
-.nav-title {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  font-weight: 700;
-  font-size: 17px;
-  white-space: nowrap;
-}
+  .empty { display: none; flex-direction: column; align-items: center; text-align: center; padding: 60px 30px; color: #8a91a0; }
+  .empty.show { display: flex; }
+  .empty .material-symbols-outlined { font-size: 46px; color: #cdd2db; margin-bottom: 12px; }
+  .empty h3 { font-family: 'Hanken Grotesk', sans-serif; font-weight: 700; font-size: 17px; color: #2b3550; margin-bottom: 4px; }
+  .empty p { font-size: 13.5px; }
 
-/* Tab Bar */
-.tab-bar {
-  height: var(--tab-height);
-  background: white;
-  border-top: 1px solid rgba(0,0,0,0.08);
-  display: flex;
-  align-items: flex-start;
-  padding-top: 10px;
-  flex-shrink: 0;
-  position: relative;
-  z-index: 10;
-}
-.tab {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 3px;
-  cursor: pointer;
-  color: var(--text-3);
-  font-size: 10px;
-  font-weight: 600;
-  transition: color 0.15s;
-}
-.tab i { font-size: 22px; }
-.tab.active { color: var(--primary); }
-
-/* Chip */
-.chip {
-  display: inline-flex; align-items: center;
-  padding: 8px 14px; border-radius: 20px;
-  font-size: 13px; font-weight: 600;
-  border: 1.5px solid rgba(0,0,0,0.1);
-  cursor: pointer; background: white; color: var(--text);
-  transition: all 0.15s; user-select: none;
-}
-.chip.active { background: var(--primary); color: white; border-color: var(--primary); }
-
-/* Avatar placeholder */
-.avatar-placeholder {
-  border-radius: 50%; display: flex; align-items: center;
-  justify-content: center; font-weight: 800; color: white; flex-shrink: 0;
-}
-
-/* Notifications */
-.notif-chips { display: flex; gap: 8px; padding: 10px 16px; overflow-x: auto; border-bottom: 1px solid rgba(0,0,0,0.06); flex-shrink: 0; background: white; }
-.notif-chips::-webkit-scrollbar { display: none; }
-.notif-row { display: flex; align-items: flex-start; gap: 12px; padding: 14px 16px; border-bottom: 1px solid rgba(0,0,0,0.04); cursor: pointer; }
-.notif-icon { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; }
-.notif-group-title { font-size: 12px; font-weight: 700; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.6px; padding: 12px 16px 4px; }
+  .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400; }
+  .filled { font-variation-settings: 'FILL' 1; }
 </style>
 </head>
-<body>
-
+<body style="display:flex; align-items:center; justify-content:center; min-height:100vh;">
 <div class="phone">
-  <div class="status-bar"><span class="time">9:41</span><div class="icons"><i class="fas fa-signal"></i><i class="fas fa-wifi"></i><i class="fas fa-battery-full"></i></div></div>
-  <div class="nav-bar"><span class="nav-title">Activity</span></div>
-  <div class="notif-chips">
-    <div class="chip active" style="padding:6px 14px;font-size:13px;">All</div>
-    <div class="chip" style="padding:6px 14px;font-size:13px;">Matches</div>
-    <div class="chip" style="padding:6px 14px;font-size:13px;">Messages</div>
-    <div class="chip" style="padding:6px 14px;font-size:13px;">Runs</div>
+  <div class="nav-bar">
+    <button class="nav-ico" onclick="window.location.href='map_home.html'"><span class="material-symbols-outlined">arrow_back</span></button>
+    <span class="nav-title">Activity</span>
+    <button class="mark-read" onclick="markAllRead()">Mark all read</button>
   </div>
-  <div class="screen-content">
-    <div class="notif-group-title">Today</div>
-    <div class="notif-row" onclick="window.location.href='its_a_match.html'">
-      <div class="notif-icon" style="background:rgba(255,59,92,0.1);color:var(--primary);"><i class="fas fa-person-running"></i></div>
-      <div style="flex:1;"><div style="font-size:14px;line-height:1.45;"><span style="font-weight:800;">Sarah M.</span> wants to run with you — It's a Match! 🎉</div><div style="font-size:12px;color:var(--text-3);margin-top:3px;">2 minutes ago</div></div>
-      <div class="avatar-placeholder" style="width:36px;height:36px;font-size:12px;background:linear-gradient(135deg,#FF6B6B,#FF91A4);">S</div>
-    </div>
-    <div class="notif-row" onclick="window.location.href='chat.html'">
-      <div class="notif-icon" style="background:rgba(59,130,246,0.1);color:#3B82F6;"><i class="fas fa-comment-dots"></i></div>
-      <div style="flex:1;"><div style="font-size:14px;line-height:1.45;"><span style="font-weight:800;">Emma L.</span> sent you a message</div><div style="font-size:12px;color:var(--text-3);margin-top:3px;">1 hour ago</div></div>
-      <div class="avatar-placeholder" style="width:36px;height:36px;font-size:12px;background:linear-gradient(135deg,#4ECDC4,#44A08D);">E</div>
-    </div>
-    <div class="notif-group-title" style="border-top:8px solid var(--surface);">This Week</div>
-    <div class="notif-row" onclick="window.location.href='discover.html'">
-      <div class="notif-icon" style="background:rgba(34,197,94,0.1);color:var(--success);"><i class="fas fa-person-running"></i></div>
-      <div style="flex:1;"><div style="font-size:14px;line-height:1.45;"><span style="font-weight:800;">3 new runners</span> near you match your pace</div><div style="font-size:12px;color:var(--text-3);margin-top:3px;">Yesterday</div></div>
-    </div>
+
+  <div class="chips" id="chips">
+    <div class="chip active" data-cat="all" onclick="pickChip(this)">All</div>
+    <div class="chip" data-cat="matches" onclick="pickChip(this)">Matches</div>
+    <div class="chip" data-cat="messages" onclick="pickChip(this)">Messages</div>
+    <div class="chip" data-cat="runs" onclick="pickChip(this)">Runs</div>
+    <div class="chip" data-cat="clubs" onclick="pickChip(this)">Clubs</div>
+    <div class="chip" data-cat="routes" onclick="pickChip(this)">Routes</div>
   </div>
-  <div class="tab-bar">
-    <div class="tab" onclick="window.location.href='discover.html'"><i class="fas fa-compass"></i><span>Discover</span></div>
-    <div class="tab" onclick="window.location.href='matches.html'"><i class="fas fa-comment-dots"></i><span>Matches</span></div>
-    <div class="tab active" onclick="window.location.href='activity.html'"><i class="fas fa-bell"></i><span>Activity</span></div>
-    <div class="tab" onclick="window.location.href='profile.html'"><i class="fas fa-user"></i><span>Profile</span></div>
+
+  <div class="scroll-body" id="list">
+
+    <div class="group" data-group>Today</div>
+
+    <div class="notif unread" data-cat="matches" onclick="window.location.href='its_a_match.html'">
+      <div class="n-ic pink"><span class="material-symbols-outlined filled">directions_run</span></div>
+      <div class="n-body"><div class="n-text"><b>Mai</b> accepted your Open Run — it's a match! 🎉</div><div class="n-time">2 min ago</div></div>
+      <img class="n-thumb" src="https://i.pravatar.cc/80?img=32">
+    </div>
+
+    <div class="notif unread" data-cat="routes" onclick="window.location.href='route_detail.html'">
+      <div class="n-ic amber"><span class="material-symbols-outlined filled">push_pin</span></div>
+      <div class="n-body"><div class="n-text">New safety pin on <b>Tao Dan Park Loop</b> — Construction near the west gate</div><div class="n-time">25 min ago</div></div>
+    </div>
+
+    <div class="notif unread" data-cat="clubs" onclick="window.location.href='club_detail.html'">
+      <div class="n-ic verified"><span class="material-symbols-outlined filled">verified</span></div>
+      <div class="n-body"><div class="n-text">Your club <b>Riverside Runners</b> was approved — it's live and verified</div><div class="n-time">1 hour ago</div></div>
+    </div>
+
+    <div class="notif" data-cat="messages" onclick="window.location.href='chat.html'">
+      <div class="n-ic blue"><span class="material-symbols-outlined filled">chat_bubble</span></div>
+      <div class="n-body"><div class="n-text"><b>Emma L.</b> sent you a message</div><div class="n-time">1 hour ago</div></div>
+      <img class="n-thumb" src="https://i.pravatar.cc/80?img=5">
+    </div>
+
+    <div class="notif" data-cat="runs" onclick="window.location.href='chat.html'">
+      <div class="n-ic pink"><span class="material-symbols-outlined filled">star</span></div>
+      <div class="n-body"><div class="n-text">Don't forget to rate your run with <b>Alex</b> & the route</div><div class="n-time">3 hours ago</div></div>
+    </div>
+
+    <div class="group" data-group>This week</div>
+
+    <div class="notif" data-cat="clubs" onclick="window.location.href='club_event_detail.html'">
+      <div class="n-ic pink"><span class="material-symbols-outlined filled">edit_calendar</span></div>
+      <div class="n-body"><div class="n-text"><b>Saigon Striders</b> moved <b>Saturday Long Run</b> to 6:00 AM</div><div class="n-time">Yesterday</div></div>
+    </div>
+
+    <div class="notif" data-cat="matches" onclick="window.location.href='its_a_match.html'">
+      <div class="n-ic pink"><span class="material-symbols-outlined filled">favorite</span></div>
+      <div class="n-body"><div class="n-text"><b>Sarah M.</b> wants to run with you — It's a Match! 🎉</div><div class="n-time">Yesterday</div></div>
+      <img class="n-thumb" src="https://i.pravatar.cc/80?img=20">
+    </div>
+
+    <div class="notif" data-cat="clubs" onclick="window.location.href='club_events.html'">
+      <div class="n-ic red"><span class="material-symbols-outlined filled">event_busy</span></div>
+      <div class="n-body"><div class="n-text"><b>Sunday Trail Adventure</b> was cancelled by Trail Blazers HCMC</div><div class="n-time">2 days ago</div></div>
+    </div>
+
+    <div class="notif" data-cat="matches" onclick="window.location.href='runners_here.html'">
+      <div class="n-ic green"><span class="material-symbols-outlined filled">groups</span></div>
+      <div class="n-body"><div class="n-text"><b>3 new runners</b> near you match your pace</div><div class="n-time">2 days ago</div></div>
+    </div>
+
+    <div class="empty" id="empty">
+      <span class="material-symbols-outlined">notifications_off</span>
+      <h3>Nothing here</h3>
+      <p>No activity in this filter yet.</p>
+    </div>
+
   </div>
 </div>
-
-  <script src="_nav.js"></script>
+<script>
+  function pickChip(el) {
+    document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+    el.classList.add('active');
+    const cat = el.dataset.cat;
+    let shown = 0;
+    document.querySelectorAll('.notif').forEach(n => {
+      const show = cat === 'all' || n.dataset.cat === cat;
+      n.style.display = show ? '' : 'none';
+      if (show) shown++;
+    });
+    // hide a group header if it has no visible rows under it
+    document.querySelectorAll('[data-group]').forEach(g => {
+      let vis = false;
+      let el2 = g.nextElementSibling;
+      while (el2 && !el2.hasAttribute('data-group') && !el2.classList.contains('empty')) {
+        if (el2.classList.contains('notif') && el2.style.display !== 'none') vis = true;
+        el2 = el2.nextElementSibling;
+      }
+      g.style.display = vis ? '' : 'none';
+    });
+    document.getElementById('empty').classList.toggle('show', shown === 0);
+  }
+  function markAllRead() {
+    document.querySelectorAll('.notif.unread').forEach(n => n.classList.remove('unread'));
+  }
+</script>
+<script src="_nav.js"></script>
 </body>
 </html>

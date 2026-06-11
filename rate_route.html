@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Izuke — Rate the route</title>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@600;700;800;900&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; background: #d9dadc; font-family: 'Inter', sans-serif; }
+  .phone { width: 390px; height: 844px; background: #F5F5F7; position: relative; overflow: hidden; display: flex; flex-direction: column; box-shadow: 0 32px 80px rgba(0,0,0,0.18); border-radius: 48px; }
+
+  .nav-bar { height: 56px; display: flex; align-items: center; padding: 8px 12px 0; flex-shrink: 0; position: relative; }
+  .nav-ico { width: 38px; height: 38px; border-radius: 50%; background: #fff; border: 1px solid #e8e8ea; cursor: pointer; display: flex; align-items: center; justify-content: center; color: #0F1B35; }
+  .nav-title { position: absolute; left: 50%; transform: translate(-50%,5px); font-family: 'Hanken Grotesk', sans-serif; font-weight: 700; font-size: 18px; color: #0F1B35; }
+  .step-dots { position: absolute; right: 16px; top: 22px; display: flex; gap: 5px; }
+  .step-dots .d { width: 7px; height: 7px; border-radius: 50%; background: #d7dbe2; }
+  .step-dots .d.on { background: #FF3B5C; }
+
+  .scroll-body { flex: 1; overflow-y: auto; overflow-x: hidden; padding: 8px 22px 20px; }
+  .scroll-body::-webkit-scrollbar { display: none; }
+
+  /* route header */
+  .route-head { display: flex; align-items: center; gap: 12px; background: #fff; border: 1px solid #e8e8ea; border-radius: 16px; padding: 14px; margin: 8px 0 8px; }
+  .route-head .ico { width: 44px; height: 44px; border-radius: 12px; background: rgba(34,197,94,0.12); color: #15a34a; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .route-head .ico .material-symbols-outlined { font-size: 24px; }
+  .route-head .nm { font-family: 'Hanken Grotesk', sans-serif; font-weight: 700; font-size: 16px; color: #0F1B35; }
+  .route-head .sub { font-size: 12.5px; color: #777e90; margin-top: 2px; }
+  .lead { text-align: center; font-size: 13px; color: #777e90; line-height: 1.5; margin: 10px 4px 6px; }
+
+  .sec-title { display: flex; align-items: center; gap: 6px; font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #8a91a0; margin: 24px 0 10px; }
+  .sec-title .material-symbols-outlined { font-size: 16px; color: #FF3B5C; }
+
+  .segment { display: flex; background: #eef0f4; border-radius: 12px; padding: 4px; gap: 2px; }
+  .segment button { flex: 1; height: 42px; border: none; border-radius: 9px; background: transparent; font-family: 'Inter', sans-serif; font-size: 13.5px; font-weight: 600; color: #777e90; cursor: pointer; transition: all 0.15s; }
+  .segment button.active { background: #fff; color: #0F1B35; box-shadow: 0 1px 5px rgba(0,0,0,0.10); font-weight: 700; }
+  /* semantic colour by safety sentiment */
+  .segment button.active[data-sev="good"] { background: #15a34a; color: #fff; box-shadow: none; }
+  .segment button.active[data-sev="warn"] { background: #f59e0b; color: #fff; box-shadow: none; }
+  .segment button.active[data-sev="bad"]  { background: #ef4444; color: #fff; box-shadow: none; }
+
+  .chips { display: flex; gap: 8px; flex-wrap: wrap; }
+  .chip { display: inline-flex; align-items: center; gap: 5px; padding: 9px 13px; border-radius: 9999px; background: #fff; border: 1.5px solid #e8e8ea; font-size: 13px; font-weight: 600; color: #535e7b; cursor: pointer; }
+  .chip .material-symbols-outlined { font-size: 16px; }
+  .chip.on[data-sev="good"] { background: #15a34a; border-color: #15a34a; color: #fff; }
+  .chip.on[data-sev="warn"] { background: #f59e0b; border-color: #f59e0b; color: #fff; }
+
+  /* live resulting-safety preview */
+  .preview { display: flex; align-items: center; gap: 12px; background: #fff; border: 1px solid #e8e8ea; border-radius: 16px; padding: 14px 16px; margin: 8px 0 4px; }
+  .preview .pv-icon { font-size: 30px !important; }
+  .preview .pv-body { flex: 1; }
+  .preview .pv-k { font-family: 'JetBrains Mono', monospace; font-size: 9px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #999; }
+  .preview .pv-label { font-family: 'Hanken Grotesk', sans-serif; font-weight: 800; font-size: 16px; margin-top: 2px; }
+  .preview .pv-score { display: inline-flex; align-items: center; gap: 3px; font-family: 'Hanken Grotesk', sans-serif; font-weight: 800; font-size: 22px; }
+  .preview .pv-score .material-symbols-outlined { font-size: 22px !important; }
+  .preview.good .pv-icon, .preview.good .pv-label, .preview.good .pv-score { color: #15a34a; }
+  .preview.fair .pv-icon, .preview.fair .pv-label, .preview.fair .pv-score { color: #f59e0b; }
+  .preview.low  .pv-icon, .preview.low  .pv-label, .preview.low  .pv-score { color: #ef4444; }
+
+  /* tucked-away note */
+  .add-note-link { display: inline-flex; align-items: center; gap: 5px; background: none; border: none; cursor: pointer; font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 600; color: #FF3B5C; margin-top: 18px; padding: 0; }
+  .add-note-link .material-symbols-outlined { font-size: 18px; }
+
+  .note-area { width: 100%; min-height: 72px; resize: none; margin-top: 16px; padding: 13px 15px; border-radius: 14px; border: 1.5px solid #e8e8ea; background: #fff; font-family: 'Inter', sans-serif; font-size: 14px; color: #0F1B35; outline: none; line-height: 1.5; }
+  .note-area:focus { border-color: #FF3B5C; }
+  .note-area::placeholder { color: #b6bcc9; }
+
+  .footer { flex-shrink: 0; padding: 12px 22px 26px; text-align: center; }
+  .btn { width: 100%; height: 54px; border: none; cursor: pointer; border-radius: 9999px; background: linear-gradient(135deg,#FF3B5C,#BA0035); color: #fff; font-family: 'Inter', sans-serif; font-weight: 500; font-size: 16px; box-shadow: 0 10px 24px rgba(255,59,92,0.30); display: flex; align-items: center; justify-content: center; gap: 8px; }
+  .skip-link { display: inline-block; margin-top: 12px; background: none; border: none; cursor: pointer; font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 600; color: #8a91a0; }
+
+  /* completion */
+  .done { position: absolute; inset: 0; z-index: 80; background: rgba(245,245,247,0.9); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); display: none; align-items: center; justify-content: center; padding: 30px; }
+  .done.show { display: flex; }
+  .done .card { background: #fff; border-radius: 24px; padding: 32px 24px; text-align: center; box-shadow: 0 20px 50px rgba(15,27,53,0.2); }
+  .done .ic { width: 66px; height: 66px; border-radius: 22px; background: rgba(34,197,94,0.14); color: #15a34a; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; }
+  .done .ic .material-symbols-outlined { font-size: 36px; }
+  .done h3 { font-family: 'Hanken Grotesk', sans-serif; font-weight: 800; font-size: 20px; color: #0F1B35; margin-bottom: 8px; }
+  .done p { font-size: 13.5px; color: #777e90; line-height: 1.55; margin-bottom: 20px; }
+  .done .card button { width: 100%; height: 50px; border: none; cursor: pointer; border-radius: 9999px; background: linear-gradient(135deg,#FF3B5C,#BA0035); color: #fff; font-family: 'Inter', sans-serif; font-weight: 500; font-size: 15px; }
+
+  .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400; }
+  .filled { font-variation-settings: 'FILL' 1; }
+</style>
+</head>
+<body style="display:flex; align-items:center; justify-content:center; min-height:100vh;">
+<div class="phone">
+  <div class="nav-bar">
+    <button class="nav-ico" onclick="goBack()"><span class="material-symbols-outlined">arrow_back</span></button>
+    <span class="nav-title">Rate the route</span>
+    <div class="step-dots"><span class="d"></span><span class="d on"></span></div>
+  </div>
+
+  <div class="scroll-body">
+    <div class="route-head">
+      <div class="ico"><span class="material-symbols-outlined filled">route</span></div>
+      <div>
+        <div class="nm">Prospect Park, North Entrance</div>
+        <div class="sub">You ran this · 5 km · paved</div>
+      </div>
+    </div>
+    <!-- live resulting safety -->
+    <div class="preview good" id="preview">
+      <span class="material-symbols-outlined pv-icon filled" id="pvIcon">verified_user</span>
+      <div class="pv-body">
+        <div class="pv-k">Resulting safety</div>
+        <div class="pv-label" id="pvLabel">Good</div>
+      </div>
+      <div class="pv-score"><span class="material-symbols-outlined filled">star</span><span id="pvNum">5.0</span></div>
+    </div>
+    <p class="lead">Your taps set this route's safety score. Optional — skip if unsure.</p>
+
+    <!-- Lighting -->
+    <div class="sec-title"><span class="material-symbols-outlined filled">lightbulb</span>Lighting</div>
+    <div class="segment" id="seg-light">
+      <button data-sev="bad" onclick="pick(this)">Poor</button>
+      <button data-sev="warn" onclick="pick(this)">Okay</button>
+      <button class="active" data-sev="good" onclick="pick(this)">Well lit</button>
+    </div>
+
+    <!-- Foot traffic -->
+    <div class="sec-title"><span class="material-symbols-outlined filled">groups</span>Foot traffic</div>
+    <div class="segment" id="seg-traffic">
+      <button data-sev="warn" onclick="pick(this)">Quiet</button>
+      <button class="active" data-sev="good" onclick="pick(this)">Some</button>
+      <button data-sev="good" onclick="pick(this)">Busy</button>
+    </div>
+
+    <!-- Hazards -->
+    <div class="sec-title"><span class="material-symbols-outlined filled">warning</span>Any hazards?</div>
+    <div class="chips" id="hazards">
+      <div class="chip on" id="hazNone" data-sev="good" onclick="pickHazard(this)"><span class="material-symbols-outlined">check_circle</span>None</div>
+      <div class="chip" data-sev="warn" onclick="pickHazard(this)"><span class="material-symbols-outlined">construction</span>Construction</div>
+      <div class="chip" data-sev="warn" onclick="pickHazard(this)"><span class="material-symbols-outlined">pets</span>Dogs</div>
+      <div class="chip" data-sev="warn" onclick="pickHazard(this)"><span class="material-symbols-outlined">water_drop</span>Flooding</div>
+      <div class="chip" data-sev="warn" onclick="pickHazard(this)"><span class="material-symbols-outlined">lightbulb</span>Poor lighting</div>
+    </div>
+
+    <button class="add-note-link" id="addNoteLink" onclick="showNote()"><span class="material-symbols-outlined">add</span>Add a note</button>
+    <textarea class="note-area" id="noteArea" style="display:none;" placeholder="Anything else worth noting (optional)…"></textarea>
+  </div>
+
+  <div class="footer">
+    <button class="btn" onclick="finishRoute()">Submit rating<span class="material-symbols-outlined">check</span></button>
+    <button class="skip-link" onclick="goBack()">Skip for now</button>
+  </div>
+
+  <!-- completion -->
+  <div class="done" id="done">
+    <div class="card">
+      <div class="ic"><span class="material-symbols-outlined filled">check_circle</span></div>
+      <h3>All done!</h3>
+      <p>Run logged. Your partner and route ratings are saved — thanks for keeping the community safe.</p>
+      <button id="doneBtn" onclick="doneGo()">View your moment</button>
+    </div>
+  </div>
+</div>
+<script>
+  function pick(btn) {
+    btn.parentElement.querySelectorAll('button').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    recompute();
+  }
+  function pickHazard(el) {
+    const none = document.getElementById('hazNone');
+    if (el === none) {
+      document.querySelectorAll('#hazards .chip').forEach(c => c.classList.remove('on'));
+      el.classList.add('on');
+    } else {
+      none.classList.remove('on');
+      el.classList.toggle('on');
+      if (![...document.querySelectorAll('#hazards .chip')].some(c => c.classList.contains('on'))) none.classList.add('on');
+    }
+    recompute();
+  }
+  function showNote() {
+    document.getElementById('addNoteLink').style.display = 'none';
+    const n = document.getElementById('noteArea');
+    n.style.display = 'block';
+    n.focus();
+  }
+  /* live composite: well-lit + busy + no hazards = high ★; poor/quiet/hazards pull it down */
+  function recompute() {
+    const light = document.querySelector('#seg-light .active').dataset.sev;
+    const traffic = document.querySelector('#seg-traffic .active').dataset.sev;
+    const hazards = [...document.querySelectorAll('#hazards .chip.on')].filter(c => c.id !== 'hazNone').length;
+    let score = 5;
+    score -= ({ good: 0, warn: 0.7, bad: 1.6 })[light] || 0;
+    score -= ({ good: 0, warn: 1.0, bad: 1.6 })[traffic] || 0;
+    score -= hazards * 0.8;
+    score = Math.max(1, Math.min(5, score));
+    let cls, label, icon;
+    if (score >= 4.3) { cls = 'good'; label = 'Good'; icon = 'verified_user'; }
+    else if (score >= 3.0) { cls = 'fair'; label = 'Fair'; icon = 'shield'; }
+    else { cls = 'low'; label = 'Low'; icon = 'gpp_maybe'; }
+    const pv = document.getElementById('preview');
+    pv.classList.remove('good', 'fair', 'low');
+    pv.classList.add(cls);
+    document.getElementById('pvNum').textContent = score.toFixed(1);
+    document.getElementById('pvLabel').textContent = label;
+    document.getElementById('pvIcon').textContent = icon;
+  }
+  recompute();
+  // standalone (e.g. opened from a route page) vs post-run flow
+  const RET = new URLSearchParams(location.search).get('ret');
+  function goBack() { window.location.href = RET || 'chat.html'; }
+  function doneGo() { window.location.href = RET || 'moment_detail.html'; }
+  function finishRoute() {
+    if (RET) { document.getElementById('done').classList.add('show'); return; } // standalone: just confirm
+    localStorage.setItem('pr_route', '1');
+    const allDone = ['moment', 'partner', 'route'].every(s => localStorage.getItem('pr_' + s) === '1');
+    if (allDone) { document.getElementById('done').classList.add('show'); } // celebrate
+    else { window.location.href = 'chat.html'; }  // other tasks still pending → back to the checklist
+  }
+  if (RET) document.getElementById('doneBtn').textContent = 'Back to route';
+</script>
+<script src="_nav.js"></script>
+</body>
+</html>

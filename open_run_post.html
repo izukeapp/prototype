@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Izuke — Post a Run</title>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@600;700;800;900&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; background: #d9dadc; font-family: 'Inter', sans-serif; }
+  .phone { width: 390px; height: 844px; background: #F5F5F7; position: relative; overflow: hidden; display: flex; flex-direction: column; box-shadow: 0 32px 80px rgba(0,0,0,0.18); border-radius: 48px; }
+  .nav-bar { height: 56px; display: flex; align-items: center; padding: 8px 12px 0; background: #fff; border-bottom: 1px solid rgba(0,0,0,0.06); flex-shrink: 0; position: relative; }
+  .nav-back { width: 38px; height: 38px; border-radius: 50%; background: #F5F5F7; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+  .nav-title { position: absolute; left: 50%; transform: translate(-50%,2px); font-family: 'Hanken Grotesk'; font-weight: 700; font-size: 18px; color: #0F1B35; }
+
+  .form { flex: 1; overflow-y: auto; padding: 20px; }
+  .form::-webkit-scrollbar { display: none; }
+  .field { margin-bottom: 20px; }
+  .field label { display: flex; align-items: center; gap: 6px; font-family: 'JetBrains Mono'; font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #8a91a0; margin-bottom: 8px; }
+  .field label .material-symbols-outlined { font-size: 16px; color: #FF3B5C; }
+  .select-row { display: flex; align-items: center; gap: 10px; background: #fff; border: 1.5px solid #e8e8ea; border-radius: 14px; padding: 14px; cursor: pointer; }
+  .select-row .material-symbols-outlined { color: #FF3B5C; }
+  .select-row .v { flex: 1; font-weight: 600; font-size: 15px; color: #0F1B35; }
+  .select-row .chev { color: #ccc; }
+  .two { display: flex; gap: 10px; }
+  .two .select-row { flex: 1; }
+
+  .chips { display: flex; gap: 8px; flex-wrap: wrap; }
+  .chip { padding: 10px 14px; border-radius: 9999px; background: #fff; border: 1.5px solid #e8e8ea; font-size: 13px; font-weight: 600; color: #535e7b; cursor: pointer; }
+  .chip.active { background: #FF3B5C; border-color: #FF3B5C; color: #fff; }
+
+  /* emoji pin picker */
+  .emoji-row { display: flex; gap: 10px; flex-wrap: wrap; }
+  .emoji { width: 52px; height: 52px; border-radius: 14px; background: #fff; border: 2px solid #e8e8ea; display: flex; align-items: center; justify-content: center; font-size: 26px; cursor: pointer; }
+  .emoji.active { border-color: #FF3B5C; background: #FFF4F6; box-shadow: 0 4px 12px rgba(255,59,92,0.2); }
+
+  .toggle-row { display: flex; align-items: center; gap: 12px; background: #fff; border: 1.5px solid #e8e8ea; border-radius: 14px; padding: 14px; }
+  .toggle-row .material-symbols-outlined { color: #0EA5E9; }
+  .toggle-row .tx { flex: 1; } .toggle-row .tx b { display: block; font-size: 14px; color: #0F1B35; } .toggle-row .tx span { font-size: 12px; color: #999; }
+  .switch { width: 46px; height: 28px; border-radius: 9999px; background: #FF3B5C; position: relative; cursor: pointer; }
+  .switch::after { content: ''; position: absolute; top: 3px; right: 3px; width: 22px; height: 22px; border-radius: 50%; background: #fff; }
+
+  .post-btn { position: absolute; left: 20px; right: 20px; bottom: 24px; height: 54px; border: none; cursor: pointer; border-radius: 9999px; background: linear-gradient(135deg,#FF3B5C,#BA0035); color: #fff; font-family: 'Inter', sans-serif; font-weight: 500; font-size: 16px; box-shadow: 0 10px 24px rgba(255,59,92,0.36); display: flex; align-items: center; justify-content: center; gap: 8px; }
+  .post-btn .material-symbols-outlined { font-size: 20px; }
+  .note { display:flex; align-items:center; gap:6px; font-size: 12px; color: #999; margin-top: -8px; margin-bottom: 80px; }
+  .note .material-symbols-outlined { font-size: 15px; }
+  .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400; }
+</style>
+</head>
+<body style="display:flex; align-items:center; justify-content:center; min-height:100vh;">
+<div class="phone">
+  <div class="nav-bar">
+    <button class="nav-back" onclick="window.location.href='map_home.html'"><span class="material-symbols-outlined">close</span></button>
+    <span class="nav-title">Post an Open Run</span>
+  </div>
+
+  <div class="form">
+    <div class="field">
+      <label><span class="material-symbols-outlined filled">route</span>Route / area</label>
+      <div class="select-row"><span class="material-symbols-outlined">route</span><span class="v">Tao Dan Park Loop</span><span class="material-symbols-outlined chev">expand_more</span></div>
+    </div>
+
+    <div class="field">
+      <label><span class="material-symbols-outlined filled">calendar_month</span>When</label>
+      <div class="two">
+        <div class="select-row"><span class="material-symbols-outlined">calendar_month</span><span class="v">Tomorrow</span></div>
+        <div class="select-row"><span class="material-symbols-outlined">schedule</span><span class="v">5:30 AM</span></div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label><span class="material-symbols-outlined filled">flag</span>Goal</label>
+      <div class="chips">
+        <div class="chip active" onclick="pickChip(this)">Marathon</div>
+        <div class="chip" onclick="pickChip(this)">Half Marathon</div>
+        <div class="chip" onclick="pickChip(this)">First 5K</div>
+        <div class="chip" onclick="pickChip(this)">Mental Health</div>
+        <div class="chip" onclick="pickChip(this)">Social</div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label><span class="material-symbols-outlined filled">location_on</span>Pin style</label>
+      <div class="emoji-row">
+        <div class="emoji active" onclick="pickChip(this)">🏃</div>
+        <div class="emoji" onclick="pickChip(this)">🌅</div>
+        <div class="emoji" onclick="pickChip(this)">⚡</div>
+        <div class="emoji" onclick="pickChip(this)">💚</div>
+        <div class="emoji" onclick="pickChip(this)">🌱</div>
+        <div class="emoji" onclick="pickChip(this)">🔥</div>
+        <div class="emoji" onclick="pickChip(this)">🏔️</div>
+        <div class="emoji" onclick="pickChip(this)">🌙</div>
+        <div class="emoji" onclick="pickChip(this)">🏅</div>
+        <div class="emoji" onclick="pickChip(this)">💪</div>
+        <div class="emoji" onclick="pickChip(this)">☕</div>
+        <div class="emoji" onclick="pickChip(this)">🌊</div>
+        <div class="emoji" onclick="pickChip(this)">😄</div>
+        <div class="emoji" onclick="pickChip(this)">😎</div>
+        <div class="emoji" onclick="pickChip(this)">🥵</div>
+        <div class="emoji" onclick="pickChip(this)">😤</div>
+        <div class="emoji" onclick="pickChip(this)">🤩</div>
+        <div class="emoji" onclick="pickChip(this)">😌</div>
+        <div class="emoji" onclick="pickChip(this)">🫡</div>
+        <div class="emoji" onclick="pickChip(this)">🥳</div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label><span class="material-symbols-outlined filled">group</span>Who can accept</label>
+      <div class="toggle-row">
+        <span class="material-symbols-outlined filled">verified</span>
+        <div class="tx"><b>Verified runners only</b><span>Only ID-verified runners can accept</span></div>
+        <div class="switch"></div>
+      </div>
+    </div>
+
+    <div class="note"><span class="material-symbols-outlined">bolt</span> First compatible runner to accept is matched 1:1. Expires in ~2h.</div>
+  </div>
+
+  <button class="post-btn" onclick="postRun()"><span class="material-symbols-outlined">add_location_alt</span>Post run · drop pin</button>
+</div>
+<script>
+  function pickChip(el) {
+    [...el.parentElement.children].forEach(c => c.classList.remove('active'));
+    el.classList.add('active');
+  }
+  function postRun() {
+    const emoji = (document.querySelector('.emoji.active') || {}).textContent || '🏃';
+    const goal = (document.querySelector('.chip.active') || {}).textContent || 'Marathon';
+    localStorage.setItem('izukeNewPin', JSON.stringify({ emoji: emoji.trim(), goal: goal.trim() }));
+    window.location.href = 'map_home.html';
+  }
+</script>
+<script src="_nav.js"></script>
+</body>
+</html>

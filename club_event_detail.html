@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Izuke — Event</title>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@600;700;800;900&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; background: #d9dadc; font-family: 'Inter', sans-serif; }
+  .phone { width: 390px; height: 844px; background: #F5F5F7; position: relative; overflow: hidden; display: flex; flex-direction: column; box-shadow: 0 32px 80px rgba(0,0,0,0.18); border-radius: 48px; }
+  .scroll-body { flex: 1; overflow-y: auto; overflow-x: hidden; -webkit-overflow-scrolling: touch; }
+  .scroll-body::-webkit-scrollbar { display: none; }
+
+  .banner { height: 224px; position: relative; background-size: cover; background-position: center; display: flex; align-items: flex-end; padding: 16px; }
+  .banner::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(15,27,53,0.40) 0%, rgba(15,27,53,0.05) 32%, rgba(15,27,53,0.62) 66%, rgba(15,27,53,0.92) 100%); }
+  .banner > * { position: relative; z-index: 1; }
+  .back-btn { position: absolute; top: 52px; left: 16px; z-index: 2; width: 40px; height: 40px; border-radius: 50%; background: rgba(255,255,255,0.85); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+  /* organiser-only edit (your own club's event) */
+  .edit-btn { position: absolute; top: 52px; right: 16px; z-index: 2; height: 40px; padding: 0 14px; border-radius: 9999px; background: rgba(255,255,255,0.85); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); border: none; cursor: pointer; display: flex; align-items: center; gap: 6px; font-family: 'Inter', sans-serif; font-weight: 600; font-size: 13px; color: #0F1B35; }
+  .edit-btn .material-symbols-outlined { font-size: 18px; color: #FF3B5C; }
+  .banner-bottom { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; }
+  .banner .club { display: inline-flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.9); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); border-radius: 9999px; padding: 5px 12px 5px 5px; font-weight: 700; font-size: 13px; color: #0F1B35; }
+  .banner .club img { width: 24px; height: 24px; border-radius: 50%; }
+  .banner .verified-club { color: #0EA5E9; font-size: 15px; }
+  .hero-title { font-family: 'Hanken Grotesk', sans-serif; font-weight: 600; font-size: 20px; color: #fff; letter-spacing: -0.01em; line-height: 1.2; text-shadow: 0 1px 10px rgba(0,0,0,0.45); }
+
+  .body { padding: 18px 20px 20px; }
+
+  /* category cue (matches the list) */
+  .cat { display: inline-flex; align-items: center; gap: 6px; font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 700; letter-spacing: 0.08em; color: #9aa1b0; margin-bottom: 14px; }
+  .cat::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
+  .cat.cat-marathon { color: #FF3B5C; }
+  .cat.cat-social   { color: #0284c7; }
+  .cat.cat-trail    { color: #15a34a; }
+
+  /* single card, 2x2 with faint internal cross dividers (v2) */
+  .meta-card { background: #fff; border: 1px solid #e8e8ea; border-radius: 16px; padding: 0 16px; margin: 0 0 16px; }
+  .meta-grid2 { display: grid; grid-template-columns: 1fr 1fr; }
+  .mi2 { display: flex; align-items: center; gap: 10px; padding: 16px 0; }
+  .mi2:nth-child(odd) { padding-right: 14px; border-right: 1px solid #eef0f4; }
+  .mi2:nth-child(even) { padding-left: 14px; }
+  .mi2:nth-child(1), .mi2:nth-child(2) { border-bottom: 1px solid #eef0f4; }
+  .mi2 .material-symbols-outlined { color: #FF3B5C; font-size: 22px; flex-shrink: 0; }
+  .mi2 .k { font-size: 11px; color: #999; }
+  .mi2 .v { font-weight: 600; font-size: 13.5px; color: #2b3550; }
+
+  .cap-row { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+  .cap-chip { display: inline-flex; align-items: center; gap: 7px; background: #f1f3f7; border-radius: 9999px; padding: 9px 15px; font-size: 13px; font-weight: 600; color: #535e7b; }
+  .cap-chip .material-symbols-outlined { font-size: 18px; color: #8a91a0; }
+  .cap-chip b { color: #2b3550; font-weight: 600; }
+  .cap-ring { position: relative; width: 46px; height: 46px; flex-shrink: 0; margin-left: auto; }
+  .cap-ring svg { width: 46px; height: 46px; transform: rotate(-90deg); }
+  .cap-ring .pct { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 700; color: #FF3B5C; }
+  .cap { background: #fff; border: 1px solid #e8e8ea; border-radius: 16px; padding: 14px; margin-bottom: 14px; }
+  .cap-top { display: flex; justify-content: space-between; margin-bottom: 6px; }
+  .cap-top .label { font-size: 13px; font-weight: 600; color: #535e7b; }
+  .cap-top .num { font-family: 'JetBrains Mono'; font-weight: 700; font-size: 13px; color: #0F1B35; }
+  .cap-track { height: 8px; border-radius: 4px; background: #eef0f4; overflow: hidden; }
+  .cap-fill { height: 100%; background: #9aa3b4; border-radius: 4px; }
+
+  .join-btn { width: 100%; height: 54px; border: none; cursor: pointer; border-radius: 9999px; background: linear-gradient(135deg,#FF3B5C,#BA0035); color: #fff; font-family: 'Inter', sans-serif; font-weight: 500; font-size: 16px; box-shadow: 0 8px 20px rgba(255,59,92,0.32); margin-bottom: 20px; display: flex; align-items: center; justify-content: center; gap: 8px; }
+  .join-btn .material-symbols-outlined { font-size: 20px; }
+  .join-btn.is-joined { background: #eef0f4; color: #0F1B35; box-shadow: none; }
+
+  /* members-only chat gating */
+  .chat-live { display: none; }
+  .phone.joined .chat-locked { display: none; }
+  .phone.joined .chat-live { display: block; }
+  .phone.joined .composer { display: flex; }
+
+  .chat-locked { background: #fff; border: 1px solid #e8e8ea; border-radius: 16px; padding: 26px 18px; text-align: center; }
+  .chat-locked .lock { width: 48px; height: 48px; border-radius: 14px; background: rgba(255,59,92,0.10); color: #FF3B5C; display: flex; align-items: center; justify-content: center; margin: 0 auto 12px; }
+  .chat-locked .lock .material-symbols-outlined { font-size: 26px; }
+  .chat-locked h4 { font-family: 'Hanken Grotesk', sans-serif; font-weight: 600; font-size: 16px; color: #2b3550; margin-bottom: 5px; }
+  .chat-locked p { font-size: 13px; color: #777e90; line-height: 1.5; max-width: 250px; margin: 0 auto; }
+  .locked-av { display: flex; align-items: center; justify-content: center; margin-top: 14px; }
+  .locked-av img { width: 26px; height: 26px; border-radius: 50%; border: 2px solid #fff; margin-left: -8px; }
+  .locked-av img:first-child { margin-left: 0; }
+  .locked-av .c { font-size: 12px; color: #8a91a0; font-weight: 600; margin-left: 10px; }
+
+  .section-label { display: flex; align-items: center; gap: 6px; font-family: 'JetBrains Mono'; font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #8a91a0; margin-bottom: 12px; }
+  .section-label .material-symbols-outlined { font-size: 16px; color: #FF3B5C; }
+
+  /* group chat */
+  .pinned { background: #F4F6F9; border: 1px solid #e3e8ef; border-radius: 14px; padding: 12px; margin-bottom: 16px; }
+  .pinned .ph { display: flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 700; color: #FF3B5C; font-family: 'JetBrains Mono'; letter-spacing: 0.06em; margin-bottom: 6px; }
+  .pinned .ph .material-symbols-outlined { font-size: 14px; }
+  .pinned .who { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+  .pinned .who img { width: 26px; height: 26px; border-radius: 50%; }
+  .pinned .who .nm { font-weight: 700; font-size: 13px; color: #0F1B35; }
+  .pinned .who .role { font-size: 10px; font-weight: 700; color: #fff; background: #0F1B35; border-radius: 6px; padding: 2px 6px; letter-spacing: 0.04em; }
+  .pinned .msg { font-size: 13.5px; color: #333b4d; line-height: 1.5; }
+
+  .msg-row { display: flex; gap: 10px; margin-bottom: 14px; }
+  .msg-row img { width: 32px; height: 32px; border-radius: 50%; flex-shrink: 0; }
+  .msg-row .bubble { background: #fff; border: 1px solid #eee; border-radius: 4px 14px 14px 14px; padding: 10px 12px; max-width: 78%; }
+  .msg-row .nm { font-weight: 700; font-size: 12.5px; color: #0F1B35; margin-bottom: 2px; }
+  .msg-row .tx { font-size: 13.5px; color: #333b4d; line-height: 1.45; }
+
+  .composer { position: absolute; left: 0; right: 0; bottom: 0; display: none; gap: 10px; padding: 12px 16px 22px; background: #fff; border-top: 1px solid #eee; align-items: center; }
+  .composer input { flex: 1; height: 44px; padding: 0 16px; border-radius: 9999px; border: 1.5px solid #e8e8ea; background: #F5F5F7; font-family: 'Inter'; font-size: 14px; outline: none; }
+  .composer .send { width: 44px; height: 44px; border-radius: 50%; border: none; cursor: pointer; background: #0F1B35; color: #fff; display: flex; align-items: center; justify-content: center; }
+
+  .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400; }
+  .filled { font-variation-settings: 'FILL' 1; }
+</style>
+</head>
+<body style="display:flex; align-items:center; justify-content:center; min-height:100vh;">
+<div class="phone" id="phone">
+  <div class="scroll-body" style="padding-bottom:90px;">
+
+    <div class="banner" style="background-image:url('https://picsum.photos/seed/striders/600/420');">
+      <button class="back-btn" onclick="window.location.href='club_events.html'"><span class="material-symbols-outlined">arrow_back</span></button>
+      <button class="edit-btn" onclick="window.location.href='create_event.html?edit=1'"><span class="material-symbols-outlined">edit</span>Edit</button>
+      <div class="banner-bottom">
+        <span class="club" style="cursor:pointer;" onclick="window.location.href='club_detail.html'"><img src="https://i.pravatar.cc/40?img=15">Saigon Striders<span class="material-symbols-outlined verified-club filled">verified</span></span>
+        <div class="hero-title">Saturday Long Run — 21K</div>
+      </div>
+    </div>
+
+    <div class="body">
+
+      <div class="cat cat-marathon">MARATHON</div>
+
+      <div class="meta-card">
+        <div class="meta-grid2">
+          <div class="mi2"><span class="material-symbols-outlined">calendar_month</span><div><div class="k">When</div><div class="v">Sat · 5:30 AM</div></div></div>
+          <div class="mi2"><span class="material-symbols-outlined">place</span><div><div class="k">Where</div><div class="v">Tao Dan Park</div></div></div>
+          <div class="mi2"><span class="material-symbols-outlined">straighten</span><div><div class="k">Distance</div><div class="v">21K · Paved</div></div></div>
+          <div class="mi2"><span class="material-symbols-outlined">pace</span><div><div class="k">Pace groups</div><div class="v">5:00–6:30/km</div></div></div>
+        </div>
+      </div>
+
+      <div class="cap-row">
+        <div class="cap-chip" style="cursor:pointer;" onclick="window.location.href='event_attendees.html'"><span class="material-symbols-outlined">group</span><b>18 spots left</b> · 42 of 60 joined<span class="material-symbols-outlined" style="font-size:16px; margin-left:2px;">chevron_right</span></div>
+        <div class="cap-ring">
+          <svg viewBox="0 0 60 60">
+            <circle cx="30" cy="30" r="26" fill="transparent" stroke="#eceeef" stroke-width="4"/>
+            <circle cx="30" cy="30" r="26" fill="transparent" stroke="#FF3B5C" stroke-width="4" stroke-linecap="round" stroke-dasharray="163.4" stroke-dashoffset="49"/>
+          </svg>
+          <span class="pct">70%</span>
+        </div>
+      </div>
+
+      <button class="join-btn" id="joinBtn" onclick="toggleJoin()"><span class="material-symbols-outlined filled" id="joinIcon">group_add</span><span id="joinTxt">Join event</span></button>
+
+      <!-- Locked teaser — shown to non-members -->
+      <div class="chat-locked">
+        <div class="lock"><span class="material-symbols-outlined">lock</span></div>
+        <h4>Members-only group chat</h4>
+        <p>Join the event to chat with the group, see pace plans and meet-up details.</p>
+        <div class="locked-av">
+          <img src="https://i.pravatar.cc/40?img=12"><img src="https://i.pravatar.cc/40?img=5"><img src="https://i.pravatar.cc/40?img=32"><img src="https://i.pravatar.cc/40?img=8">
+          <span class="c">42 members</span>
+        </div>
+      </div>
+
+      <!-- Live chat — shown after joining -->
+      <div class="chat-live">
+        <div class="section-label"><span class="material-symbols-outlined filled">forum</span>Group chat · 42 members</div>
+
+        <!-- pinned organiser message -->
+        <div class="pinned">
+          <div class="ph"><span class="material-symbols-outlined">push_pin</span>PINNED BY ORGANISER</div>
+          <div class="who"><img src="https://i.pravatar.cc/40?img=15"><span class="nm">Saigon Striders</span><span class="role">ORGANISER</span></div>
+          <div class="msg">Meet at the south gate by 5:20. Bring your own water — it's humid! Pace banners will be up. See you all there 🏃</div>
+        </div>
+
+        <div class="msg-row">
+          <img src="https://i.pravatar.cc/40?img=12">
+          <div class="bubble"><div class="nm">Nam</div><div class="tx">Anyone in the 5:30 group? Want to lock pace together.</div></div>
+        </div>
+        <div class="msg-row">
+          <img src="https://i.pravatar.cc/40?img=5">
+          <div class="bubble"><div class="nm">Linh</div><div class="tx">Me! I'll be by the banner at 5:25.</div></div>
+        </div>
+        <div class="msg-row">
+          <img src="https://i.pravatar.cc/40?img=32">
+          <div class="bubble"><div class="nm">Mai</div><div class="tx">Is there parking near the south gate?</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="composer">
+    <input placeholder="Message the group…">
+    <button class="send"><span class="material-symbols-outlined">send</span></button>
+  </div>
+</div>
+<script>
+  function toggleJoin() {
+    const joined = document.getElementById('phone').classList.toggle('joined');
+    document.getElementById('joinBtn').classList.toggle('is-joined', joined);
+    document.getElementById('joinIcon').textContent = joined ? 'check' : 'group_add';
+    document.getElementById('joinTxt').textContent = joined ? 'Joined' : 'Join event';
+  }
+</script>
+<script src="_nav.js"></script>
+</body>
+</html>

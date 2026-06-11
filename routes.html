@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Izuke — Routes</title>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@600;700;800;900&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; background: #d9dadc; font-family: 'Inter', sans-serif; }
+
+  .phone {
+    width: 390px; height: 844px;
+    background: #F5F5F7;
+    position: relative; overflow: hidden;
+    display: flex; flex-direction: column;
+    box-shadow: 0 32px 80px rgba(0,0,0,0.18);
+    border-radius: 48px;
+  }
+
+  /* Status bar */
+  .status-bar {
+    height: 48px; display: flex; align-items: center;
+    padding: 0 28px; flex-shrink: 0;
+  }
+  .status-bar .time {
+    font-family: 'Hanken Grotesk', sans-serif; font-weight: 700;
+    font-size: 15px; color: #0F1B35;
+  }
+
+  /* Header */
+  .header {
+    display: flex; align-items: center; justify-content: center;
+    padding: 6px 20px 12px; background: #F5F5F7; flex-shrink: 0;
+  }
+  .header h1 {
+    font-family: 'Hanken Grotesk', sans-serif;
+    font-weight: 700; font-size: 18px; color: #0F1B35; letter-spacing: -0.01em;
+  }
+  .icon-btn {
+    background: none; border: none; cursor: pointer; color: #535e7b;
+    display: flex; align-items: center; transition: transform 0.1s;
+  }
+  .icon-btn:active { transform: scale(0.92); }
+
+  /* Scroll body */
+  .scroll-body {
+    flex: 1; overflow-y: auto; overflow-x: hidden;
+    padding: 4px 20px 110px; -webkit-overflow-scrolling: touch;
+  }
+  .scroll-body::-webkit-scrollbar { display: none; }
+
+  /* Search + filter */
+  .search-bar { display: flex; gap: 12px; align-items: center; margin-bottom: 14px; }
+  .search-wrap { position: relative; flex: 1; }
+  .search-wrap .material-symbols-outlined {
+    position: absolute; left: 16px; top: 50%; transform: translateY(-50%);
+    color: #906f70; font-size: 22px !important; pointer-events: none;
+  }
+  .search-wrap input {
+    width: 100%; height: 48px; padding: 0 16px 0 46px;
+    background: #fff; border: 2px solid transparent; border-radius: 9999px;
+    font-family: 'Inter', sans-serif; font-size: 15px; color: #0F1B35;
+    outline: none; box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+    transition: border-color 0.2s;
+  }
+  .search-wrap input::placeholder { color: #906f70; }
+  .search-wrap input:focus { border-color: #0F1B35; }
+  .filter-btn {
+    width: 48px; height: 48px; flex-shrink: 0;
+    background: #0F1B35; color: #fff; border: none; border-radius: 9999px;
+    cursor: pointer; display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 4px 10px rgba(15,27,53,0.18); transition: transform 0.1s;
+  }
+  .filter-btn:active { transform: scale(0.94); }
+
+  /* City selector */
+  .city-select {
+    display: flex; align-items: center; gap: 8px;
+    width: 100%; height: 46px; padding: 0 14px;
+    background: #fff; border: 1.5px solid #e8e8ea; border-radius: 14px;
+    cursor: pointer; margin-bottom: 12px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+  }
+  .city-select .material-symbols-outlined { font-size: 20px; color: #FF3B5C; }
+  .city-select .label {
+    flex: 1; font-size: 14px; font-weight: 600; color: #0F1B35;
+  }
+  .city-select .chev { font-size: 22px; color: #999; }
+
+  /* Filter chips */
+  .chip-row {
+    display: flex; gap: 8px; overflow-x: auto; padding-bottom: 4px;
+    margin-bottom: 18px; scrollbar-width: none;
+  }
+  .chip-row::-webkit-scrollbar { display: none; }
+  .chip {
+    flex-shrink: 0; padding: 8px 14px; border-radius: 9999px;
+    background: #fff; border: 1.5px solid #e8e8ea;
+    font-size: 13px; font-weight: 600; color: #535e7b; cursor: pointer;
+    transition: all 0.12s; white-space: nowrap;
+  }
+  .chip.active { background: #FF3B5C; border-color: #FF3B5C; color: #fff; }
+
+  /* Section header */
+  .sec-head {
+    display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px;
+  }
+  .sec-title {
+    display: flex; align-items: center; gap: 6px;
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700;
+    letter-spacing: 0.1em; text-transform: uppercase; color: #8a91a0;
+  }
+  .sec-title .material-symbols-outlined { font-size: 16px; color: #FF3B5C; }
+  .sec-count {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700;
+    color: #FF3B5C; letter-spacing: 0.04em;
+  }
+
+  /* Route card */
+  .route-card {
+    display: flex; gap: 14px; align-items: center;
+    padding: 16px 4px; border-bottom: 1px solid #e8e9ed;
+    cursor: pointer;
+  }
+  .route-card:last-of-type { border-bottom: none; }
+  .route-card:active { background: rgba(15,27,53,0.025); }
+
+  /* Faux-map thumbnail (area = safety-colored blob) */
+  .thumb {
+    width: 72px; height: 72px; flex-shrink: 0; border-radius: 12px;
+    position: relative; overflow: hidden; border: 1px solid #e2e5ec;
+    background:
+      linear-gradient(0deg, rgba(15,27,53,0.05) 1px, transparent 1px) 0 0 / 100% 14px,
+      linear-gradient(90deg, rgba(15,27,53,0.05) 1px, transparent 1px) 0 0 / 14px 100%,
+      #eef1f4;
+  }
+  .thumb .area {
+    position: absolute; inset: 16px 14px 18px 16px;
+    border-radius: 42% 58% 55% 45% / 55% 42% 58% 45%;
+  }
+  .thumb .area.safe  { background: rgba(34,197,94,0.30); border: 1.5px solid rgba(34,197,94,0.65); }
+  .thumb .area.new   { background: rgba(15,27,53,0.10); border: 1.5px solid rgba(15,27,53,0.22); }
+
+  .route-main { flex: 1; min-width: 0; }
+  .route-top { display: flex; align-items: flex-start; gap: 8px; }
+  .route-name {
+    flex: 1; font-family: 'Hanken Grotesk', sans-serif; font-weight: 600;
+    font-size: 16px; color: #2b3550; letter-spacing: -0.01em; line-height: 1.25;
+  }
+
+  /* Safety badge */
+  .safety {
+    flex-shrink: 0; display: inline-flex; align-items: center; gap: 3px;
+    padding: 4px 8px; border-radius: 9px; font-weight: 600; font-size: 13px;
+  }
+  .safety.rated { background: rgba(255,59,92,0.10); color: #FF3B5C; }
+  .safety.rated .material-symbols-outlined { font-size: 16px; }
+  .safety.unrated {
+    background: rgba(255,59,92,0.10); color: #FF3B5C;
+    font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.08em;
+  }
+
+  /* meta pills */
+  .pills { display: flex; gap: 8px; margin-top: 8px; }
+  .pill {
+    display: inline-flex; align-items: center; gap: 4px;
+    padding: 4px 9px; border-radius: 8px; background: #F5F5F7;
+    border: 1px solid #e8e8ea; font-size: 12px; font-weight: 600; color: #535e7b;
+  }
+  .pill .material-symbols-outlined { font-size: 14px; }
+
+  .route-foot { display: flex; align-items: center; gap: 14px; margin-top: 10px; }
+  .foot-item {
+    display: inline-flex; align-items: center; gap: 4px;
+    font-size: 12.5px; color: #777e90;
+  }
+  .foot-item .material-symbols-outlined { font-size: 15px; color: #999; }
+
+  /* Bottom nav */
+  .bottom-nav {
+    position: absolute; bottom: 0; left: 0; right: 0; height: 82px;
+    background: #fff; border-top: 1px solid rgba(15,27,53,0.07); display: flex; align-items: center; padding-bottom: 14px;
+    z-index: 50; border-bottom-left-radius: 48px; border-bottom-right-radius: 48px;
+  }
+  .nav-tab {
+    flex: 1; display: flex; flex-direction: column; align-items: center; gap: 3px;
+    color: #b6bcc9;
+    font-family: 'JetBrains Mono', monospace; font-size: 9px; font-weight: 700;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    cursor: pointer; text-decoration: none; transition: color 0.15s;
+  }
+  .nav-tab.active { color: #FF3B5C; }
+  .nav-tab .material-symbols-outlined { font-size: 22px; }
+
+  .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+  .filled { font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+
+  /* FAB — add a route */
+  .fab {
+    position: absolute; right: 20px; bottom: 98px; z-index: 60;
+    width: 56px; height: 56px; border-radius: 18px;
+    background: linear-gradient(135deg, #FF3B5C, #BA0035); color: #fff;
+    border: none; cursor: pointer; display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 10px 24px rgba(255,59,92,0.4); transition: transform 0.12s;
+  }
+  .fab:active { transform: scale(0.94); }
+  .fab .material-symbols-outlined { font-size: 28px; }
+
+  /* filter button active dot */
+  .filter-btn { position: relative; }
+  .filter-dot { display: none; position: absolute; top: 9px; right: 9px; width: 9px; height: 9px; border-radius: 50%; background: #FF3B5C; border: 2px solid #0F1B35; }
+  .filter-btn.has-filters .filter-dot { display: block; }
+
+  /* filter action sheet */
+  .scrim { position: absolute; inset: 0; background: rgba(15,27,53,0.4); opacity: 0; pointer-events: none; transition: opacity 0.25s; z-index: 60; }
+  .scrim.open { opacity: 1; pointer-events: auto; }
+  .filter-sheet { position: absolute; left: 0; right: 0; bottom: 0; z-index: 70; background: #fff; border-radius: 26px 26px 0 0; padding: 18px 20px 28px; transform: translateY(100%); transition: transform 0.32s cubic-bezier(0.34,1.4,0.64,1); }
+  .filter-sheet.open { transform: translateY(0); }
+  .filter-sheet .grip { width: 40px; height: 4px; border-radius: 2px; background: #e2e5ec; margin: 0 auto 16px; }
+  .fs-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 18px; }
+  .fs-title { font-family: 'Hanken Grotesk', sans-serif; font-weight: 800; font-size: 19px; color: #0F1B35; }
+  .fs-reset { background: none; border: none; cursor: pointer; font-family: 'Inter'; font-weight: 600; font-size: 13px; color: #FF3B5C; }
+  .fs-group { margin-bottom: 20px; }
+  .fs-label { display: flex; align-items: center; gap: 6px; font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #8a91a0; margin-bottom: 10px; }
+  .fs-label .material-symbols-outlined { font-size: 16px; color: #FF3B5C; }
+  .fs-chips { display: flex; gap: 8px; flex-wrap: wrap; }
+  .apply-btn { width: 100%; height: 54px; border: none; border-radius: 9999px; background: linear-gradient(135deg,#FF3B5C,#BA0035); color: #fff; font-family: 'Inter', sans-serif; font-weight: 500; font-size: 16px; cursor: pointer; box-shadow: 0 8px 20px rgba(255,59,92,0.32); display: flex; align-items: center; justify-content: center; gap: 8px; }
+  .apply-btn .material-symbols-outlined { font-size: 20px; }
+</style>
+</head>
+<body style="display:flex; align-items:center; justify-content:center; min-height:100vh;">
+<div class="phone">
+
+  <div class="status-bar"><span class="time">9:41</span></div>
+
+  <div class="header">
+    <h1>Routes</h1>
+  </div>
+
+  <div class="scroll-body">
+
+    <!-- Search + filter -->
+    <div class="search-bar">
+      <div class="search-wrap">
+        <span class="material-symbols-outlined">search</span>
+        <input type="text" placeholder="Search routes or areas…">
+      </div>
+      <button class="filter-btn" id="filterBtn" onclick="toggleFilters()">
+        <span class="material-symbols-outlined">tune</span>
+        <span class="filter-dot"></span>
+      </button>
+    </div>
+
+    <!-- City selector -->
+    <div class="city-select">
+      <span class="material-symbols-outlined">location_on</span>
+      <span class="label">Ho Chi Minh City</span>
+      <span class="material-symbols-outlined chev">expand_more</span>
+    </div>
+
+    <div class="sec-head">
+      <span class="sec-title"><span class="material-symbols-outlined filled">near_me</span>Routes near you</span>
+      <span class="sec-count">12 routes</span>
+    </div>
+
+    <!-- Cards -->
+    <div class="route-card" onclick="window.location.href='route_detail.html'">
+      <div class="thumb"><div class="area safe"></div></div>
+      <div class="route-main">
+        <div class="route-top">
+          <div class="route-name">Tao Dan Park Loop</div>
+          <span class="safety rated"><span class="material-symbols-outlined filled">star</span>4.8</span>
+        </div>
+        <div class="pills">
+          <span class="pill"><span class="material-symbols-outlined">straighten</span>5K</span>
+          <span class="pill"><span class="material-symbols-outlined">terrain</span>Paved</span>
+        </div>
+        <div class="route-foot">
+          <span class="foot-item"><span class="material-symbols-outlined">place</span>District 1</span>
+          <span class="foot-item"><span class="material-symbols-outlined">directions_run</span>23 this week</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="route-card" onclick="window.location.href='route_detail.html'">
+      <div class="thumb"><div class="area safe"></div></div>
+      <div class="route-main">
+        <div class="route-top">
+          <div class="route-name">Saigon River Riverside</div>
+          <span class="safety rated"><span class="material-symbols-outlined filled">star</span>4.5</span>
+        </div>
+        <div class="pills">
+          <span class="pill"><span class="material-symbols-outlined">straighten</span>10K</span>
+          <span class="pill"><span class="material-symbols-outlined">terrain</span>Mixed</span>
+        </div>
+        <div class="route-foot">
+          <span class="foot-item"><span class="material-symbols-outlined">place</span>District 2</span>
+          <span class="foot-item"><span class="material-symbols-outlined">directions_run</span>17 this week</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="route-card" onclick="window.location.href='route_detail.html'">
+      <div class="thumb"><div class="area new"></div></div>
+      <div class="route-main">
+        <div class="route-top">
+          <div class="route-name">Thu Thiem Bridge Run</div>
+          <span class="safety unrated">NEW</span>
+        </div>
+        <div class="pills">
+          <span class="pill"><span class="material-symbols-outlined">straighten</span>10K</span>
+          <span class="pill"><span class="material-symbols-outlined">terrain</span>Paved</span>
+        </div>
+        <div class="route-foot">
+          <span class="foot-item"><span class="material-symbols-outlined">place</span>District 2</span>
+          <span class="foot-item"><span class="material-symbols-outlined">directions_run</span>No runs yet</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="route-card" onclick="window.location.href='route_detail.html'">
+      <div class="thumb"><div class="area safe"></div></div>
+      <div class="route-main">
+        <div class="route-top">
+          <div class="route-name">Crescent Lake Circuit</div>
+          <span class="safety rated"><span class="material-symbols-outlined filled">star</span>4.9</span>
+        </div>
+        <div class="pills">
+          <span class="pill"><span class="material-symbols-outlined">straighten</span>5K</span>
+          <span class="pill"><span class="material-symbols-outlined">terrain</span>Paved</span>
+        </div>
+        <div class="route-foot">
+          <span class="foot-item"><span class="material-symbols-outlined">place</span>District 7</span>
+          <span class="foot-item"><span class="material-symbols-outlined">directions_run</span>41 this week</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="route-card" onclick="window.location.href='route_detail.html'">
+      <div class="thumb"><div class="area new"></div></div>
+      <div class="route-main">
+        <div class="route-top">
+          <div class="route-name">Phú Mỹ Hưng Marathon Path</div>
+          <span class="safety unrated">NEW</span>
+        </div>
+        <div class="pills">
+          <span class="pill"><span class="material-symbols-outlined">straighten</span>42K</span>
+          <span class="pill"><span class="material-symbols-outlined">terrain</span>Mixed</span>
+        </div>
+        <div class="route-foot">
+          <span class="foot-item"><span class="material-symbols-outlined">place</span>District 7</span>
+          <span class="foot-item"><span class="material-symbols-outlined">directions_run</span>3 this week</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Add a route -->
+  <button class="fab" onclick="window.location.href='create_route.html'"><span class="material-symbols-outlined">add</span></button>
+
+  <!-- Bottom nav -->
+  <nav class="bottom-nav">
+    <a class="nav-tab" href="map_home.html">
+      <span class="material-symbols-outlined">map</span>Map
+    </a>
+    <a class="nav-tab active" href="routes.html">
+      <span class="material-symbols-outlined filled">route</span>Routes
+    </a>
+    <a class="nav-tab" href="matches.html">
+      <span class="material-symbols-outlined">favorite</span>Matches
+    </a>
+    <a class="nav-tab" href="profile.html">
+      <span class="material-symbols-outlined">person</span>Profile
+    </a>
+  </nav>
+
+  <!-- Filter action sheet -->
+  <div class="scrim" id="scrim" onclick="toggleFilters()"></div>
+  <div class="filter-sheet" id="filterSheet">
+    <div class="grip"></div>
+    <div class="fs-top">
+      <span class="fs-title">Filter routes</span>
+      <button class="fs-reset" onclick="resetFilters()">Reset</button>
+    </div>
+    <div class="fs-group">
+      <div class="fs-label"><span class="material-symbols-outlined filled">straighten</span>Distance</div>
+      <div class="fs-chips" data-group="distance">
+        <div class="chip active" onclick="pickChip(this)">All</div>
+        <div class="chip" onclick="pickChip(this)">5K</div>
+        <div class="chip" onclick="pickChip(this)">10K</div>
+        <div class="chip" onclick="pickChip(this)">21K</div>
+        <div class="chip" onclick="pickChip(this)">42K</div>
+      </div>
+    </div>
+    <div class="fs-group">
+      <div class="fs-label"><span class="material-symbols-outlined filled">terrain</span>Surface</div>
+      <div class="fs-chips" data-group="surface">
+        <div class="chip active" onclick="pickChip(this)">Any surface</div>
+        <div class="chip" onclick="pickChip(this)">Paved</div>
+        <div class="chip" onclick="pickChip(this)">Mixed</div>
+        <div class="chip" onclick="pickChip(this)">Trail</div>
+      </div>
+    </div>
+    <button class="apply-btn" onclick="applyFilters()"><span class="material-symbols-outlined">route</span><span id="applyLbl">Show routes</span></button>
+  </div>
+
+</div>
+
+<script>
+  function toggleFilters() {
+    const open = document.getElementById('filterSheet').classList.toggle('open');
+    document.getElementById('scrim').classList.toggle('open');
+    if (open) updateApply();
+  }
+  function pickChip(el) {
+    el.parentElement.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+    el.classList.add('active');
+    updateDot(); updateApply();
+  }
+  function resetFilters() {
+    document.querySelectorAll('.fs-chips').forEach(group => {
+      group.querySelectorAll('.chip').forEach((c, i) => c.classList.toggle('active', i === 0));
+    });
+    updateDot(); updateApply();
+  }
+  function updateDot() {
+    let active = false;
+    document.querySelectorAll('.fs-chips').forEach(group => {
+      const chips = group.querySelectorAll('.chip');
+      if (!chips[0].classList.contains('active')) active = true;
+    });
+    document.getElementById('filterBtn').classList.toggle('has-filters', active);
+  }
+  // ── live count ──
+  function selectedFilters() {
+    let dist = null, surface = null;
+    document.querySelectorAll('.fs-chips').forEach(group => {
+      const a = group.querySelector('.chip.active'); if (!a) return;
+      const t = a.textContent.trim();
+      if (group.dataset.group === 'distance' && t !== 'All') dist = parseInt(t);
+      if (group.dataset.group === 'surface' && !t.startsWith('Any')) surface = t.toLowerCase();
+    });
+    return { dist, surface };
+  }
+  function routeMatches(card, f) {
+    const pills = card.querySelectorAll('.pill');
+    const cd = parseInt(pills[0].textContent.replace(/[^0-9]/g, ''));
+    const ct = pills[1].textContent.toLowerCase();
+    const cs = ['paved', 'mixed', 'trail'].find(s => ct.includes(s));
+    return (f.dist === null || cd === f.dist) && (f.surface === null || cs === f.surface);
+  }
+  function matchCount() {
+    const f = selectedFilters();
+    return [...document.querySelectorAll('.route-card')].filter(c => routeMatches(c, f)).length;
+  }
+  function updateApply() {
+    const n = matchCount();
+    document.getElementById('applyLbl').textContent =
+      n === 0 ? 'No matches' : (n === 1 ? 'Show 1 route' : 'Show ' + n + ' routes');
+  }
+  function applyFilters() {
+    const f = selectedFilters();
+    let n = 0;
+    document.querySelectorAll('.route-card').forEach(card => {
+      const ok = routeMatches(card, f);
+      card.style.display = ok ? '' : 'none';
+      if (ok) n++;
+    });
+    document.querySelector('.sec-count').textContent = n + (n === 1 ? ' route' : ' routes');
+    toggleFilters();
+  }
+  // init counts to the actual cards
+  document.querySelector('.sec-count').textContent = matchCount() + ' routes';
+  updateApply();
+</script>
+<script src="_nav.js"></script>
+</body>
+</html>

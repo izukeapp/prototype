@@ -244,9 +244,9 @@
 
   <!-- Footer -->
   <div class="footer">
-    <button class="btn-save" onclick="window.location.href='moment_detail.html'">
-      Save Moment
-      <span class="material-symbols-outlined filled">celebration</span>
+    <button class="btn-save" onclick="prComplete('moment')">
+      Save &amp; rate run
+      <span class="material-symbols-outlined filled">arrow_forward</span>
     </button>
   </div>
 
@@ -262,6 +262,15 @@
       img.style.display = 'block';
     };
     reader.readAsDataURL(input.files[0]);
+  }
+
+  /* mark this post-run step done, then continue to the next pending step (forward only) */
+  function prComplete(step) {
+    localStorage.setItem('pr_' + step, '1');
+    const map = { moment: 'create_moment.html', partner: 'rate_partner.html', route: 'rate_route.html' };
+    const order = ['moment', 'partner', 'route'];
+    const next = order.slice(order.indexOf(step) + 1).find(s => localStorage.getItem('pr_' + s) !== '1');
+    window.location.href = next ? map[next] : 'chat.html';
   }
 </script>
   <script src="_nav.js"></script>

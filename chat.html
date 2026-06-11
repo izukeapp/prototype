@@ -138,7 +138,8 @@
   .run-card.confirmed { border-color: #22C55E; box-shadow: 0 4px 16px rgba(34,197,94,0.10); }
   .run-top {
     display: flex; align-items: center; justify-content: space-between;
-    margin-bottom: 14px;
+    padding-bottom: 12px; margin-bottom: 14px;
+    border-bottom: 1px solid #f0f0f2;
   }
   .run-title {
     display: flex; align-items: center; gap: 7px;
@@ -173,6 +174,15 @@
     font-size: 13px; color: #906f70;
   }
   .run-foot-status .material-symbols-outlined { font-size: 16px !important; }
+  /* tappable route chip inside the run card */
+  .run-route { display: flex; align-items: center; gap: 10px; margin-top: 12px; padding: 10px 12px; background: #F7F8FA; border: 1px solid #eef0f4; border-radius: 12px; cursor: pointer; transition: background 0.12s; }
+  .run-route:active { background: #f0f1f4; }
+  .run-route .rr-ic { width: 34px; height: 34px; border-radius: 9px; background: rgba(34,197,94,0.12); color: #15a34a; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .run-route .rr-ic .material-symbols-outlined { font-size: 18px !important; }
+  .run-route .rr-tx { flex: 1; min-width: 0; }
+  .run-route .rr-k { font-family: 'JetBrains Mono', monospace; font-size: 8.5px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #999; }
+  .run-route .rr-v { font-family: 'Hanken Grotesk', sans-serif; font-weight: 700; font-size: 14px; color: #0F1B35; margin-top: 1px; }
+  .run-route .rr-go { color: #cdd2db; flex-shrink: 0; }
   .run-link {
     background: none; border: none; cursor: pointer;
     font-family: 'Inter', sans-serif;
@@ -199,6 +209,24 @@
     font-size: 12px; color: #906f70;
     max-width: 80%;
   }
+
+  /* Post-run checklist */
+  .pr-progress { font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 700; letter-spacing: 0.06em; color: #FF3B5C; background: rgba(255,59,92,0.10); padding: 4px 10px; border-radius: 9999px; }
+  .pr-reset { background: none; border: none; cursor: pointer; color: #c0c0c8; padding: 2px; display: flex; }
+  .pr-reset .material-symbols-outlined { font-size: 18px !important; }
+  .pr-list { display: flex; flex-direction: column; gap: 8px; }
+  .pr-item { display: flex; align-items: center; gap: 12px; width: 100%; background: #F7F8FA; border: 1px solid #eef0f4; border-radius: 14px; padding: 12px 14px; cursor: pointer; text-align: left; font-family: 'Inter', sans-serif; transition: transform 0.1s; }
+  .pr-item:active { transform: scale(0.99); }
+  .pr-item .pr-ic { width: 34px; height: 34px; border-radius: 10px; background: #fff; border: 1px solid #e8e8ea; display: flex; align-items: center; justify-content: center; color: #FF3B5C; flex-shrink: 0; }
+  .pr-item .pr-ic .material-symbols-outlined { font-size: 19px !important; }
+  .pr-item .pr-txt { flex: 1; font-size: 14px; font-weight: 600; color: #0F1B35; }
+  .pr-item .pr-state { color: #cdd2db; font-size: 22px !important; }
+  .pr-item.done { background: #fff; cursor: default; }
+  .pr-item.done .pr-txt { color: #9aa1b0; text-decoration: line-through; }
+  .pr-item.done .pr-ic { color: #16A34A; border-color: rgba(34,197,94,0.30); }
+  .pr-item.done .pr-state { color: #16A34A; }
+  .pr-done-note { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600; color: #16A34A; padding: 4px 2px; }
+  .pr-done-note .material-symbols-outlined { font-size: 18px !important; }
 
   /* Input dock */
   .input-dock {
@@ -413,9 +441,10 @@
         <span class="sep">·</span>
         45 min
       </div>
-      <div class="run-detail loc">
-        <span class="material-symbols-outlined">location_on</span>
-        <span class="txt">Prospect Park, North Entrance</span>
+      <div class="run-route" onclick="window.location.href='route_detail.html'">
+        <div class="rr-ic"><span class="material-symbols-outlined filled">route</span></div>
+        <div class="rr-tx"><div class="rr-k">Route</div><div class="rr-v">Prospect Park Loop</div></div>
+        <span class="material-symbols-outlined rr-go">chevron_right</span>
       </div>
       <div class="run-foot">
         <span class="run-foot-status">
@@ -430,23 +459,37 @@
       <span class="msg-time">10:02 AM</span>
     </div>
 
-    <!-- Post-run: We ran it prompt -->
-    <div class="run-card">
+    <!-- Post-run checklist (persists until all done) -->
+    <div class="run-card postrun" id="postrunCard">
       <div class="run-top">
         <div class="run-title">
           <span class="material-symbols-outlined filled">sports_score</span>
-          How did it go?
+          After your run
+        </div>
+        <div style="display:flex; align-items:center; gap:8px;">
+          <span class="pr-progress" id="prProgress">0 of 3</span>
+          <button class="pr-reset" onclick="resetPostrun()" title="Reset (demo)"><span class="material-symbols-outlined">refresh</span></button>
         </div>
       </div>
-      <div class="run-detail loc" style="margin-bottom:0;">
-        <span class="material-symbols-outlined">info</span>
-        <span class="txt">Confirm your run to create a moment.</span>
-      </div>
-      <div class="run-actions">
-        <button class="run-btn ran" onclick="window.location.href='create_moment.html'">
-          <span class="material-symbols-outlined filled">check</span>
-          We ran it
+      <div class="pr-list" id="prList">
+        <button class="pr-item" data-step="moment" onclick="goStep('moment')">
+          <span class="pr-ic"><span class="material-symbols-outlined">add_a_photo</span></span>
+          <span class="pr-txt">Add a moment</span>
+          <span class="pr-state material-symbols-outlined">chevron_right</span>
         </button>
+        <button class="pr-item" data-step="partner" onclick="goStep('partner')">
+          <span class="pr-ic"><span class="material-symbols-outlined">star</span></span>
+          <span class="pr-txt">Rate Alex</span>
+          <span class="pr-state material-symbols-outlined">chevron_right</span>
+        </button>
+        <button class="pr-item" data-step="route" onclick="goStep('route')">
+          <span class="pr-ic"><span class="material-symbols-outlined">shield</span></span>
+          <span class="pr-txt">Rate the route</span>
+          <span class="pr-state material-symbols-outlined">chevron_right</span>
+        </button>
+      </div>
+      <div class="pr-done-note" id="prDoneNote" style="display:none;">
+        <span class="material-symbols-outlined filled">celebration</span> All wrapped up — nice work!
       </div>
     </div>
 
@@ -553,6 +596,32 @@
   let dist = 5, dur = 45;
   function stepDist(d) { dist = Math.max(1, dist + d); document.getElementById('dist-val').textContent = dist; }
   function stepDur(d) { dur = Math.max(10, dur + d); document.getElementById('dur-val').textContent = dur; }
+
+  /* Post-run checklist — persists what's done so it can be finished later */
+  const PR_STEPS = { moment: 'create_moment.html', partner: 'rate_partner.html', route: 'rate_route.html' };
+  function renderPostrun() {
+    let done = 0;
+    Object.keys(PR_STEPS).forEach(step => {
+      const item = document.querySelector('.pr-item[data-step="' + step + '"]');
+      const isDone = localStorage.getItem('pr_' + step) === '1';
+      item.classList.toggle('done', isDone);
+      item.querySelector('.pr-state').textContent = isDone ? 'check_circle' : 'chevron_right';
+      if (isDone) done++;
+    });
+    document.getElementById('prProgress').textContent = done + ' of 3';
+    const allDone = done === 3;
+    document.getElementById('prList').style.display = allDone ? 'none' : '';
+    document.getElementById('prDoneNote').style.display = allDone ? 'flex' : 'none';
+  }
+  function goStep(step) {
+    if (localStorage.getItem('pr_' + step) === '1') return; // already done
+    window.location.href = PR_STEPS[step];
+  }
+  function resetPostrun() {
+    ['moment', 'partner', 'route'].forEach(s => localStorage.removeItem('pr_' + s));
+    renderPostrun();
+  }
+  renderPostrun();
 </script>
   <script src="_nav.js"></script>
 </body>

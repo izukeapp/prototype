@@ -76,6 +76,27 @@
   }
   .tab.active .count { background: #FF3B5C; }
 
+  /* Search */
+  .search-bar { margin: 12px 20px 0; position: relative; flex-shrink: 0; }
+  .search-bar .s-ico { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: #8a91a0; font-size: 20px !important; pointer-events: none; }
+  .search-bar input { width: 100%; height: 44px; padding: 0 14px 0 42px; border-radius: 9999px; border: 1.5px solid #e8e8ea; background: #fff; font-family: 'Inter', sans-serif; font-size: 14px; color: #0F1B35; outline: none; }
+  .search-bar input::placeholder { color: #8a91a0; }
+  .search-bar input:focus { border-color: #0F1B35; }
+
+  /* Sort (received) */
+  .sort-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+  .res-count { font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700; letter-spacing: 0.06em; color: #8a91a0; text-transform: uppercase; }
+  .sort-wrap { position: relative; }
+  .sort-btn { display: inline-flex; align-items: center; gap: 5px; background: #fff; border: 1.5px solid #e8e8ea; border-radius: 9999px; padding: 7px 12px; font-family: 'Inter', sans-serif; font-size: 12.5px; font-weight: 600; color: #535e7b; cursor: pointer; }
+  .sort-btn .material-symbols-outlined { font-size: 16px !important; color: #FF3B5C; }
+  .sort-menu { position: absolute; right: 0; top: 40px; background: #fff; border: 1px solid #ececed; border-radius: 13px; box-shadow: 0 12px 32px rgba(15,27,53,0.16); padding: 6px; z-index: 30; display: none; min-width: 152px; }
+  .sort-menu.open { display: block; }
+  .sort-menu button { display: flex; align-items: center; width: 100%; background: none; border: none; cursor: pointer; padding: 9px 11px; border-radius: 9px; font-family: 'Inter', sans-serif; font-size: 13.5px; font-weight: 600; color: #0F1B35; text-align: left; }
+  .sort-menu button:hover { background: #f5f5f7; }
+  .sort-menu button .material-symbols-outlined { font-size: 16px !important; margin-left: auto; color: #FF3B5C; opacity: 0; }
+  .sort-menu button.sel { color: #FF3B5C; }
+  .sort-menu button.sel .material-symbols-outlined { opacity: 1; }
+
   /* Scroll body */
   .scroll-body {
     flex: 1; overflow-y: auto; overflow-x: hidden;
@@ -219,11 +240,31 @@
     </button>
   </div>
 
+  <!-- Search -->
+  <div class="search-bar">
+    <span class="material-symbols-outlined s-ico">search</span>
+    <input id="searchInput" placeholder="Search by name…" oninput="applySearch()">
+  </div>
+
   <!-- Scroll body -->
   <div class="scroll-body">
 
     <!-- RECEIVED panel -->
     <div class="panel active" id="panel-received">
+
+      <div class="sort-row">
+        <span class="res-count" id="recCount">4 requests</span>
+        <div class="sort-wrap">
+          <button class="sort-btn" onclick="toggleSort(event)"><span class="material-symbols-outlined">swap_vert</span><span id="sortLabel">Best match</span></button>
+          <div class="sort-menu" id="sortMenu">
+            <button class="sel" onclick="setSort('match', this)">Best match<span class="material-symbols-outlined">check</span></button>
+            <button onclick="setSort('dist', this)">Nearest<span class="material-symbols-outlined">check</span></button>
+            <button onclick="setSort('time', this)">Newest<span class="material-symbols-outlined">check</span></button>
+          </div>
+        </div>
+      </div>
+
+      <div class="req-list" id="recList">
 
       <div class="req-card">
         <div class="req-av" onclick="window.location.href='profile_detail.html'">
@@ -285,6 +326,8 @@
         </div>
       </div>
 
+      </div><!-- /req-list -->
+
       <!-- received empty -->
       <div class="empty" id="empty-received">
         <span class="material-symbols-outlined">inbox</span>
@@ -339,6 +382,53 @@
     document.getElementById('tab-sent').classList.toggle('active', !received);
     document.getElementById('panel-received').classList.toggle('active', received);
     document.getElementById('panel-sent').classList.toggle('active', !received);
+    applySearch();
+  }
+
+  // --- search (both tabs) ---
+  function applySearch() {
+    const q = document.getElementById('searchInput').value.trim().toLowerCase();
+    const panel = document.querySelector('.panel.active');
+    let vis = 0;
+    panel.querySelectorAll('.req-card').forEach(c => {
+      const name = (c.querySelector('.req-name').textContent || '').toLowerCase();
+      const show = !q || name.includes(q);
+      c.style.display = show ? '' : 'none';
+      if (show) vis++;
+    });
+    const empty = panel.querySelector('.empty');
+    if (empty) {
+      if (vis === 0) {
+        empty.style.display = 'flex';
+        if (q) {
+          empty.querySelector('h3').textContent = 'No matches';
+          empty.querySelector('p').textContent = 'No requests match “' + q + '”.';
+        }
+      } else { empty.style.display = 'none'; }
+    }
+    const rc = document.getElementById('recCount');
+    if (panel.id === 'panel-received' && rc) rc.textContent = vis + (vis === 1 ? ' request' : ' requests');
+  }
+
+  // --- sort (received only) ---
+  let sortKey = 'match';
+  function toggleSort(e) { e.stopPropagation(); document.getElementById('sortMenu').classList.toggle('open'); }
+  document.addEventListener('click', () => document.getElementById('sortMenu').classList.remove('open'));
+  function rMatch(c) { const b = c.querySelector('.match-badge'); const m = b && b.textContent.match(/(\d+)%/); return m ? +m[1] : 0; }
+  function rDist(c) { const m = c.querySelector('.req-meta'); const x = m && m.textContent.match(/([\d.]+)\s*mi/); return x ? parseFloat(x[1]) : 999; }
+  function setSort(key, btn) {
+    sortKey = key;
+    document.querySelectorAll('#sortMenu button').forEach(b => b.classList.remove('sel'));
+    if (btn) btn.classList.add('sel');
+    document.getElementById('sortLabel').textContent = { match: 'Best match', dist: 'Nearest', time: 'Newest' }[key];
+    const list = document.getElementById('recList');
+    [...list.querySelectorAll('.req-card')].sort((a, b) => {
+      if (key === 'match') return rMatch(b) - rMatch(a);
+      if (key === 'dist') return rDist(a) - rDist(b);
+      return (+b.dataset.time) - (+a.dataset.time); // newest first
+    }).forEach(c => list.appendChild(c));
+    document.getElementById('sortMenu').classList.remove('open');
+    applySearch();
   }
 
   function cancelRequest(btn) {
@@ -352,6 +442,13 @@
     const n = Math.max(0, parseInt(countEl.textContent) - 1);
     countEl.textContent = n;
   }
+
+  // init: tag original order (top = newest), then apply default Best-match sort
+  (function () {
+    const cards = [...document.querySelectorAll('#recList .req-card')];
+    cards.forEach((c, i) => { c.dataset.time = cards.length - i; });
+    setSort('match', document.querySelector('#sortMenu button'));
+  })();
 </script>
   <script src="_nav.js"></script>
 </body>

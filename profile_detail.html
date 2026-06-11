@@ -142,13 +142,19 @@
   /* Section */
   .section { margin-top: 28px; }
   .section-title {
-    font-family: 'Hanken Grotesk', sans-serif;
-    font-weight: 800; font-size: 18px; color: #0F1B35;
-    margin-bottom: 14px;
+    display: flex; align-items: center; gap: 6px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+    color: #8a91a0; margin-bottom: 14px;
   }
+  .section-title .material-symbols-outlined { font-size: 16px; color: #FF3B5C; }
   .about-text {
     font-size: 15px; color: #535e7b; line-height: 1.6;
   }
+  /* Why — note style */
+  .why-note-label { display: flex; align-items: center; gap: 6px; font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #8a91a0; margin-bottom: 10px; }
+  .why-note-label .material-symbols-outlined { font-size: 16px; color: #FF3B5C; }
+  .why-note-text { font-size: 15.5px; line-height: 1.6; color: #2b3550; }
 
   /* Chips */
   .chips-wrap { display: flex; flex-wrap: wrap; gap: 8px; }
@@ -255,6 +261,20 @@
     box-shadow: 0 8px 20px rgba(255,59,92,0.32);
   }
 
+  /* request-sent modal */
+  .req-scrim { position: absolute; inset: 0; background: rgba(15,27,53,0.45); z-index: 90; display: none; align-items: center; justify-content: center; padding: 30px; }
+  .req-scrim.show { display: flex; }
+  .req-modal { background: #fff; border-radius: 22px; padding: 26px 24px; width: 100%; max-width: 330px; box-shadow: 0 20px 50px rgba(15,27,53,0.25); text-align: center; }
+  .rm-ic { width: 56px; height: 56px; border-radius: 18px; background: rgba(255,59,92,0.10); color: #FF3B5C; display: flex; align-items: center; justify-content: center; margin: 0 auto 14px; }
+  .rm-ic .material-symbols-outlined { font-size: 30px !important; }
+  .req-modal h3 { font-family: 'Hanken Grotesk', sans-serif; font-weight: 800; font-size: 19px; color: #0F1B35; margin-bottom: 8px; }
+  .req-modal p { font-size: 13.5px; color: #777e90; line-height: 1.55; margin-bottom: 20px; }
+  .req-modal p b { color: #2b3550; }
+  .rm-actions { display: flex; flex-direction: column; gap: 10px; }
+  .rm-actions button { height: 50px; border: none; border-radius: 9999px; cursor: pointer; font-family: 'Inter', sans-serif; font-weight: 600; font-size: 15px; }
+  .rm-primary { background: linear-gradient(135deg,#FF3B5C,#BA0035); color: #fff; }
+  .rm-secondary { background: #f1f3f7; color: #0F1B35; }
+
   .material-symbols-outlined {
     font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
     vertical-align: middle;
@@ -276,7 +296,7 @@
 
       <!-- Floating nav -->
       <div class="hero-nav">
-        <button class="glass-btn" onclick="window.location.href='discover.html'">
+        <button class="glass-btn" onclick="window.location.href='runners_here.html'">
           <span class="material-symbols-outlined" style="font-size:22px;">arrow_back</span>
         </button>
         <button class="glass-btn">
@@ -290,13 +310,13 @@
           <span class="material-symbols-outlined filled">verified</span>
           <span class="lbl">VERIFIED</span>
         </div>
-        <h1 class="hero-name">Marcus Bennett</h1>
+        <h1 class="hero-name">Nam, 28</h1>
         <div class="hero-pills">
           <span class="hero-pill glass">
-            <span class="material-symbols-outlined">location_on</span>
-            Williamsburg
+            <span class="material-symbols-outlined">near_me</span>
+            1.2km · Tao Dan area
           </span>
-          <span class="hero-pill pace">4:45/km</span>
+          <span class="hero-pill pace">5:20/km</span>
         </div>
       </div>
     </div>
@@ -306,20 +326,20 @@
 
       <!-- Quick stats -->
       <div class="stat-row">
-        <div class="stat-card"><div class="num">4:45</div><div class="lbl">Pace /km</div></div>
-        <div class="stat-card"><div class="num">10–15k</div><div class="lbl">Distance</div></div>
-        <div class="stat-card"><div class="num">4×</div><div class="lbl">Per week</div></div>
+        <div class="stat-card"><div class="num">14</div><div class="lbl">Runs</div></div>
+        <div class="stat-card"><div class="num" style="color:#15a34a;">4.8★</div><div class="lbl">Rating</div></div>
+        <div class="stat-card"><div class="num">5:20</div><div class="lbl">Pace /km</div></div>
       </div>
 
-      <!-- About -->
+      <!-- Why (redesign: replaces bio/About) — note style -->
       <div class="section">
-        <h2 class="section-title">About</h2>
-        <p class="about-text">Marathon runner training for Chicago this fall. I love early morning tempo runs along the waterfront and always end with a good coffee. Looking for consistent partners who keep each other accountable.</p>
+        <div class="why-note-label"><span class="material-symbols-outlined filled">favorite</span>Why Nam runs</div>
+        <p class="why-note-text">Running is how I'm building my life in HCMC — every morning loop makes the city feel a little more like home.</p>
       </div>
 
       <!-- Compatibility -->
       <div class="section">
-        <h2 class="section-title">Compatibility</h2>
+        <h2 class="section-title"><span class="material-symbols-outlined filled">join_inner</span>Compatibility</h2>
         <div class="compat-card">
           <div class="compat-head">
             <span style="font-family:'Hanken Grotesk',sans-serif; font-weight:800; font-size:15px; color:#0F1B35;">How you match</span>
@@ -342,7 +362,7 @@
 
       <!-- Run preferences -->
       <div class="section">
-        <h2 class="section-title">Run Preferences</h2>
+        <h2 class="section-title"><span class="material-symbols-outlined filled">directions_run</span>Run Preferences</h2>
         <div class="chips-wrap">
           <span class="chip chip-pink">Morning Runs</span>
           <span class="chip chip-gray">Marathon Training</span>
@@ -354,54 +374,51 @@
 
       <!-- Availability -->
       <div class="section">
-        <h2 class="section-title">Usually runs</h2>
+        <h2 class="section-title"><span class="material-symbols-outlined filled">schedule</span>Usually runs</h2>
         <div class="sched-row">
           <span class="sched-pill"><span class="material-symbols-outlined">wb_twilight</span>Early Morning</span>
           <span class="sched-pill"><span class="material-symbols-outlined">calendar_month</span>Mon · Wed · Sat</span>
         </div>
       </div>
 
-      <!-- Public Journal -->
+      <!-- Route Contributions (redesign) -->
       <div class="section">
-        <h2 class="section-title">Public Journal</h2>
-        <div class="journal-strip">
+        <h2 class="section-title"><span class="material-symbols-outlined filled">route</span>Route contributions</h2>
 
-          <div class="jx-card">
-            <div class="jx-photo">
-              <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuBMulCzMzQa3vQmlqP_T2gK6Pu4ZfcI4OGq5FVYZnHb55fxdLVHsseg5XDTy353fVYrnDY-gueCO0BSKafyUGaPNJoD36BdQ6TG1mjJBw_n5ZFLqckj_bEzPGfnmmUSNMhL1HDcsFR6xoBQXtZaFxt_Ugf2nFz0RRC3xdoBx1ibFvXWN0jvG7mLCHJ7HYAX6kWgDVwanpxU1xo_rnuQlazbkj5BuvIk9UryAZaPk3YydV3Qjr1c4LiqcqF0GoceIxpAuqXBV2HfPtoi" alt="">
-              <div class="jx-scrim"></div>
-              <span class="jx-intensity">Hard</span>
-              <div class="jx-overlay">
-                <div class="jx-dist">12.0<span class="u">km</span></div>
-                <div class="jx-date">May 31</div>
-              </div>
-            </div>
+        <div onclick="window.location.href='route_detail.html'" style="display:flex; gap:14px; align-items:center; background:#fff; border:1px solid rgba(0,0,0,0.04); border-radius:16px; padding:14px; margin-bottom:10px; box-shadow:0 1px 6px rgba(15,27,53,0.06); cursor:pointer;">
+          <div style="width:44px; height:44px; border-radius:12px; background:rgba(34,197,94,0.12); color:#15a34a; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+            <span class="material-symbols-outlined">route</span>
           </div>
-
-          <div class="jx-card">
-            <div class="jx-photo">
-              <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuCZ7QH8Gfro8Yha1SHXqxuXm1HlDPhI7qHNI17vw9Astdjh6Te0nNyJRIsZ6r9fg5a-m1w20pEahP-w9K1evl9gc7ZtqXue1aR09-GF1R1Sf7c8a7Ma-A5_NxMF9etzkk-cN6AGCz4WScAzOj4QIE8EexP96EzoHW5l6co3Vfs3kc76Jkg4sjzDf6muwcQeVuBXbaEBrFjmBVkaz5df0XM0K4Wu1SqEwsaHbdu1acAG3_1cV7Ff2-v83BxiwY9ABNQ9DX4m43B9cl_m" alt="">
-              <div class="jx-scrim"></div>
-              <span class="jx-intensity">Moderate</span>
-              <div class="jx-overlay">
-                <div class="jx-dist">8.0<span class="u">km</span></div>
-                <div class="jx-date">May 26</div>
-              </div>
-            </div>
+          <div style="flex:1; min-width:0;">
+            <div style="font-family:'Hanken Grotesk'; font-weight:700; font-size:15px; color:#0F1B35;">Tao Dan Park Loop</div>
+            <div style="font-size:12.5px; color:#999; margin-top:2px;">Created · rated by 14 runners</div>
           </div>
+          <span style="display:inline-flex; align-items:center; gap:3px; color:#15a34a; font-weight:700; font-size:13px;">
+            <span class="material-symbols-outlined filled" style="font-size:16px;">star</span>4.8
+          </span>
+        </div>
 
-          <div class="jx-card">
-            <div class="jx-photo">
-              <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuDaxEG-il-cdFjQaz7olXrc5Tv5cays9ODk67vuWT9pReMjajPFnZBpk86DLAkvMCbVN2HtdAL6621wtxB4OOIPjgW2K35DAnw7y28U809Y59e0UgkwviliX0WTbTkjqHu_xh0qB0OKpSSvh_4bN_PNm71IOD_AusoKdFkZnjDnktfoSEyLn5G7uWIH491QgjHOOtJGem6VQRLqAPkH4hGjh7VpF1rfm3p14KDFGFoZzHX4sJsE1nzVX1JJN7F4u2vxmhvZ4m-ARb7Y" alt="">
-              <div class="jx-scrim"></div>
-              <span class="jx-intensity">Easy</span>
-              <div class="jx-overlay">
-                <div class="jx-dist">5.0<span class="u">km</span></div>
-                <div class="jx-date">May 22</div>
-              </div>
-            </div>
+        <div onclick="window.location.href='route_detail.html'" style="display:flex; gap:14px; align-items:center; background:#fff; border:1px solid rgba(0,0,0,0.04); border-radius:16px; padding:14px; margin-bottom:10px; box-shadow:0 1px 6px rgba(15,27,53,0.06); cursor:pointer;">
+          <div style="width:44px; height:44px; border-radius:12px; background:rgba(255,59,92,0.10); color:#FF3B5C; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+            <span class="material-symbols-outlined">rate_review</span>
           </div>
+          <div style="flex:1; min-width:0;">
+            <div style="font-family:'Hanken Grotesk'; font-weight:700; font-size:15px; color:#0F1B35;">Saigon River Riverside</div>
+            <div style="font-size:12.5px; color:#999; margin-top:2px;">Rated safety · posted 3 tips</div>
+          </div>
+          <span style="display:inline-flex; align-items:center; gap:3px; color:#15a34a; font-weight:700; font-size:13px;">
+            <span class="material-symbols-outlined filled" style="font-size:16px;">star</span>4.5
+          </span>
+        </div>
 
+        <div onclick="window.location.href='route_detail.html'" style="display:flex; gap:14px; align-items:center; background:#fff; border:1px solid rgba(0,0,0,0.04); border-radius:16px; padding:14px; box-shadow:0 1px 6px rgba(15,27,53,0.06); cursor:pointer;">
+          <div style="width:44px; height:44px; border-radius:12px; background:rgba(255,59,92,0.10); color:#FF3B5C; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+            <span class="material-symbols-outlined">forum</span>
+          </div>
+          <div style="flex:1; min-width:0;">
+            <div style="font-family:'Hanken Grotesk'; font-weight:700; font-size:15px; color:#0F1B35;">Crescent Lake Circuit</div>
+            <div style="font-size:12.5px; color:#999; margin-top:2px;">5 route-chat posts · ran 8 times</div>
+          </div>
         </div>
       </div>
 
@@ -411,13 +428,36 @@
 
   <!-- Sticky footer -->
   <div class="footer">
-    <button class="action-btn btn-connect" onclick="window.location.href='discover.html'">
+    <button class="action-btn btn-connect" id="reqBtn" onclick="sendRequest()">
       <span class="material-symbols-outlined filled" style="font-size:20px;">footprint</span>
-      Run with Marcus
+      Request to Run
     </button>
   </div>
 
+  <!-- Request-sent confirmation -->
+  <div class="req-scrim" id="reqScrim">
+    <div class="req-modal">
+      <div class="rm-ic"><span class="material-symbols-outlined filled">footprint</span></div>
+      <h3>Request sent!</h3>
+      <p>Nam will be notified. It becomes a match when they accept — track it under <b>Pending → Sent</b>.</p>
+      <div class="rm-actions">
+        <button class="rm-primary" onclick="window.location.href='pending_requests.html'">View pending</button>
+        <button class="rm-secondary" onclick="closeReq()">Done</button>
+      </div>
+    </div>
+  </div>
+
 </div>
+<script>
+  function sendRequest() {
+    document.getElementById('reqScrim').classList.add('show');
+    const b = document.getElementById('reqBtn');
+    b.disabled = true;
+    b.style.opacity = '0.65';
+    b.innerHTML = '<span class="material-symbols-outlined filled" style="font-size:20px;">check</span>Request sent';
+  }
+  function closeReq() { document.getElementById('reqScrim').classList.remove('show'); }
+</script>
   <script src="_nav.js"></script>
 </body>
 </html>

@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Izuke — Create Club</title>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@600;700;800;900&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; background: #d9dadc; font-family: 'Inter', sans-serif; }
+  .phone { width: 390px; height: 844px; background: #F5F5F7; position: relative; overflow: hidden; display: flex; flex-direction: column; box-shadow: 0 32px 80px rgba(0,0,0,0.18); border-radius: 48px; }
+  .nav-bar { height: 56px; display: flex; align-items: center; padding: 8px 12px 0; background: #fff; border-bottom: 1px solid rgba(0,0,0,0.06); flex-shrink: 0; position: relative; }
+  .nav-back { width: 38px; height: 38px; border-radius: 50%; background: #F5F5F7; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+  .nav-title { position: absolute; left: 50%; transform: translate(-50%,2px); font-family: 'Hanken Grotesk'; font-weight: 700; font-size: 18px; color: #0F1B35; }
+
+  .form { flex: 1; overflow-y: auto; padding: 20px 20px 36px; }
+  .form::-webkit-scrollbar { display: none; }
+
+  /* logo picker */
+  .logo-pick { display: flex; flex-direction: column; align-items: center; gap: 10px; margin: 4px 0 22px; }
+  .logo { width: 96px; height: 96px; border-radius: 28px; border: 1.5px dashed #cdd2db; background: #fff; display: flex; align-items: center; justify-content: center; color: #FF3B5C; cursor: pointer; }
+  .logo .material-symbols-outlined { font-size: 34px; }
+  .logo-pick .lbl { font-size: 12.5px; font-weight: 600; color: #8a91a0; }
+
+  .field { margin-bottom: 20px; }
+  .field label { display: flex; align-items: center; gap: 6px; font-family: 'JetBrains Mono'; font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #8a91a0; margin-bottom: 8px; }
+  .field label .material-symbols-outlined { font-size: 16px; color: #FF3B5C; }
+
+  .text-input { width: 100%; height: 50px; padding: 0 14px; border: 1.5px solid #e8e8ea; border-radius: 14px; background: #fff; font-family: 'Inter'; font-size: 15px; font-weight: 600; color: #0F1B35; outline: none; }
+  .text-input::placeholder { color: #b6bcc9; font-weight: 400; }
+  .text-input:focus { border-color: #FF3B5C; }
+  .textarea { width: 100%; min-height: 92px; resize: none; padding: 12px 14px; border: 1.5px solid #e8e8ea; border-radius: 14px; background: #fff; font-family: 'Inter'; font-size: 14px; color: #0F1B35; outline: none; line-height: 1.5; }
+  .textarea::placeholder { color: #b6bcc9; }
+  .textarea:focus { border-color: #FF3B5C; }
+  .select-row { display: flex; align-items: center; gap: 10px; background: #fff; border: 1.5px solid #e8e8ea; border-radius: 14px; padding: 14px; cursor: pointer; }
+  .select-row .material-symbols-outlined { color: #FF3B5C; }
+  .select-row .v { flex: 1; font-weight: 600; font-size: 15px; color: #0F1B35; }
+  .select-row .chev { color: #ccc; }
+
+  .chips { display: flex; gap: 8px; flex-wrap: wrap; }
+  .chip { padding: 10px 14px; border-radius: 9999px; background: #fff; border: 1.5px solid #e8e8ea; font-size: 13px; font-weight: 600; color: #535e7b; cursor: pointer; }
+  .chip.active { background: #FF3B5C; border-color: #FF3B5C; color: #fff; }
+
+  /* verification banner */
+  .verify-card { display: flex; align-items: flex-start; gap: 11px; background: #fff; border: 1px solid #e8e8ea; border-radius: 16px; padding: 14px; margin-bottom: 20px; }
+  .verify-card .vi { width: 38px; height: 38px; border-radius: 11px; background: rgba(14,165,233,0.12); color: #0EA5E9; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .verify-card .vi .material-symbols-outlined { font-size: 21px; }
+  .verify-card .vt b { display: block; font-family: 'Hanken Grotesk'; font-size: 14px; color: #0F1B35; margin-bottom: 2px; }
+  .verify-card .vt span { font-size: 12.5px; color: #777e90; line-height: 1.5; }
+
+  .post-btn { width: 100%; height: 54px; border: none; cursor: pointer; border-radius: 9999px; background: linear-gradient(135deg,#FF3B5C,#BA0035); color: #fff; font-family: 'Inter', sans-serif; font-weight: 500; font-size: 16px; box-shadow: 0 10px 24px rgba(255,59,92,0.32); display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 2px; }
+  .post-btn .material-symbols-outlined { font-size: 20px; }
+  .two-fields { display: flex; gap: 12px; }
+
+  /* submitted confirmation */
+  .submitted { position: absolute; inset: 0; z-index: 80; background: rgba(245,245,247,0.86); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); display: none; align-items: center; justify-content: center; padding: 30px; }
+  .submitted.show { display: flex; }
+  .submitted .sc-card { background: #fff; border-radius: 24px; padding: 30px 24px; text-align: center; box-shadow: 0 20px 50px rgba(15,27,53,0.2); }
+  .submitted .ic { width: 64px; height: 64px; border-radius: 20px; background: rgba(14,165,233,0.12); color: #0EA5E9; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; }
+  .submitted .ic .material-symbols-outlined { font-size: 34px; }
+  .submitted h3 { font-family: 'Hanken Grotesk'; font-weight: 800; font-size: 20px; color: #0F1B35; margin-bottom: 8px; }
+  .submitted p { font-size: 13.5px; color: #777e90; line-height: 1.55; margin-bottom: 20px; }
+  .submitted .sc-card button { width: 100%; height: 50px; border: none; cursor: pointer; border-radius: 9999px; background: linear-gradient(135deg,#FF3B5C,#BA0035); color: #fff; font-family: 'Inter'; font-weight: 500; font-size: 15px; }
+
+  .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400; }
+  .filled { font-variation-settings: 'FILL' 1; }
+</style>
+</head>
+<body style="display:flex; align-items:center; justify-content:center; min-height:100vh;">
+<div class="phone">
+  <div class="nav-bar">
+    <button class="nav-back" onclick="window.location.href='profile.html'"><span class="material-symbols-outlined">close</span></button>
+    <span class="nav-title">Register a club</span>
+  </div>
+
+  <div class="form">
+    <div class="logo-pick">
+      <div class="logo"><span class="material-symbols-outlined">add_a_photo</span></div>
+      <div class="lbl">Add a club logo</div>
+    </div>
+
+    <div class="field">
+      <label><span class="material-symbols-outlined filled">groups</span>Club name</label>
+      <input class="text-input" placeholder="e.g. Saigon Striders">
+    </div>
+
+    <div class="field">
+      <label><span class="material-symbols-outlined filled">place</span>City</label>
+      <div class="select-row"><span class="material-symbols-outlined">place</span><span class="v">Ho Chi Minh City</span><span class="material-symbols-outlined chev">expand_more</span></div>
+    </div>
+
+    <div class="field">
+      <label><span class="material-symbols-outlined filled">sell</span>Focus</label>
+      <div class="chips">
+        <div class="chip active" onclick="pickChip(this)">Marathon</div>
+        <div class="chip" onclick="pickChip(this)">Social</div>
+        <div class="chip" onclick="pickChip(this)">Trail</div>
+        <div class="chip" onclick="pickChip(this)">Beginners</div>
+        <div class="chip" onclick="pickChip(this)">Mixed</div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label><span class="material-symbols-outlined filled">notes</span>About the club</label>
+      <textarea class="textarea" placeholder="What your club is about, who it's for, where you usually meet…"></textarea>
+    </div>
+
+    <div class="field">
+      <label><span class="material-symbols-outlined filled">link</span>Proof it exists</label>
+      <input class="text-input" placeholder="Website, Strava, Instagram or Facebook">
+    </div>
+
+    <div class="two-fields">
+      <div class="field" style="flex:1;">
+        <label><span class="material-symbols-outlined filled">group</span>Approx. members</label>
+        <input class="text-input" placeholder="e.g. 120" inputmode="numeric">
+      </div>
+      <div class="field" style="flex:1;">
+        <label><span class="material-symbols-outlined filled">mail</span>Contact</label>
+        <input class="text-input" placeholder="Email or phone">
+      </div>
+    </div>
+
+    <div class="verify-card">
+      <div class="vi"><span class="material-symbols-outlined filled">verified_user</span></div>
+      <div class="vt"><b>We review before it goes live</b><span>Clubs are checked to confirm they're real. Once approved, your club goes live, you become the organiser, and it carries the verified badge.</span></div>
+    </div>
+
+    <button class="post-btn" onclick="submitClub()"><span class="material-symbols-outlined">send</span>Submit for review</button>
+  </div>
+
+  <!-- Submitted confirmation -->
+  <div class="submitted" id="submitted">
+    <div class="sc-card">
+      <div class="ic"><span class="material-symbols-outlined">hourglass_top</span></div>
+      <h3>Application submitted</h3>
+      <p>We'll review your club to confirm it's real. You'll get a notification once it's approved — usually within a couple of days.</p>
+      <button onclick="window.location.href='profile.html'">Done</button>
+    </div>
+  </div>
+</div>
+<script>
+  function pickChip(el) {
+    [...el.parentElement.children].forEach(c => c.classList.remove('active'));
+    el.classList.add('active');
+  }
+  function submitClub() {
+    document.getElementById('submitted').classList.add('show');
+  }
+
+  // Edit mode (opened from the club page) — prefill + "Save changes"
+  if (new URLSearchParams(location.search).has('edit')) {
+    document.querySelector('.nav-title').textContent = 'Edit club';
+    document.querySelector('.nav-back').setAttribute('onclick', "window.location.href='club_detail.html'");
+    const ins = document.querySelectorAll('.text-input');
+    if (ins[0]) ins[0].value = 'Saigon Striders';
+    if (ins[1]) ins[1].value = 'saigonstriders.com';
+    if (ins[2]) ins[2].value = '42';
+    if (ins[3]) ins[3].value = 'team@saigonstriders.com';
+    document.querySelector('.textarea').value = "Ho Chi Minh City's marathon training crew. We meet for long runs, tempo sessions and race-day meetups across District 1. All paces welcome.";
+    const logo = document.querySelector('.logo');
+    logo.style.border = 'none';
+    logo.innerHTML = '<img src="https://i.pravatar.cc/120?img=15" style="width:100%;height:100%;border-radius:28px;object-fit:cover;">';
+    document.querySelector('.logo-pick .lbl').textContent = 'Change club logo';
+    document.querySelector('.verify-card .vt b').textContent = 'Editing your club';
+    document.querySelector('.verify-card .vt span').textContent = 'Minor edits publish right away. Big changes (name, city) may be re-reviewed; your verified status stays.';
+    const btn = document.querySelector('.post-btn');
+    btn.innerHTML = '<span class="material-symbols-outlined">save</span>Save changes';
+    btn.setAttribute('onclick', "window.location.href='club_detail.html'");
+  }
+</script>
+<script src="_nav.js"></script>
+</body>
+</html>

@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Izuke — Going</title>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@600;700;800;900&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; background: #d9dadc; font-family: 'Inter', sans-serif; }
+  .phone { width: 390px; height: 844px; background: #F5F5F7; position: relative; overflow: hidden; display: flex; flex-direction: column; box-shadow: 0 32px 80px rgba(0,0,0,0.18); border-radius: 48px; }
+
+  .nav-bar { height: 56px; display: flex; align-items: center; padding: 8px 12px 0; flex-shrink: 0; position: relative; }
+  .nav-ico { width: 38px; height: 38px; border-radius: 50%; background: #fff; border: 1px solid #e8e8ea; cursor: pointer; display: flex; align-items: center; justify-content: center; color: #0F1B35; }
+  .nav-title { position: absolute; left: 50%; transform: translate(-50%,5px); font-family: 'Hanken Grotesk', sans-serif; font-weight: 700; font-size: 18px; color: #0F1B35; }
+
+  /* capacity header */
+  .att-head { padding: 10px 20px 14px; flex-shrink: 0; }
+  .ah-title { font-size: 13px; color: #777e90; margin-bottom: 8px; }
+  .ah-row { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 8px; }
+  .ah-going { font-family: 'Hanken Grotesk', sans-serif; font-weight: 800; font-size: 20px; color: #0F1B35; }
+  .ah-left { font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700; color: #FF3B5C; }
+  .cap-track { height: 6px; border-radius: 3px; background: #e8eaef; overflow: hidden; }
+  .cap-fill { height: 100%; border-radius: 3px; background: linear-gradient(90deg,#FF3B5C,#BA0035); transition: width 0.2s; }
+
+  /* search */
+  .search-bar { margin: 0 20px 6px; position: relative; flex-shrink: 0; }
+  .search-bar .s-ico { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: #8a91a0; font-size: 20px !important; pointer-events: none; }
+  .search-bar input { width: 100%; height: 42px; padding: 0 14px 0 42px; border-radius: 9999px; border: 1.5px solid #e8e8ea; background: #fff; font-family: 'Inter', sans-serif; font-size: 14px; color: #0F1B35; outline: none; }
+  .search-bar input:focus { border-color: #0F1B35; }
+
+  .scroll-body { flex: 1; overflow-y: auto; overflow-x: hidden; padding: 4px 20px 28px; }
+  .scroll-body::-webkit-scrollbar { display: none; }
+
+  /* attendee row */
+  .att-row { display: flex; align-items: center; gap: 12px; padding: 13px 2px; border-bottom: 1px solid #f0f0f3; position: relative; }
+  .att-row:last-child { border-bottom: none; }
+  .att-row img { width: 46px; height: 46px; border-radius: 50%; object-fit: cover; flex-shrink: 0; }
+  .att-row .info { flex: 1; min-width: 0; }
+  .att-row .nm { font-family: 'Hanken Grotesk', sans-serif; font-weight: 700; font-size: 15px; color: #0F1B35; display: flex; align-items: center; gap: 7px; }
+  .att-row .role { font-family: 'JetBrains Mono', monospace; font-size: 8.5px; font-weight: 700; letter-spacing: 0.05em; color: #fff; background: #0F1B35; border-radius: 6px; padding: 2px 6px; }
+  .att-row .meta { font-size: 12.5px; color: #777e90; margin-top: 3px; }
+  .more-btn { flex-shrink: 0; background: none; border: none; cursor: pointer; color: #b6bcc9; padding: 4px; display: flex; align-items: center; }
+  .more-btn .material-symbols-outlined { font-size: 22px; }
+
+  /* per-row menu */
+  .att-menu { position: absolute; top: 46px; right: 0; background: #fff; border: 1px solid #ececed; border-radius: 13px; box-shadow: 0 12px 32px rgba(15,27,53,0.16); padding: 6px; z-index: 30; display: none; min-width: 150px; }
+  .att-menu.open { display: block; }
+  .att-menu button { display: flex; align-items: center; gap: 9px; width: 100%; background: none; border: none; cursor: pointer; padding: 9px 11px; border-radius: 9px; font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 600; color: #0F1B35; text-align: left; }
+  .att-menu button:hover { background: #f5f5f7; }
+  .att-menu button .material-symbols-outlined { font-size: 18px; color: #777e90; }
+  .att-menu button.danger, .att-menu button.danger .material-symbols-outlined { color: #ef4444; }
+
+  .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400; }
+  .filled { font-variation-settings: 'FILL' 1; }
+</style>
+</head>
+<body style="display:flex; align-items:center; justify-content:center; min-height:100vh;">
+<div class="phone">
+  <div class="nav-bar">
+    <button class="nav-ico" onclick="window.location.href='club_event_detail.html'"><span class="material-symbols-outlined">arrow_back</span></button>
+    <span class="nav-title">Going</span>
+  </div>
+
+  <div class="att-head">
+    <div class="ah-title">Saturday Long Run — 21K</div>
+    <div class="ah-row"><span class="ah-going" id="goingCount">42 going</span><span class="ah-left" id="spotsLeft">18 spots left</span></div>
+    <div class="cap-track"><div class="cap-fill" id="capFill" style="width:70%"></div></div>
+  </div>
+
+  <div class="search-bar">
+    <span class="material-symbols-outlined s-ico">search</span>
+    <input id="searchInput" placeholder="Search attendees…" oninput="filterAtt()">
+  </div>
+
+  <div class="scroll-body" id="list">
+
+    <div class="att-row">
+      <img src="https://i.pravatar.cc/80?img=47">
+      <div class="info">
+        <div class="nm">You <span class="role">ORGANISER</span></div>
+        <div class="meta">5:25/km · District 1</div>
+      </div>
+    </div>
+
+    <div class="att-row">
+      <img src="https://i.pravatar.cc/80?img=12">
+      <div class="info"><div class="nm">Nam</div><div class="meta">5:20/km · District 1</div></div>
+      <button class="more-btn" onclick="toggleMenu(this, event)"><span class="material-symbols-outlined">more_horiz</span></button>
+      <div class="att-menu"><button onclick="viewProfile(this)"><span class="material-symbols-outlined">person</span>View profile</button><button class="danger" onclick="removeAtt(this)"><span class="material-symbols-outlined">person_remove</span>Remove</button></div>
+    </div>
+
+    <div class="att-row">
+      <img src="https://i.pravatar.cc/80?img=5">
+      <div class="info"><div class="nm">Linh</div><div class="meta">5:45/km · District 3</div></div>
+      <button class="more-btn" onclick="toggleMenu(this, event)"><span class="material-symbols-outlined">more_horiz</span></button>
+      <div class="att-menu"><button onclick="viewProfile(this)"><span class="material-symbols-outlined">person</span>View profile</button><button class="danger" onclick="removeAtt(this)"><span class="material-symbols-outlined">person_remove</span>Remove</button></div>
+    </div>
+
+    <div class="att-row">
+      <img src="https://i.pravatar.cc/80?img=32">
+      <div class="info"><div class="nm">Mai</div><div class="meta">5:00/km · Binh Thanh</div></div>
+      <button class="more-btn" onclick="toggleMenu(this, event)"><span class="material-symbols-outlined">more_horiz</span></button>
+      <div class="att-menu"><button onclick="viewProfile(this)"><span class="material-symbols-outlined">person</span>View profile</button><button class="danger" onclick="removeAtt(this)"><span class="material-symbols-outlined">person_remove</span>Remove</button></div>
+    </div>
+
+    <div class="att-row">
+      <img src="https://i.pravatar.cc/80?img=45">
+      <div class="info"><div class="nm">Alex</div><div class="meta">6:10/km · District 7</div></div>
+      <button class="more-btn" onclick="toggleMenu(this, event)"><span class="material-symbols-outlined">more_horiz</span></button>
+      <div class="att-menu"><button onclick="viewProfile(this)"><span class="material-symbols-outlined">person</span>View profile</button><button class="danger" onclick="removeAtt(this)"><span class="material-symbols-outlined">person_remove</span>Remove</button></div>
+    </div>
+
+    <div class="att-row">
+      <img src="https://i.pravatar.cc/80?img=20">
+      <div class="info"><div class="nm">Sara</div><div class="meta">5:30/km · District 1</div></div>
+      <button class="more-btn" onclick="toggleMenu(this, event)"><span class="material-symbols-outlined">more_horiz</span></button>
+      <div class="att-menu"><button onclick="viewProfile(this)"><span class="material-symbols-outlined">person</span>View profile</button><button class="danger" onclick="removeAtt(this)"><span class="material-symbols-outlined">person_remove</span>Remove</button></div>
+    </div>
+
+    <div class="att-row">
+      <img src="https://i.pravatar.cc/80?img=8">
+      <div class="info"><div class="nm">Tao</div><div class="meta">4:50/km · Thu Duc</div></div>
+      <button class="more-btn" onclick="toggleMenu(this, event)"><span class="material-symbols-outlined">more_horiz</span></button>
+      <div class="att-menu"><button onclick="viewProfile(this)"><span class="material-symbols-outlined">person</span>View profile</button><button class="danger" onclick="removeAtt(this)"><span class="material-symbols-outlined">person_remove</span>Remove</button></div>
+    </div>
+
+  </div>
+</div>
+<script>
+  const CAP = 60;
+  let going = 42;
+  function updateHeader() {
+    document.getElementById('goingCount').textContent = going + ' going';
+    document.getElementById('spotsLeft').textContent = (CAP - going) + ' spots left';
+    document.getElementById('capFill').style.width = Math.round(going / CAP * 100) + '%';
+  }
+  function closeMenus() { document.querySelectorAll('.att-menu.open').forEach(m => m.classList.remove('open')); }
+  function toggleMenu(btn, e) {
+    e.stopPropagation();
+    const m = btn.nextElementSibling;
+    const open = m.classList.contains('open');
+    closeMenus();
+    if (!open) m.classList.add('open');
+  }
+  document.addEventListener('click', closeMenus);
+  function viewProfile() { window.location.href = 'profile_detail.html'; }
+  function removeAtt(btn) {
+    closeMenus();
+    btn.closest('.att-row').remove();   // removing frees a slot
+    going--;
+    updateHeader();
+  }
+  function filterAtt() {
+    const q = document.getElementById('searchInput').value.trim().toLowerCase();
+    document.querySelectorAll('.att-row').forEach(r => {
+      const nm = r.querySelector('.nm').textContent.toLowerCase();
+      r.style.display = (!q || nm.includes(q)) ? '' : 'none';
+    });
+  }
+  // tap an attendee (not "You") to view their profile
+  document.querySelectorAll('.att-row').forEach((r, i) => {
+    if (i === 0) return;
+    const go = () => window.location.href = 'profile_detail.html';
+    [r.querySelector('img'), r.querySelector('.info')].forEach(el => { el.style.cursor = 'pointer'; el.onclick = go; });
+  });
+</script>
+<script src="_nav.js"></script>
+</body>
+</html>

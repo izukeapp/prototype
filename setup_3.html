@@ -70,11 +70,14 @@
   }
   .card-sub { font-size: 14px; color: #535e7b; margin-top: 6px; margin-bottom: 22px; }
 
-  /* Section label */
+  /* Section label (note-label pattern: pink icon + mono caps) */
   .section-label {
-    font-family: 'Inter', sans-serif;
-    font-size: 13px; font-weight: 600; color: #535e7b; margin-bottom: 12px;
+    display: flex; align-items: center; gap: 6px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; font-weight: 700; letter-spacing: 0.1em;
+    text-transform: uppercase; color: #8a91a0; margin-bottom: 12px;
   }
+  .section-label .material-symbols-outlined { font-size: 16px; color: #FF3B5C; }
   .divider { height: 1px; background: #eceeef; margin: 22px 0; }
 
   /* Chips */
@@ -194,7 +197,7 @@
       <p class="card-sub">This helps us find the best matches for your style.</p>
 
       <!-- Run type -->
-      <p class="section-label">Run type</p>
+      <p class="section-label"><span class="material-symbols-outlined">directions_run</span>Run type</p>
       <div class="chip-wrap">
         <button class="chip selected" onclick="toggleChip(this)"><span class="material-symbols-outlined">directions_run</span> Road</button>
         <button class="chip" onclick="toggleChip(this)"><span class="material-symbols-outlined">landscape</span> Trail</button>
@@ -230,7 +233,7 @@
       <div class="divider"></div>
 
       <!-- Typical distance -->
-      <p class="section-label">Typical Distance</p>
+      <p class="section-label"><span class="material-symbols-outlined">straighten</span>Typical Distance</p>
       <div class="segment-control">
         <button class="segment-btn active" onclick="selectSegment(this)">5K</button>
         <button class="segment-btn" onclick="selectSegment(this)">10K</button>
@@ -241,7 +244,7 @@
       <div class="divider"></div>
 
       <!-- Availability -->
-      <p class="section-label">Availability</p>
+      <p class="section-label"><span class="material-symbols-outlined">schedule</span>Availability</p>
       <div class="chip-wrap">
         <button class="chip selected" onclick="toggleChip(this)">Early Morning</button>
         <button class="chip" onclick="toggleChip(this)">Morning</button>

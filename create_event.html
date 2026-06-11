@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Izuke — Create Event</title>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@600;700;800;900&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; background: #d9dadc; font-family: 'Inter', sans-serif; }
+  .phone { width: 390px; height: 844px; background: #F5F5F7; position: relative; overflow: hidden; display: flex; flex-direction: column; box-shadow: 0 32px 80px rgba(0,0,0,0.18); border-radius: 48px; }
+  .nav-bar { height: 56px; display: flex; align-items: center; padding: 8px 12px 0; background: #fff; border-bottom: 1px solid rgba(0,0,0,0.06); flex-shrink: 0; position: relative; }
+  .nav-back { width: 38px; height: 38px; border-radius: 50%; background: #F5F5F7; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+  .nav-title { position: absolute; left: 50%; transform: translate(-50%,2px); font-family: 'Hanken Grotesk'; font-weight: 700; font-size: 18px; color: #0F1B35; }
+
+  .form { flex: 1; overflow-y: auto; padding: 20px 20px 36px; }
+  .form::-webkit-scrollbar { display: none; }
+  .field { margin-bottom: 20px; }
+  .field label { display: flex; align-items: center; gap: 6px; font-family: 'JetBrains Mono'; font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #8a91a0; margin-bottom: 8px; }
+  .field label .material-symbols-outlined { font-size: 16px; color: #FF3B5C; }
+
+  /* cover picker */
+  .cover { height: 116px; border-radius: 16px; border: 1.5px dashed #cdd2db; background: #fff; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; color: #8a91a0; cursor: pointer; }
+  .cover .material-symbols-outlined { font-size: 26px; color: #FF3B5C; }
+  .cover span.t { font-size: 13px; font-weight: 600; }
+
+  .text-input { width: 100%; height: 50px; padding: 0 14px; border: 1.5px solid #e8e8ea; border-radius: 14px; background: #fff; font-family: 'Inter'; font-size: 15px; font-weight: 600; color: #0F1B35; outline: none; }
+  .text-input::placeholder { color: #b6bcc9; font-weight: 400; }
+  .text-input:focus { border-color: #FF3B5C; }
+  .textarea { width: 100%; min-height: 92px; resize: none; padding: 12px 14px; border: 1.5px solid #e8e8ea; border-radius: 14px; background: #fff; font-family: 'Inter'; font-size: 14px; color: #0F1B35; outline: none; line-height: 1.5; }
+  .textarea::placeholder { color: #b6bcc9; }
+  .textarea:focus { border-color: #FF3B5C; }
+
+  .select-row { display: flex; align-items: center; gap: 10px; background: #fff; border: 1.5px solid #e8e8ea; border-radius: 14px; padding: 14px; cursor: pointer; }
+  .select-row .material-symbols-outlined { color: #FF3B5C; }
+  .select-row .v { flex: 1; font-weight: 600; font-size: 15px; color: #0F1B35; }
+  .select-row .chev { color: #ccc; }
+  .two { display: flex; gap: 10px; }
+  .two .select-row { flex: 1; }
+
+  /* hosting club row */
+  .club-row { display: flex; align-items: center; gap: 10px; background: #fff; border: 1.5px solid #e8e8ea; border-radius: 14px; padding: 12px 14px; cursor: pointer; }
+  .club-row img { width: 32px; height: 32px; border-radius: 50%; }
+  .club-row .nm { flex: 1; font-weight: 600; font-size: 15px; color: #0F1B35; display: flex; align-items: center; gap: 5px; }
+  .club-row .nm .material-symbols-outlined { font-size: 16px; color: #0EA5E9; }
+  .club-row .chev { color: #ccc; }
+  .helper-link { display: inline-flex; align-items: center; gap: 4px; font-size: 12.5px; font-weight: 600; color: #FF3B5C; margin-top: 9px; cursor: pointer; }
+  .helper-link .material-symbols-outlined { font-size: 16px; }
+
+  .chips { display: flex; gap: 8px; flex-wrap: wrap; }
+  .chip { padding: 10px 14px; border-radius: 9999px; background: #fff; border: 1.5px solid #e8e8ea; font-size: 13px; font-weight: 600; color: #535e7b; cursor: pointer; }
+  .chip.active { background: #FF3B5C; border-color: #FF3B5C; color: #fff; }
+
+  /* capacity stepper */
+  .stepper { display: flex; align-items: center; gap: 12px; background: #fff; border: 1.5px solid #e8e8ea; border-radius: 14px; padding: 10px 14px; }
+  .stepper .sv { flex: 1; }
+  .stepper .sv b { font-family: 'Hanken Grotesk'; font-weight: 800; font-size: 20px; color: #0F1B35; }
+  .stepper .sv span { font-size: 12px; color: #999; margin-left: 4px; }
+  .stepper button { width: 38px; height: 38px; border-radius: 50%; border: 1.5px solid #e8e8ea; background: #fff; color: #0F1B35; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .stepper button:active { transform: scale(0.92); }
+  .stepper button .material-symbols-outlined { font-size: 20px; color: #FF3B5C; }
+
+  .post-btn { width: 100%; height: 54px; border: none; cursor: pointer; border-radius: 9999px; background: linear-gradient(135deg,#FF3B5C,#BA0035); color: #fff; font-family: 'Inter', sans-serif; font-weight: 500; font-size: 16px; box-shadow: 0 10px 24px rgba(255,59,92,0.32); display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 6px; }
+  .post-btn .material-symbols-outlined { font-size: 20px; }
+  .cancel-event { display: none; width: 100%; height: 52px; margin-top: 12px; border: none; cursor: pointer; border-radius: 9999px; background: #FFF0F2; color: #ef4444; font-family: 'Inter', sans-serif; font-weight: 600; font-size: 15px; align-items: center; justify-content: center; gap: 7px; }
+  .cancel-event .material-symbols-outlined { font-size: 19px; }
+  .note { display: flex; align-items: flex-start; gap: 6px; font-size: 12px; color: #999; margin-top: 12px; line-height: 1.5; }
+  .note .material-symbols-outlined { font-size: 15px; flex-shrink: 0; margin-top: 1px; }
+
+  /* cancel confirmation modal */
+  .modal-scrim { position: absolute; inset: 0; background: rgba(15,27,53,0.45); z-index: 90; display: none; align-items: center; justify-content: center; padding: 30px; }
+  .modal-scrim.show { display: flex; }
+  .modal { background: #fff; border-radius: 22px; padding: 26px 24px; width: 100%; max-width: 332px; box-shadow: 0 20px 50px rgba(15,27,53,0.25); text-align: center; }
+  .modal .m-ic { width: 56px; height: 56px; border-radius: 18px; background: #FFF0F2; color: #ef4444; display: flex; align-items: center; justify-content: center; margin: 0 auto 14px; }
+  .modal .m-ic.ok { background: rgba(34,197,94,0.14); color: #15a34a; }
+  .modal .m-ic .material-symbols-outlined { font-size: 30px; }
+  .modal h3 { font-family: 'Hanken Grotesk', sans-serif; font-weight: 800; font-size: 19px; color: #0F1B35; margin-bottom: 8px; }
+  .modal p { font-size: 13.5px; color: #777e90; line-height: 1.55; margin-bottom: 20px; }
+  .modal p b { color: #2b3550; }
+  .modal .m-actions { display: flex; flex-direction: column; gap: 10px; }
+  .modal .m-actions button { height: 50px; border: none; border-radius: 9999px; cursor: pointer; font-family: 'Inter', sans-serif; font-weight: 600; font-size: 15px; }
+  .modal .m-danger { background: #ef4444; color: #fff; }
+  .modal .m-keep { background: #f1f3f7; color: #0F1B35; }
+  .modal .m-go { background: linear-gradient(135deg,#FF3B5C,#BA0035); color: #fff; }
+
+  .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400; }
+  .filled { font-variation-settings: 'FILL' 1; }
+</style>
+</head>
+<body style="display:flex; align-items:center; justify-content:center; min-height:100vh;">
+<div class="phone">
+  <div class="nav-bar">
+    <button class="nav-back" onclick="window.location.href='club_events.html'"><span class="material-symbols-outlined">close</span></button>
+    <span class="nav-title" id="navTitle">Create event</span>
+  </div>
+
+  <div class="form">
+    <div class="field">
+      <label><span class="material-symbols-outlined filled">image</span>Cover photo</label>
+      <div class="cover"><span class="material-symbols-outlined">add_photo_alternate</span><span class="t">Add a cover photo</span></div>
+    </div>
+
+    <div class="field">
+      <label><span class="material-symbols-outlined filled">title</span>Event title</label>
+      <input class="text-input" placeholder="e.g. Saturday Long Run — 21K" value="">
+    </div>
+
+    <div class="field">
+      <label><span class="material-symbols-outlined filled">groups</span>Hosting club</label>
+      <div class="club-row">
+        <img src="https://i.pravatar.cc/60?img=15">
+        <span class="nm">Saigon Striders<span class="material-symbols-outlined filled">verified</span></span>
+        <span class="material-symbols-outlined chev">expand_more</span>
+      </div>
+      <div class="helper-link" onclick="window.location.href='create_club.html'"><span class="material-symbols-outlined">add</span>Don't have a club? Register one</div>
+    </div>
+
+    <div class="field">
+      <label><span class="material-symbols-outlined filled">sell</span>Category</label>
+      <div class="chips">
+        <div class="chip active" onclick="pickChip(this)">Marathon</div>
+        <div class="chip" onclick="pickChip(this)">Social</div>
+        <div class="chip" onclick="pickChip(this)">Trail</div>
+        <div class="chip" onclick="pickChip(this)">Tempo</div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label><span class="material-symbols-outlined filled">route</span>Route / area</label>
+      <div class="select-row"><span class="material-symbols-outlined">route</span><span class="v">Tao Dan Park Loop</span><span class="material-symbols-outlined chev">expand_more</span></div>
+    </div>
+
+    <div class="field">
+      <label><span class="material-symbols-outlined filled">calendar_month</span>When</label>
+      <div class="two">
+        <div class="select-row"><span class="material-symbols-outlined">calendar_month</span><span class="v">Sat, Jun 14</span></div>
+        <div class="select-row"><span class="material-symbols-outlined">schedule</span><span class="v">5:30 AM</span></div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label><span class="material-symbols-outlined filled">straighten</span>Distance &amp; surface</label>
+      <div class="two">
+        <div class="select-row"><span class="material-symbols-outlined">straighten</span><span class="v">21K</span></div>
+        <div class="select-row"><span class="material-symbols-outlined">terrain</span><span class="v">Paved</span></div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label><span class="material-symbols-outlined filled">group</span>Capacity</label>
+      <div class="stepper">
+        <div class="sv"><b id="cap">60</b><span>runners</span></div>
+        <button onclick="bumpCap(-5)"><span class="material-symbols-outlined">remove</span></button>
+        <button onclick="bumpCap(5)"><span class="material-symbols-outlined">add</span></button>
+      </div>
+      <div class="note" id="capNote" style="display:none;"><span class="material-symbols-outlined">info</span>Capacity can't drop below the 42 runners already joined.</div>
+    </div>
+
+    <div class="field">
+      <label><span class="material-symbols-outlined filled">pace</span>Pace groups <span style="text-transform:none;letter-spacing:0;font-weight:400;color:#b6bcc9;margin-left:2px;">· optional</span></label>
+      <input class="text-input" placeholder="e.g. 5:00 – 6:30 /km" value="">
+    </div>
+
+    <div class="field">
+      <label><span class="material-symbols-outlined filled">notes</span>Description</label>
+      <textarea class="textarea" placeholder="Meeting point, what to bring, pace banners…"></textarea>
+    </div>
+
+    <button class="post-btn" id="postBtn" onclick="window.location.href='club_events.html'"><span class="material-symbols-outlined" id="postIco">campaign</span><span id="postTxt">Publish event</span></button>
+    <button class="cancel-event" id="cancelEvent" onclick="openCancel()"><span class="material-symbols-outlined">delete</span>Cancel event</button>
+
+    <div class="note"><span class="material-symbols-outlined">notifications</span><span id="bottomNote">Attendees can join up to capacity and get a members-only group chat. We'll notify them of any changes.</span></div>
+  </div>
+
+  <!-- Cancel-event confirmation -->
+  <div class="modal-scrim" id="cancelModal">
+    <div class="modal">
+      <div id="cm-confirm">
+        <div class="m-ic"><span class="material-symbols-outlined">cancel</span></div>
+        <h3>Cancel this event?</h3>
+        <p>All <b>42 attendees</b> will be notified and the group chat archived. The event stays as cancelled history — this can't be undone.</p>
+        <div class="m-actions">
+          <button class="m-danger" onclick="confirmCancel()">Yes, cancel event</button>
+          <button class="m-keep" onclick="closeCancel()">Keep event</button>
+        </div>
+      </div>
+      <div id="cm-result" style="display:none;">
+        <div class="m-ic ok"><span class="material-symbols-outlined">check_circle</span></div>
+        <h3>Event cancelled</h3>
+        <p><b>42 attendees notified</b> · group chat archived.</p>
+        <div class="m-actions">
+          <button class="m-go" onclick="window.location.href='club_detail.html'">Done</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  function pickChip(el) {
+    [...el.parentElement.children].forEach(c => c.classList.remove('active'));
+    el.classList.add('active');
+  }
+  let capacity = 60;
+  const JOINED = 42; // confirmed attendees (edit mode) — capacity can't go below this
+  const editMode = new URLSearchParams(location.search).has('edit');
+  function bumpCap(d) {
+    let next = capacity + d;
+    if (next < 5) next = 5;
+    if (editMode && next < JOINED) { next = capacity; document.getElementById('capNote').style.display = 'flex'; }
+    capacity = next;
+    document.getElementById('cap').textContent = capacity;
+  }
+  function openCancel() { document.getElementById('cancelModal').classList.add('show'); }
+  function closeCancel() { document.getElementById('cancelModal').classList.remove('show'); }
+  function confirmCancel() {
+    document.getElementById('cm-confirm').style.display = 'none';
+    document.getElementById('cm-result').style.display = 'block';
+  }
+  if (editMode) {
+    document.getElementById('navTitle').textContent = 'Edit event';
+    document.getElementById('postIco').textContent = 'save';
+    document.getElementById('postTxt').textContent = 'Save changes';
+    document.getElementById('cancelEvent').style.display = 'flex';
+    document.querySelector('.text-input').value = 'Saturday Long Run — 21K';
+    document.getElementById('bottomNote').textContent = 'Changing the date, time or location notifies everyone who joined. Reducing capacity can’t drop below current attendees.';
+  }
+</script>
+<script src="_nav.js"></script>
+</body>
+</html>

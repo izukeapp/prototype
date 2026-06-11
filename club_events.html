@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Izuke — Club Events</title>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@600;700;800;900&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; background: #d9dadc; font-family: 'Inter', sans-serif; }
+  .phone { width: 390px; height: 844px; background: #F5F5F7; position: relative; overflow: hidden; display: flex; flex-direction: column; box-shadow: 0 32px 80px rgba(0,0,0,0.18); border-radius: 48px; }
+
+  .status-bar { height: 48px; display: flex; align-items: center; padding: 0 28px; flex-shrink: 0; }
+  .status-bar .time { font-family: 'Hanken Grotesk'; font-weight: 700; font-size: 15px; color: #0F1B35; }
+  .header { position: relative; display: flex; align-items: center; padding: 0 16px 10px; flex-shrink: 0; }
+  .icon-btn { width: 40px; height: 40px; border-radius: 50%; background: #fff; border: none; cursor: pointer; color: #0F1B35; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 6px rgba(0,0,0,0.06); }
+  .header h1 { position: absolute; left: 50%; transform: translateX(-50%); font-family: 'Hanken Grotesk'; font-weight: 700; font-size: 18px; color: #0F1B35; letter-spacing: -0.01em; }
+  .header .filter { margin-left: auto; }
+
+  .chip-row { display: flex; gap: 8px; overflow-x: auto; padding: 0 16px 14px; scrollbar-width: none; flex-shrink: 0; }
+  .chip-row::-webkit-scrollbar { display: none; }
+  .chip { flex-shrink: 0; padding: 8px 14px; border-radius: 9999px; background: #fff; border: 1.5px solid #e8e8ea; font-size: 13px; font-weight: 600; color: #535e7b; cursor: pointer; white-space: nowrap; }
+  .chip.active { background: #FF3B5C; border-color: #FF3B5C; color: #fff; }
+
+  .scroll-body { flex: 1; overflow-y: auto; overflow-x: hidden; padding: 6px 16px 28px; }
+  .scroll-body::-webkit-scrollbar { display: none; }
+
+  .month { font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #b6bcc9; margin: 10px 2px 4px; }
+
+  /* Timeline day group */
+  .tl-group { display: flex; gap: 14px; }
+  .tl-rail { width: 46px; flex-shrink: 0; display: flex; flex-direction: column; align-items: center; }
+  .tl-date { text-align: center; padding-top: 14px; }
+  .tl-date .dow { font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 700; letter-spacing: 0.05em; color: #8a91a0; }
+  .tl-date .day { font-family: 'Hanken Grotesk', sans-serif; font-weight: 800; font-size: 23px; color: #0F1B35; line-height: 1; margin-top: 2px; }
+  .tl-count { font-family: 'JetBrains Mono', monospace; font-size: 9px; font-weight: 700; color: #FF3B5C; margin-top: 5px; }
+  /* timeline node dot */
+  .tl-date::after { content: ''; display: block; width: 9px; height: 9px; border-radius: 50%; background: #cdd2db; border: 2px solid #F5F5F7; margin: 10px auto 0; }
+  /* today marker */
+  .tl-date.today .dow { color: #FF3B5C; }
+  .tl-date.today .day { background: #FF3B5C; color: #fff; width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 17px; margin: 3px auto 0; }
+  .tl-date.today::after { display: none; }
+  .tl-line { flex: 1; width: 2px; background: #e3e6ec; margin-top: 2px; }
+  .tl-group:last-child .tl-line { display: none; }
+  .tl-cards { flex: 1; min-width: 0; }
+
+  /* Card */
+  .card { flex: 1; min-width: 0; background: #fff; border: 1px solid #ececf1; border-radius: 18px; padding: 14px; margin-bottom: 16px; cursor: pointer; box-shadow: 0 2px 10px rgba(15,27,53,0.05); transition: transform 0.12s; }
+  .card:active { transform: scale(0.99); }
+
+  .card-top { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+  .cat { display: inline-flex; align-items: center; gap: 6px; font-family: 'JetBrains Mono', monospace; font-size: 9.5px; font-weight: 700; letter-spacing: 0.08em; color: #9aa1b0; }
+  .cat::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: currentColor; flex-shrink: 0; }
+  .cat.cat-marathon { color: #FF3B5C; }
+  .cat.cat-social   { color: #0284c7; }
+  .cat.cat-trail    { color: #15a34a; }
+  .time { font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700; color: #8a91a0; }
+
+  .card .title { font-family: 'Hanken Grotesk', sans-serif; font-weight: 600; font-size: 17px; color: #2b3550; letter-spacing: -0.01em; margin-top: 9px; }
+  .card .club { display: inline-flex; align-items: center; gap: 5px; font-size: 12.5px; font-weight: 600; color: #535e7b; margin-top: 5px; }
+  .card .club img { width: 18px; height: 18px; border-radius: 50%; }
+  .card .club .material-symbols-outlined { font-size: 14px; color: #0EA5E9; }
+  .card .meta { font-size: 12.5px; color: #777e90; margin-top: 8px; }
+  .card .meta .sep { color: #c7ccd6; margin: 0 4px; }
+
+  .card-bottom { display: flex; align-items: center; gap: 12px; margin-top: 13px; }
+  .cap-mini { flex: 1; min-width: 0; }
+  .cap-mini .num { font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 700; color: #8a91a0; margin-bottom: 4px; }
+  .cap-track { height: 5px; border-radius: 3px; background: #eef0f4; overflow: hidden; }
+  .cap-fill { height: 100%; border-radius: 3px; background: linear-gradient(90deg,#FF3B5C,#BA0035); }
+  .card.full .cap-fill { background: #cdd2db; }
+  .join-pill { flex-shrink: 0; border: none; cursor: pointer; font-family: 'Inter', sans-serif; font-weight: 700; font-size: 12.5px; padding: 8px 16px; border-radius: 9999px; }
+  .join-pill.open { background: linear-gradient(135deg, #FF3B5C, #BA0035); color: #fff; box-shadow: 0 5px 12px rgba(255,59,92,0.28); }
+  .join-pill.full { background: #f0f1f4; color: #8a91a0; }
+  .join-pill.going { background: rgba(34,197,94,0.12); color: #15a34a; display: inline-flex; align-items: center; gap: 4px; }
+  .join-pill.going .material-symbols-outlined { font-size: 15px; }
+
+  /* Discover / Going segmented control */
+  .seg { display: flex; gap: 6px; margin: 0 16px 12px; background: #eceef2; border-radius: 12px; padding: 4px; flex-shrink: 0; }
+  .seg button { flex: 1; height: 36px; border: none; border-radius: 9px; background: transparent; font-family: 'Inter', sans-serif; font-size: 13.5px; font-weight: 600; color: #535e7b; cursor: pointer; }
+  .seg button.active { background: #fff; color: #0F1B35; box-shadow: 0 1px 4px rgba(0,0,0,0.1); font-weight: 700; }
+
+  /* going empty state */
+  .going-empty { display: none; flex-direction: column; align-items: center; text-align: center; padding: 50px 30px; color: #8a91a0; }
+  .going-empty.show { display: flex; }
+  .going-empty .material-symbols-outlined { font-size: 46px; color: #cdd2db; margin-bottom: 14px; }
+  .going-empty h3 { font-family: 'Hanken Grotesk', sans-serif; font-weight: 700; font-size: 17px; color: #2b3550; margin-bottom: 5px; }
+  .going-empty p { font-size: 13.5px; line-height: 1.5; }
+
+  .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400; }
+  .filled { font-variation-settings: 'FILL' 1; }
+</style>
+</head>
+<body style="display:flex; align-items:center; justify-content:center; min-height:100vh;">
+<div class="phone">
+  <div class="status-bar"><span class="time">9:41</span></div>
+  <div class="header">
+    <button class="icon-btn" onclick="window.location.href='map_home.html'"><span class="material-symbols-outlined">arrow_back</span></button>
+    <h1>Club Events</h1>
+    <button class="icon-btn filter"><span class="material-symbols-outlined">search</span></button>
+    <button class="icon-btn" style="margin-left:8px;" onclick="window.location.href='create_event.html'"><span class="material-symbols-outlined">add</span></button>
+  </div>
+
+  <div class="seg">
+    <button class="active" onclick="setView(this,'discover')">Discover</button>
+    <button onclick="setView(this,'going')">Going</button>
+  </div>
+
+  <div class="chip-row">
+    <div class="chip active" onclick="pickChip(this)">All</div>
+    <div class="chip" onclick="pickChip(this)">This week</div>
+    <div class="chip" onclick="pickChip(this)">Nearby</div>
+    <div class="chip" onclick="pickChip(this)">Marathon</div>
+    <div class="chip" onclick="pickChip(this)">Social</div>
+  </div>
+
+  <div class="scroll-body">
+
+    <div class="month">June 2026</div>
+
+    <!-- SAT 14 — two events -->
+    <div class="tl-group">
+      <div class="tl-rail">
+        <div class="tl-date today"><div class="dow">SAT</div><div class="day">14</div><div class="tl-count">TODAY</div></div>
+        <div class="tl-line"></div>
+      </div>
+      <div class="tl-cards">
+        <div class="card cat-marathon" data-joined="1" data-near="1" onclick="window.location.href='club_event_detail.html'">
+          <div class="card-top">
+            <span class="cat cat-marathon">MARATHON</span>
+            <span class="time">5:30 AM</span>
+          </div>
+          <div class="title">Saturday Long Run — 21K</div>
+          <div class="club"><img src="https://i.pravatar.cc/40?img=15">Saigon Striders<span class="material-symbols-outlined filled">verified</span></div>
+          <div class="meta">Tao Dan Park <span class="sep">•</span> 21K <span class="sep">•</span> Paved</div>
+          <div class="card-bottom">
+            <div class="cap-mini">
+              <div class="num">42 / 60 · filling up</div>
+              <div class="cap-track"><div class="cap-fill" style="width:70%"></div></div>
+            </div>
+            <button class="join-pill going"><span class="material-symbols-outlined">check</span>Going</button>
+          </div>
+        </div>
+
+        <div class="card cat-social" data-near="1" onclick="window.location.href='club_event_detail.html'">
+          <div class="card-top">
+            <span class="cat cat-social">SOCIAL</span>
+            <span class="time">4:30 PM</span>
+          </div>
+          <div class="title">Beginners Park Jog 5K</div>
+          <div class="club"><img src="https://i.pravatar.cc/40?img=44">RunHCMC Social<span class="material-symbols-outlined filled">verified</span></div>
+          <div class="meta">Tao Dan Park <span class="sep">•</span> 5K <span class="sep">•</span> Paved</div>
+          <div class="card-bottom">
+            <div class="cap-mini">
+              <div class="num">12 / 25 · spots open</div>
+              <div class="cap-track"><div class="cap-fill" style="width:48%"></div></div>
+            </div>
+            <button class="join-pill open">Join</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SUN 15 -->
+    <div class="tl-group">
+      <div class="tl-rail">
+        <div class="tl-date"><div class="dow">SUN</div><div class="day">15</div></div>
+        <div class="tl-line"></div>
+      </div>
+      <div class="tl-cards">
+        <div class="card cat-trail full" onclick="window.location.href='club_event_detail.html'">
+          <div class="card-top">
+            <span class="cat cat-trail">TRAIL</span>
+            <span class="time">6:00 AM</span>
+          </div>
+          <div class="title">Sunday Trail Adventure</div>
+          <div class="club"><img src="https://i.pravatar.cc/40?img=33">Trail Blazers HCMC<span class="material-symbols-outlined filled">verified</span></div>
+          <div class="meta">Bửu Long <span class="sep">•</span> 15K <span class="sep">•</span> Trail</div>
+          <div class="card-bottom">
+            <div class="cap-mini">
+              <div class="num">40 / 40 · event full</div>
+              <div class="cap-track"><div class="cap-fill" style="width:100%"></div></div>
+            </div>
+            <button class="join-pill full">Full</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- WED 18 -->
+    <div class="tl-group">
+      <div class="tl-rail">
+        <div class="tl-date"><div class="dow">WED</div><div class="day">18</div></div>
+        <div class="tl-line"></div>
+      </div>
+      <div class="tl-cards">
+        <div class="card cat-social" data-joined="1" data-near="1" onclick="window.location.href='club_event_detail.html'">
+          <div class="card-top">
+            <span class="cat cat-social">SOCIAL</span>
+            <span class="time">6:00 PM</span>
+          </div>
+          <div class="title">Midweek Easy Social 5K</div>
+          <div class="club"><img src="https://i.pravatar.cc/40?img=23">District 2 Run Crew<span class="material-symbols-outlined filled">verified</span></div>
+          <div class="meta">Crescent Lake <span class="sep">•</span> 5K <span class="sep">•</span> Paved</div>
+          <div class="card-bottom">
+            <div class="cap-mini">
+              <div class="num">26 / 30 · a few left</div>
+              <div class="cap-track"><div class="cap-fill" style="width:87%"></div></div>
+            </div>
+            <button class="join-pill going"><span class="material-symbols-outlined">check</span>Going</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="going-empty" id="goingEmpty">
+      <span class="material-symbols-outlined">event_busy</span>
+      <h3>No events yet</h3>
+      <p>Events you join will show up here.</p>
+    </div>
+
+  </div>
+</div>
+<script>
+  function activeView() { return document.querySelector('.seg button.active').textContent.trim().toLowerCase(); }
+  function activeChip() { const c = document.querySelector('.chip.active'); return c ? c.textContent.trim() : 'All'; }
+  function chipMatches(card, chip) {
+    if (chip === 'Marathon') return card.classList.contains('cat-marathon');
+    if (chip === 'Social') return card.classList.contains('cat-social');
+    if (chip === 'Nearby') return card.dataset.near === '1';
+    return true; // All, This week
+  }
+  function applyFilters() {
+    const view = activeView(), chip = activeChip();
+    let total = 0;
+    document.querySelectorAll('.tl-group').forEach(group => {
+      let vis = 0;
+      group.querySelectorAll('.card').forEach(card => {
+        const show = (view === 'discover' || card.dataset.joined === '1') && chipMatches(card, chip);
+        card.style.display = show ? '' : 'none';
+        if (show) { vis++; total++; }
+      });
+      group.style.display = vis ? '' : 'none';
+    });
+    document.querySelector('.month').style.display = total ? '' : 'none';
+    const e = document.getElementById('goingEmpty');
+    if (total === 0) {
+      e.classList.add('show');
+      if (view === 'going') { e.querySelector('h3').textContent = 'No events yet'; e.querySelector('p').textContent = 'Events you join will show up here.'; }
+      else { e.querySelector('h3').textContent = 'No events match'; e.querySelector('p').textContent = 'Try a different filter.'; }
+    } else { e.classList.remove('show'); }
+  }
+  function pickChip(el) {
+    el.parentElement.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+    el.classList.add('active');
+    applyFilters();
+  }
+  function setView(btn) {
+    document.querySelectorAll('.seg button').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    applyFilters();
+  }
+</script>
+<script src="_nav.js"></script>
+</body>
+</html>
